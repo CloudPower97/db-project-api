@@ -1,0 +1,27 @@
+const autoriRouter = require('./autori'),
+  caseEditriciRouter = require('./caseEditrici'),
+  citazioniRouter = require('./citazioni'),
+  conferenzeRouter = require('./conferenze'),
+  documentiRouter = require('./documenti'),
+  organizzazioniRouter = require('./organizzazioni'),
+  numeriRouter = require('./numeri'),
+  sponsorsRouter = require('./sponsors'),
+  rivisteRouter = require('./riviste'),
+  redigeRouter = require('./redige'),
+  partecipazioniRouter = require('./partecipazioni'),
+  sponsorizzazioniRouter = require('./sponsorizzazioni')
+
+module.exports = {
+  autoriRouter,
+  caseEditriciRouter,
+  citazioniRouter,
+  conferenzeRouter,
+  documentiRouter,
+  organizzazioniRouter,
+  sponsorsRouter,
+  numeriRouter,
+  rivisteRouter,
+  redigeRouter,
+  partecipazioniRouter,
+  sponsorizzazioniRouter,
+}
