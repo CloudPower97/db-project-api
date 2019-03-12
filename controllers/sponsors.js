@@ -1,130 +1,123 @@
-const Sponsor = require('../models/sponsors')
-const sequelize = require('../connectors/db')
-const { capitalizeString } = require('../libs/utils')
-const toPascalCase = require('to-pascal-case')
+const sequelize = require('../models').sequelize
 
-exports.getConferenze = (req, res) => {
-  const {
-    params: { Id },
-  } = req
+const Sponsor = sequelize.import('../models/sponsor.js')
+const Conference = sequelize.import('../models/conference.js')
 
-  Sponsor.findById(Id)
+exports.getConferences = ({ params: { id } }, res) => {
+  Sponsor.findByPk(id)
     .then(sponsor => {
-      sponsor
-        .getConferenze()
-        .then(conferenze => {
-          res.json(conferenze)
-        })
-        .catch(({ message }) => {
-          res.status(404).json({ message })
-        })
+      if (sponsor) {
+        sponsor
+          .getConferences({
+            attributes: {
+              exclude: ['created_at', 'updated_at'],
+            },
+          })
+          .then(conferences => {
+            res.json(conferences)
+          })
+          .catch(error => {
+            res.status(500).json({ error })
+          })
+      } else {
+        res.sendStatus(404)
+      }
     })
-    .catch(({ message }) => {
-      res.status(404).json({ message })
+    .catch(error => {
+      res.status(500).json({ error })
     })
 }
 
-exports.getSponsor = (req, res) => {
-  const {
-    params: { Id },
-  } = req
-
-  Sponsor.findById(Id)
+exports.getSponsor = ({ params: { id } }, res) => {
+  Sponsor.findByPk(id, {
+    include: {
+      model: Conference,
+      attributes: {
+        exclude: ['created_at', 'updated_at'],
+      },
+      through: {
+        attributes: [],
+      },
+    },
+  })
     .then(sponsor => {
-      res.json(sponsor)
+      if (sponsor) {
+        res.json(sponsor)
+      } else {
+        res.sendStatus(404)
+      }
     })
-    .catch(() => {
-      res.status(404)
+    .catch(error => {
+      res.status(500).json({ error })
     })
 }
 
-exports.postSponsor = (req, res) => {
-  const { body } = req
-
+exports.createSponsor = ({ body }, res) => {
   Sponsor.create(body)
-    .then(autore => {
-      res.status(200).json(autore)
+    .then(author => {
+      res.status(201).json(author)
     })
-    .catch(({ message }) => {
-      res.status(400).json({ message })
+    .catch(error => {
+      res.status(500).json({ error })
     })
 }
 
-exports.patchSponsor = (req, res) => {
-  const {
-    body,
-    params: { Id },
-  } = req
-
-  Sponsor.findById(Id)
+exports.updateSponsor = ({ body, params: { id } }, res) => {
+  Sponsor.findByPk(id)
     .then(sponsor => {
-      sponsor
-        .update(body)
-        .then(sponsor => {
-          res.json(sponsor)
-        })
-        .catch(() => {
-          res.status(404)
-        })
+      if (sponsor) {
+        sponsor
+          .update(body)
+          .then(sponsor => {
+            res.json(sponsor)
+          })
+          .catch(error => {
+            res.status(500).json({ error })
+          })
+      } else {
+        res.sendStatus(404)
+      }
     })
-    .catch(() => {
-      res.status(404)
+    .catch(error => {
+      res.status(500).json({ error })
     })
 }
 
 exports.getSponsors = (req, res) => {
-  const { query } = req
-
-  if (
-    Object.keys(query).every(param => {
-      switch (param) {
-        case 'nome':
-          return true
-
-        default:
-          return false
-      }
-    })
-  ) {
-    Sponsor.findAll({
-      where: Object.entries(query).map(([name, value]) => ({
-        [toPascalCase(name)]: {
-          $like: `%${capitalizeString(value)}%`,
+  Sponsor.findAll({
+    attributes: {
+      exclude: ['created_at', 'updated_at'],
+    },
+    include: [
+      {
+        model: Conference,
+        attributes: {
+          exclude: ['created_at', 'updated_at'],
         },
-      })),
+        through: {
+          attributes: [],
+        },
+      },
+    ],
+  })
+    .then(sponsors => {
+      res.json(sponsors)
     })
-      .then(autori => {
-        res.json(autori)
-      })
-      .catch(() => {
-        res.status(404)
-      })
-  } else {
-    res.status(400).json({})
-  }
+    .catch(error => {
+      res.status(500).json(error)
+    })
 }
 
-exports.deleteSponsor = (req, res) => {
-  const {
-    params: { Id },
-  } = req
-
-  Sponsor.findById(Id)
-    .then(sponsor => {
-      if (sponsor) {
-        sequelize
-          .query('DELETE FROM SPONSOR WHERE "Id"=?', {
-            raw: true,
-            replacements: [Id],
-          })
-          .then(() => {
-            res.status(200)
-          })
-      } else {
-        res.status(404)
-      }
+exports.deleteSponsor = ({ params: { id } }, res) => {
+  Sponsor.destroy({
+    where: {
+      id,
+    },
+  })
+    .then(() => {
+      res.sendStatus(200)
     })
-    .catch(() => {
-      res.status(500)
+    .catch(error => {
+      res.status(500).json({ error })
     })
 }

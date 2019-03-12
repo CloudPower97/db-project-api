@@ -1,0 +1,38 @@
+{
+  "development": {
+    "use_env_variable": "DATABASE_URL",
+    "protocol": "postgres",
+    "dialect": "postgres",
+    "ssl": true,
+    "dialectOptions": {
+      "ssl": true
+    },
+    "define": {
+      "underscored": true
+    }
+  },
+  "test": {
+    "use_env_variable": "DATABASE_URL",
+    "protocol": "postgres",
+    "dialect": "postgres",
+    "ssl": true,
+    "dialectOptions": {
+      "ssl": true
+    },
+    "define": {
+      "underscored": true
+    }
+  },
+  "production": {
+    "use_env_variable": "DATABASE_URL",
+    "protocol": "postgres",
+    "dialect": "postgres",
+    "ssl": true,
+    "dialectOptions": {
+      "ssl": true
+    },
+    "define": {
+      "underscored": true
+    }
+  }
+}

@@ -1,28 +1,25 @@
 const express = require('express')
 const {
-  getConferenze,
+  getConferences,
   getSponsors,
   getSponsor,
-  postSponsor,
-  postSponsor: putSponsor,
+  createSponsor,
   deleteSponsor,
-  patchSponsor,
+  updateSponsor,
 } = require('../controllers/sponsors')
 
 const router = express.Router()
 
 router.get('/', getSponsors)
 
-router.get('/:Id', getSponsor)
+router.get('/:id', getSponsor)
 
-router.get('/:Id/conferenze', getConferenze)
+router.get('/:id/conferences', getConferences)
 
-router.post('/', postSponsor)
+router.post('/', createSponsor)
 
-router.put('/', putSponsor)
+router.delete('/:id', deleteSponsor)
 
-router.delete('/:Id', deleteSponsor)
-
-router.patch('/:Id', patchSponsor)
+router.patch('/:id', updateSponsor)
 
 module.exports = router
