@@ -1,72 +1,9 @@
-const db = require('../models').sequelize
-const Citazioni = db.import('../models/citation.js')
+const sequelize = require('../models').sequelize
 
-exports.getCitazione = ({ query }, res) => {
-  if (Object.keys(query).includes('id_doc_citato_exclude')) {
-    db.query(
-      `SELECT *
-       FROM DOCUMENTO
-       WHERE NOT "Id"  = ?
-       MINUS
-       SELECT *
-       FROM DOCUMENTO
-       WHERE "Id" IN (
-        SELECT "IdDocCitato"
-        FROM CITAZIONE
-        WHERE "IdDocCheCita" = ?
-      )`,
-      {
-        raw: true,
-        replacements: [query.id_doc_citato_exclude, query.id_doc_citato_exclude],
-      }
-    )
-      .then(([result]) => {
-        res.json(result)
-      })
-      .catch(({ message }) => {
-        res.status(404).json({ message })
-      })
-  }
+const Citation = sequelize.import('../models/citation.js')
 
-  if (Object.keys(query).includes('id_doc_che_citano_exclude')) {
-    db.query(
-      `SELECT *
-       FROM DOCUMENTO
-       WHERE NOT "Id" IN (
-        SELECT DISTINCT "IdDocCitato"
-        FROM CITAZIONE
-        WHERE "IdDocCitato" = ?
-       ) AND NOT "Id" = ?
-      MINUS
-      SELECT *
-      FROM DOCUMENTO
-      WHERE "Id" IN (
-        SELECT "IdDocCheCita"
-        FROM CITAZIONE
-        WHERE "IdDocCitato" = ?
-      )`,
-      {
-        raw: true,
-        replacements: [
-          query.id_doc_che_citano_exclude,
-          query.id_doc_che_citano_exclude,
-          query.id_doc_che_citano_exclude,
-        ],
-      }
-    )
-      .then(([result]) => {
-        res.json(result)
-      })
-      .catch(() => {
-        res.status(404).json({
-          error: 'Not found',
-        })
-      })
-  }
-}
-
-exports.postCitazione = ({ body }, res) => {
-  Citazioni.create(body)
+exports.createCitation = ({ body }, res) => {
+  Citation.create(body)
     .then(citazione => {
       res.status(201).json(citazione)
     })
@@ -75,11 +12,11 @@ exports.postCitazione = ({ body }, res) => {
     })
 }
 
-exports.patchCitazione = ({ body, params: { IdDocCheCita, IdDocCitato } }, res) => {
-  Citazioni.update(body, {
+exports.updateCitation = ({ body, params: { citing_doc_id, cited_doc_id } }, res) => {
+  Citation.update(body, {
     where: {
-      IdDocCitato,
-      IdDocCheCita,
+      cited_doc_id,
+      citing_doc_id,
     },
   })
     .then(() => {
@@ -90,11 +27,11 @@ exports.patchCitazione = ({ body, params: { IdDocCheCita, IdDocCitato } }, res) 
     })
 }
 
-exports.deleteCitazione = ({ params: { IdDocCitato, IdDocCheCita } }, res) => {
-  Citazioni.destroy({
+exports.deleteCitation = ({ params: { cited_doc_id, citing_doc_id } }, res) => {
+  Citation.destroy({
     where: {
-      IdDocCheCita,
-      IdDocCitato,
+      citing_doc_id,
+      cited_doc_id,
     },
   })
     .then(() => {

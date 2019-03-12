@@ -1,10 +1,12 @@
-const db = require('../models').sequelize
-// const { capitalizeString } = require('../libs/utils')
-// const toPascalCase = require('to-pascal-case')
+const sequelize = require('../models').sequelize
 
-const Autori = db.import('../models/author.js')
-const Organizzazione = db.import('../models/organization.js')
-const Documento = db.import('../models/document.js')
+const Author = sequelize.import('../models/author.js')
+const Organization = sequelize.import('../models/organization.js')
+const Documento = sequelize.import('../models/document.js')
+const Conference = sequelize.import('../models/conference.js')
+const Number = sequelize.import('../models/number.js')
+const Periodical = sequelize.import('../models/periodical.js')
+const PublishingCompany = sequelize.import('../models/publishingCompany.js')
 
 const hIndex = citations => {
   var map = {}
@@ -19,23 +21,28 @@ const hIndex = citations => {
   return max
 }
 
-exports.getIndiceH = ({ params: { ORCID } }, res) => {
-  Autori.findByPk(ORCID)
+// TODO: Find a better way to handle H-Index calculation
+exports.getHIndex = ({ params: { ORCID } }, res) => {
+  Author.findByPk(ORCID, {
+    attributes: {
+      exclude: ['created_at', 'updated_at'],
+    },
+  })
     .then(author => {
       if (!author) {
         res.sendStatus(404)
       } else {
         author
-          .getDocumenti()
-          .then(documenti => {
-            const documentiCheCitano = documenti.map(documento => documento.getDocumentiCheCitano())
+          .getDocuments()
+          .then(documents => {
+            const citingDocuments = documents.map(document => document.getCitingDocuments())
 
-            Promise.all(documentiCheCitano)
-              .then(citazioni => {
+            Promise.all(citingDocuments)
+              .then(citations => {
                 res.json({
                   author,
                   indiceH: hIndex(
-                    JSON.parse(JSON.stringify(citazioni)).map(citazioni => citazioni.length)
+                    JSON.parse(JSON.stringify(citations)).map(citazioni => citazioni.length)
                   ),
                 })
               })
@@ -53,16 +60,16 @@ exports.getIndiceH = ({ params: { ORCID } }, res) => {
     })
 }
 
-exports.getOrganizzazione = ({ params: { ORCID } }, res) => {
-  Autori.findByPk(ORCID)
+exports.getOrganization = ({ params: { ORCID } }, res) => {
+  Author.findByPk(ORCID)
     .then(author => {
       if (!author) {
         res.sendStatus(404)
       } else {
         author
-          .getOrganizzazione()
-          .then(organizzazione => {
-            res.json(organizzazione)
+          .getOrganization()
+          .then(organization => {
+            res.json(organization)
           })
           .catch(error => {
             res.status(400).json({ error })
@@ -74,42 +81,107 @@ exports.getOrganizzazione = ({ params: { ORCID } }, res) => {
     })
 }
 
-exports.getDocumenti = ({ params: { ORCID } }, res) => {
-  Autori.findByPk(ORCID)
+exports.getDocuments = ({ params: { ORCID } }, res) => {
+  Author.findByPk(ORCID)
     .then(author => {
-      if (!author) {
-        res.sendStatus(404)
-      } else {
+      if (author) {
         author
-          .getDocumenti()
-          .then(documenti => {
-            res.json(documenti)
+          .getDocuments({
+            attributes: {
+              exclude: ['conference_id', 'number_id'],
+            },
+            include: [
+              {
+                model: Conference,
+                attributes: {
+                  exclude: ['created_at', 'updated_at'],
+                },
+              },
+              {
+                model: Number,
+                attributes: {
+                  exclude: ['created_at', 'updated_at', 'periodical_id'],
+                },
+                include: [
+                  {
+                    model: Periodical,
+                    attributes: {
+                      exclude: ['created_at', 'updated_at', 'publishing_company_id'],
+                    },
+                    include: {
+                      model: PublishingCompany,
+                      attributes: {
+                        exclude: ['created_at', 'updated_at'],
+                      },
+                    },
+                  },
+                ],
+              },
+            ],
+          })
+          .then(documents => {
+            res.json(documents)
           })
           .catch(error => {
-            res.status(400).json({ error })
+            res.status(500).json(error)
           })
+      } else {
+        res.sendStatus(404)
       }
     })
     .catch(error => {
-      res.status(400).json(error)
+      res.status(400).json({ error })
     })
 }
 
-exports.getAutore = ({ params: { ORCID } }, res) => {
-  Autori.findByPk(ORCID, {
+exports.getAuthor = ({ params: { ORCID } }, res) => {
+  Author.findByPk(ORCID, {
     attributes: {
-      exclude: ['organizzazione_id'],
+      exclude: ['organization_id'],
     },
     include: [
       {
-        model: Organizzazione,
+        model: Organization,
+        attributes: {
+          exclude: ['created_at', 'updated_at'],
+        },
       },
       {
         model: Documento,
-        options: {
+        attributes: {
+          exclude: ['created_at', 'updated_at', 'number_id', 'conference_id'],
+        },
+        through: {
+          attributes: [],
           limit: 3,
           order: [['updated_at', 'DESC']],
         },
+        include: [
+          {
+            model: Number,
+            attributes: {
+              exclude: ['created_at', 'updated_at', 'periodical_id'],
+            },
+            include: {
+              model: Periodical,
+              attributes: {
+                exclude: ['created_at', 'updated_at', 'publishing_company_id'],
+              },
+              include: {
+                model: PublishingCompany,
+                attributes: {
+                  exclude: ['created_at', 'updated_at'],
+                },
+              },
+            },
+          },
+          {
+            model: Conference,
+            attributes: {
+              exclude: ['created_at', 'updated_at', 'periodical_id'],
+            },
+          },
+        ],
       },
     ],
   })
@@ -125,8 +197,8 @@ exports.getAutore = ({ params: { ORCID } }, res) => {
     })
 }
 
-exports.postAutore = ({ body }, res) => {
-  Autori.create(body)
+exports.createAuthor = ({ body }, res) => {
+  Author.create(body)
     .then(author => {
       res.status(201).json(author)
     })
@@ -135,8 +207,8 @@ exports.postAutore = ({ body }, res) => {
     })
 }
 
-exports.patchAutore = ({ body, params: { ORCID } }, res) => {
-  Autori.findByPk(ORCID)
+exports.updateAuthor = ({ body, params: { ORCID } }, res) => {
+  Author.findByPk(ORCID)
     .then(author => {
       if (author) {
         author
@@ -156,67 +228,67 @@ exports.patchAutore = ({ body, params: { ORCID } }, res) => {
     })
 }
 
-exports.getAutori = (req, res) => {
-  Autori.findAll({
+exports.getAuthors = (req, res) => {
+  Author.findAll({
     attributes: {
-      exclude: ['organization_id'],
+      exclude: ['organization_id', 'created_at', 'updated_at'],
     },
-    include: [{ model: Organizzazione }],
+    include: [
+      {
+        model: Organization,
+        attributes: {
+          exclude: ['created_at', 'updated_at'],
+        },
+      },
+      {
+        model: Documento,
+        attributes: {
+          exclude: ['created_at', 'updated_at', 'number_id', 'conference_id'],
+        },
+        through: {
+          limit: 3,
+          attributes: [],
+          order: [['updated_at', 'DESC']],
+        },
+        include: [
+          {
+            model: Number,
+            attributes: {
+              exclude: ['created_at', 'updated_at', 'periodical_id'],
+            },
+            include: {
+              model: Periodical,
+              attributes: {
+                exclude: ['created_at', 'updated_at', 'publishing_company_id'],
+              },
+              include: {
+                model: PublishingCompany,
+                attributes: {
+                  exclude: ['created_at', 'updated_at'],
+                },
+              },
+            },
+          },
+          {
+            model: Conference,
+            attributes: {
+              exclude: ['created_at', 'updated_at', 'periodical_id'],
+            },
+          },
+        ],
+      },
+    ],
   })
-    .then(autori => {
-      res.json(autori)
+    .then(authors => {
+      res.json(authors)
     })
     .catch(error => {
       res.status(500).json({ error })
     })
-  // if (Object.keys(query).includes('id_organizzazione_exclude')) {
-  //   db.query(
-  //     `SELECT *
-  //      FROM AUTORE
-  //      WHERE NOT "IdOrganizzazione" = ?
-  //     `,
-  //     {
-  //       raw: true,
-  //       replacements: [query.id_organizzazione_exclude],
-  //     }
-  //   )
-  //     .then(([result]) => {
-  //       res.json(result)
-  //     })
-  //     .catch(({ message }) => {
-  //       res.status(404).json({ message })
-  //     })
-  // } else {
-  //   Autori.findAll({
-  //     where: Object.entries(query).map(([name, value]) => {
-  //       if (name === 'id_organizzazione') {
-  //         if (value !== '') {
-  //           return {
-  //             [toPascalCase(name)]: {
-  //               $eq: value,
-  //             },
-  //           }
-  //         }
-  //       } else {
-  //         return {
-  //           [toPascalCase(name)]: {
-  //             $like: `%${capitalizeString(value)}%`,
-  //           },
-  //         }
-  //       }
-  //     }),
-  //   })
-  //     .then(autori => {
-  //       res.json(autori)
-  //     })
-  //     .catch(error => {
-  //       res.status(400).json({ error })
-  //     })
-  // }
 }
 
-exports.deleteAutore = ({ params: { ORCID } }, res) => {
-  Autori.destroy({
+exports.deleteAuthor = ({ params: { ORCID } }, res) => {
+  Author.destroy({
     where: {
       ORCID,
     },
@@ -227,17 +299,4 @@ exports.deleteAutore = ({ params: { ORCID } }, res) => {
     .catch(error => {
       res.status(400).json({ error })
     })
-
-  // Autori.findByPk(ORCID)
-  //   .then(() => {
-  //     db.query('DELETE FROM AUTORE WHERE ORCID=?', {
-  //       raw: true,
-  //       replacements: [ORCID],
-  //     }).then(() => {
-  //       res.status(200).json({})
-  //     })
-  //   })
-  //   .catch(err => {
-  //     res.json(err)
-  //   })
 }

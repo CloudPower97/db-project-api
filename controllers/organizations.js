@@ -1,14 +1,34 @@
 const sequelize = require('../models').sequelize
-const { capitalizeString } = require('../libs/utils')
-const toPascalCase = require('to-pascal-case')
 
-const Organizzazioni = sequelize.import('../models/organization.js')
+const Organization = sequelize.import('../models/organization.js')
+const Author = sequelize.import('../models/author.js')
+const Conference = sequelize.import('../models/conference.js')
 
-exports.getOrganizzazione = ({ params: { id } }, res) => {
-  Organizzazioni.findByPk(id)
-    .then(organizzazione => {
-      if (organizzazione) {
-        res.json(organizzazione)
+exports.getOrganization = ({ params: { id } }, res) => {
+  Organization.findByPk(id, {
+    include: [
+      {
+        model: Author,
+        attributes: {
+          exclude: ['created_at', 'updated_at'],
+        },
+        limit: 3,
+      },
+      {
+        model: Conference,
+        attributes: {
+          exclude: ['created_at', 'updated_at'],
+        },
+        through: {
+          attributes: [],
+          limit: 3,
+        },
+      },
+    ],
+  })
+    .then(organization => {
+      if (organization) {
+        res.json(organization)
       } else {
         res.sendStatus(404)
       }
@@ -18,13 +38,17 @@ exports.getOrganizzazione = ({ params: { id } }, res) => {
     })
 }
 
-exports.getConferenze = ({ params: { id } }, res) => {
-  Organizzazioni.findByPk(id)
-    .then(organizzazione => {
-      if (organizzazione) {
-        organizzazione
-          .getConferenze()
-          .then(conferenze => res.json(conferenze))
+exports.getConferences = ({ params: { id } }, res) => {
+  Organization.findByPk(id)
+    .then(organization => {
+      if (organization) {
+        organization
+          .getConferences({
+            attributes: {
+              exclude: ['created_at', 'updated_at'],
+            },
+          })
+          .then(conferences => res.json(conferences))
           .catch(err => res.json(err))
       } else {
         res.sendStatus(404)
@@ -35,14 +59,18 @@ exports.getConferenze = ({ params: { id } }, res) => {
     })
 }
 
-exports.getAutori = ({ params: { id } }, res) => {
-  Organizzazioni.findByPk(id)
-    .then(organizzazione => {
-      if (organizzazione) {
-        organizzazione
-          .getAutori()
-          .then(autori => {
-            res.json(autori)
+exports.getAuthors = ({ params: { id } }, res) => {
+  Organization.findByPk(id)
+    .then(organization => {
+      if (organization) {
+        organization
+          .getAuthors({
+            attributes: {
+              exclude: ['created_at', 'updated_at'],
+            },
+          })
+          .then(authors => {
+            res.json(authors)
           })
           .catch(error => {
             res.status(500).json({ error })
@@ -56,23 +84,23 @@ exports.getAutori = ({ params: { id } }, res) => {
     })
 }
 
-exports.postOrganizzazione = ({ body }, res) => {
-  Organizzazioni.create(body)
-    .then(organizzazione => {
-      res.status(201).json(organizzazione)
+exports.createOrganization = ({ body }, res) => {
+  Organization.create(body)
+    .then(organization => {
+      res.status(201).json(organization)
     })
     .catch(error => {
       res.status(500).json({ error })
     })
 }
 
-exports.patchOrganizzazione = ({ body, params: { id } }, res) => {
-  Organizzazioni.findByPk(id)
-    .then(organizzazione => {
-      organizzazione
+exports.updateOrganization = ({ body, params: { id } }, res) => {
+  Organization.findByPk(id)
+    .then(organization => {
+      organization
         .update(body)
-        .then(organizzazione => {
-          res.json(organizzazione)
+        .then(organization => {
+          res.json(organization)
         })
         .catch(error => {
           res.status(500).json(error)
@@ -83,39 +111,41 @@ exports.patchOrganizzazione = ({ body, params: { id } }, res) => {
     })
 }
 
-exports.getOrganizzazioni = ({ query }, res) => {
-  if (
-    Object.keys(query).every(param => {
-      switch (param) {
-        case 'nome':
-        case 'sede':
-          return true
-
-        default:
-          return false
-      }
-    })
-  ) {
-    Organizzazioni.findAll({
-      where: Object.entries(query).map(([name, value]) => ({
-        [toPascalCase(name)]: {
-          $like: `%${capitalizeString(value)}%`,
+exports.getOrganizations = (req, res) => {
+  Organization.findAll({
+    attributes: {
+      exclude: ['created_at', 'updated_at'],
+    },
+    include: [
+      {
+        model: Author,
+        attributes: {
+          exclude: ['created_at', 'updated_at'],
         },
-      })),
+        limit: 3,
+      },
+      {
+        model: Conference,
+        attributes: {
+          exclude: ['created_at', 'updated_at'],
+        },
+        through: {
+          attributes: [],
+          limit: 3,
+        },
+      },
+    ],
+  })
+    .then(organizations => {
+      res.json(organizations)
     })
-      .then(organizzazioni => {
-        res.json(organizzazioni)
-      })
-      .catch(({ message }) => {
-        res.json(message)
-      })
-  } else {
-    res.status(400).json({})
-  }
+    .catch(error => {
+      res.status(500).json({ error })
+    })
 }
 
-exports.deleteOrganizzazione = ({ params: { id } }, res) => {
-  Organizzazioni.destroy({
+exports.deleteOrganization = ({ params: { id } }, res) => {
+  Organization.destroy({
     where: {
       id,
     },

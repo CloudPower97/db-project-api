@@ -1,37 +1,37 @@
 const express = require('express')
 const {
-  getNumeroRivista,
-  getCitazioni,
-  getAutori,
-  getDocumenti,
-  getConferenza,
-  getDocumento,
-  postDocumento,
-  postDocumento: putDocumento,
-  deleteDocumento,
-  patchDocumento,
+  getPeriodicalNumber,
+  getCitedDocuments,
+  getCitingDocuments,
+  getAuthors,
+  getDocuments,
+  getConference,
+  getDocument,
+  createDocument,
+  deleteDocument,
+  updateDocument,
 } = require('../controllers/documents')
 
 const router = express.Router()
 
-router.get('/', getDocumenti)
+router.get('/', getDocuments)
 
-router.get('/:id/conferenza', getConferenza)
+router.get('/:id/conference', getConference)
 
-router.get('/:id/rivista', getNumeroRivista)
+router.get('/:id/periodical-number', getPeriodicalNumber)
 
-router.get('/:id/autori', getAutori)
+router.get('/:id/authors', getAuthors)
 
-router.get('/:id/citazioni', getCitazioni)
+router.get('/:id/citing-documents', getCitingDocuments)
 
-router.get('/:id', getDocumento)
+router.get('/:id/cited-documents', getCitedDocuments)
 
-router.post('/', postDocumento)
+router.get('/:id', getDocument)
 
-router.put('/', putDocumento)
+router.post('/', createDocument)
 
-router.delete('/:id', deleteDocumento)
+router.delete('/:id', deleteDocument)
 
-router.patch('/:id', patchDocumento)
+router.patch('/:id', updateDocument)
 
 module.exports = router

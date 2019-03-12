@@ -1,31 +1,28 @@
 const express = require('express')
 const {
-  getCasaEditrice,
-  getRivista,
-  getNumeri,
-  getRiviste,
-  postRivista,
-  postRivista: putRivista,
-  deleteRivista,
-  patchRivista,
+  getPublishingCompany,
+  getPeriodical,
+  getPeriodicalNumbers,
+  getPeriodicals,
+  createPeriodical,
+  deletePeriodical,
+  updatePeriodical,
 } = require('../controllers/periodical')
 
 const router = express.Router()
 
-router.get('/', getRiviste)
+router.get('/', getPeriodicals)
 
-router.get('/:id', getRivista)
+router.get('/:id', getPeriodical)
 
-router.get('/:id/numeri', getNumeri)
+router.get('/:id/numbers', getPeriodicalNumbers)
 
-router.get('/:id/casa-editrice', getCasaEditrice)
+router.get('/:id/publishing-company', getPublishingCompany)
 
-router.post('/', postRivista)
+router.post('/', createPeriodical)
 
-router.put('/', putRivista)
+router.delete('/:id', deletePeriodical)
 
-router.delete('/:id', deleteRivista)
-
-router.patch('/:id', patchRivista)
+router.patch('/:id', updatePeriodical)
 
 module.exports = router

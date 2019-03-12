@@ -1,28 +1,25 @@
 const express = require('express')
 const {
-  getCasaEditrice,
-  getCaseEditrici,
-  postCasaEditrice,
-  postCasaEditrice: putCasaEditrice,
-  deleteCasaEditrice,
-  patchCasaEditrice,
-  getRiviste,
+  getPublishingCompany,
+  getPublishingCompanies,
+  createPublishingCompany,
+  deletePublishingCompany,
+  updatePublishingCompany,
+  getPeriodicals,
 } = require('../controllers/publishingCompanies')
 
 const router = express.Router()
 
-router.get('/:id/riviste', getRiviste)
+router.get('/:id/periodicals', getPeriodicals)
 
-router.get('/', getCaseEditrici)
+router.get('/', getPublishingCompanies)
 
-router.get('/:id', getCasaEditrice)
+router.get('/:id', getPublishingCompany)
 
-router.post('/', postCasaEditrice)
+router.post('/', createPublishingCompany)
 
-router.put('/', putCasaEditrice)
+router.delete('/:id', deletePublishingCompany)
 
-router.delete('/:id', deleteCasaEditrice)
-
-router.patch('/:id', patchCasaEditrice)
+router.patch('/:id', updatePublishingCompany)
 
 module.exports = router

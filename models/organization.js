@@ -22,6 +22,12 @@ module.exports = (sequelize, { STRING }) => {
       through: {
         model: Partecipation,
       },
+      foreignKey: {
+        name: 'organization_id',
+        allowNull: false,
+        onDelete: 'CASCADE',
+      },
+      otherKey: 'conference_id',
     })
   }
   return Organization

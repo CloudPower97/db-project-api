@@ -1,22 +1,12 @@
 const express = require('express')
-const {
-  getCitazione,
-  postCitazione,
-  postCitazione: putCitazione,
-  deleteCitazione,
-  patchCitazione,
-} = require('../controllers/citations')
+const { createCitation, deleteCitation, updateCitation } = require('../controllers/citations')
 
 const router = express.Router()
 
-router.get('/', getCitazione)
+router.post('/', createCitation)
 
-router.post('/', postCitazione)
+router.delete('/:citing_doc_id/:cited_doc_id', deleteCitation)
 
-router.put('/', putCitazione)
-
-router.delete('/:IdDocCheCita/:IdDocCitato', deleteCitazione)
-
-router.patch('/:IdDocCheCita/:IdDocCitato', patchCitazione)
+router.patch('/:citing_doc_id/:cited_doc_id', updateCitation)
 
 module.exports = router

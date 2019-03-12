@@ -1,22 +1,12 @@
 const express = require('express')
-const {
-  getScrittura,
-  postScrittura,
-  postScrittura: putScrittura,
-  deleteScrittura,
-  patchScrittura,
-} = require('../controllers/write')
+const { createWrite, deleteWrite, updateWrite } = require('../controllers/write')
 
 const router = express.Router()
 
-router.get('/', getScrittura)
+router.post('/', createWrite)
 
-router.post('/', postScrittura)
+router.delete('/:document_id/:author_id', deleteWrite)
 
-router.put('/', putScrittura)
-
-router.delete('/:IdDocumento/:IdAutore', deleteScrittura)
-
-router.patch('/:IdDocumento/:IdAutore', patchScrittura)
+router.patch('/:document_id/:author_id', updateWrite)
 
 module.exports = router

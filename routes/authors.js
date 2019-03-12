@@ -1,34 +1,31 @@
 const express = require('express')
 const {
-  getAutori,
-  getAutore,
-  postAutore,
-  postAutore: putAutore,
-  deleteAutore,
-  patchAutore,
-  getDocumenti,
-  getOrganizzazione,
-  getIndiceH,
+  getAuthors,
+  getAuthor,
+  createAuthor,
+  deleteAuthor,
+  updateAuthor,
+  getDocuments,
+  getOrganization,
+  getHIndex,
 } = require('../controllers/authors')
 
 const router = express.Router()
 
-router.get('/', getAutori)
+router.get('/', getAuthors)
 
-router.get('/:ORCID', getAutore)
+router.get('/:ORCID', getAuthor)
 
-router.get('/:ORCID/documenti', getDocumenti)
+router.get('/:ORCID/documents', getDocuments)
 
-router.get('/:ORCID/organizzazione', getOrganizzazione)
+router.get('/:ORCID/organization', getOrganization)
 
-router.get('/:ORCID/indice-h', getIndiceH)
+router.get('/:ORCID/h-index', getHIndex)
 
-router.post('/', postAutore)
+router.post('/', createAuthor)
 
-router.put('/', putAutore)
+router.delete('/:ORCID', deleteAuthor)
 
-router.delete('/:ORCID', deleteAutore)
-
-router.patch('/:ORCID', patchAutore)
+router.patch('/:ORCID', updateAuthor)
 
 module.exports = router

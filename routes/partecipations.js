@@ -1,22 +1,16 @@
 const express = require('express')
 const {
-  getPartecipazione,
-  postPartecipazione,
-  postPartecipazione: putPartecipazione,
-  deletePartecipazione,
-  patchPartecipazione,
+  createPartecipation,
+  deletePartecipation,
+  updatePartecipazione,
 } = require('../controllers/partecipations')
 
 const router = express.Router()
 
-router.get('/', getPartecipazione)
+router.post('/', createPartecipation)
 
-router.post('/', postPartecipazione)
+router.delete('/:conference_id/:organization_id', deletePartecipation)
 
-router.put('/', putPartecipazione)
-
-router.delete('/:IdConferenza/:IdOrg', deletePartecipazione)
-
-router.patch('/:IdConferenza/:IdOrg', patchPartecipazione)
+router.patch('/:conference_id/:organization_id', updatePartecipazione)
 
 module.exports = router

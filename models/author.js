@@ -61,6 +61,12 @@ module.exports = (sequelize, DataTypes) => {
       through: {
         model: Write,
       },
+      foreignKey: {
+        name: 'author_id',
+        allowNull: false,
+        onDelete: 'CASCADE',
+      },
+      otherKey: 'document_id',
     })
   }
   return Author

@@ -1,17 +1,23 @@
 const sequelize = require('../models').sequelize
-const { capitalizeString } = require('../libs/utils')
-const toPascalCase = require('to-pascal-case')
 
-const Conferenze = sequelize.import('../models/conference.js')
+const Conference = sequelize.import('../models/conference.js')
 const Document = sequelize.import('../models/document.js')
 const Sponsor = sequelize.import('../models/sponsor.js')
+const Organization = sequelize.import('../models/organization.js')
+const Number = sequelize.import('../models/number.js')
+const Periodical = sequelize.import('../models/periodical.js')
+const PublishingCompany = sequelize.import('../models/publishingCompany.js')
 
 exports.getSponsors = ({ params: { id } }, res) => {
-  Conferenze.findByPk(id)
-    .then(conferenza => {
-      if (conferenza) {
-        conferenza
-          .getSponsors()
+  Conference.findByPk(id)
+    .then(conference => {
+      if (conference) {
+        conference
+          .getSponsors({
+            attributes: {
+              exclude: ['created_at', 'updated_at'],
+            },
+          })
           .then(sponsors => {
             res.json(sponsors)
           })
@@ -27,20 +33,39 @@ exports.getSponsors = ({ params: { id } }, res) => {
     })
 }
 
-exports.getConferenza = ({ params: { id } }, res) => {
-  Conferenze.findByPk(id, {
+exports.getConference = ({ params: { id } }, res) => {
+  Conference.findByPk(id, {
     include: [
       {
         model: Document,
+        attributes: {
+          exclude: ['created_at', 'updated_at'],
+        },
       },
       {
         model: Sponsor,
+        attributes: {
+          exclude: ['created_at', 'updated_at'],
+        },
+        through: {
+          attributes: [],
+        },
+      },
+      {
+        model: Organization,
+        attributes: {
+          exclude: ['created_at', 'updated_at'],
+        },
+        through: {
+          attributes: [],
+          limit: 3,
+        },
       },
     ],
   })
-    .then(conferenza => {
-      if (conferenza) {
-        res.json(conferenza)
+    .then(conference => {
+      if (conference) {
+        res.json(conference)
       } else {
         res.sendStatus(404)
       }
@@ -50,13 +75,17 @@ exports.getConferenza = ({ params: { id } }, res) => {
     })
 }
 
-exports.getOrganizzazioni = ({ params: { id } }, res) => {
-  Conferenze.findByPk(id)
-    .then(conferenza => {
-      if (conferenza) {
-        conferenza
-          .getOrganizzazioni()
-          .then(organizzazioni => res.json(organizzazioni))
+exports.getOrganizations = ({ params: { id } }, res) => {
+  Conference.findByPk(id)
+    .then(conference => {
+      if (conference) {
+        conference
+          .getOrganizations({
+            attributes: {
+              exclude: ['created_at', 'updated_at'],
+            },
+          })
+          .then(organizations => res.json(organizations))
           .catch(error => res.status(500).json({ error }))
       } else {
         res.sendStatus(404)
@@ -67,24 +96,24 @@ exports.getOrganizzazioni = ({ params: { id } }, res) => {
     })
 }
 
-exports.postConferenza = ({ body }, res) => {
-  Conferenze.create(body)
-    .then(conferenza => {
-      res.status(201).json(conferenza)
+exports.createConference = ({ body }, res) => {
+  Conference.create(body)
+    .then(conference => {
+      res.status(201).json(conference)
     })
     .catch(error => {
       res.status(500).json({ error })
     })
 }
 
-exports.patchConferenza = ({ body, params: { id } }, res) => {
-  Conferenze.findByPk(id)
-    .then(conferenza => {
-      if (conferenza) {
-        conferenza
+exports.updateConference = ({ body, params: { id } }, res) => {
+  Conference.findByPk(id)
+    .then(conference => {
+      if (conference) {
+        conference
           .update(body)
-          .then(conferenza => {
-            res.json(conferenza)
+          .then(conference => {
+            res.json(conference)
           })
           .catch(error => {
             res.status(500).json({ error })
@@ -98,13 +127,36 @@ exports.patchConferenza = ({ body, params: { id } }, res) => {
     })
 }
 
-exports.getDocumenti = ({ params: { id } }, res) => {
-  Conferenze.findByPk(id)
-    .then(conferenza => {
-      if (conferenza) {
-        conferenza
-          .getDocumenti()
-          .then(documenti => res.json(documenti))
+exports.getDocuments = ({ params: { id } }, res) => {
+  Conference.findByPk(id)
+    .then(conference => {
+      if (conference) {
+        conference
+          .getDocuments({
+            attributes: {
+              exclude: ['created_at', 'updated_at', 'conference_id', 'number_id'],
+            },
+            include: {
+              model: Number,
+              attributes: {
+                exclude: ['created_at', 'updated_at', 'periodical_id'],
+              },
+              order: [['created_at', 'DESC']],
+              include: {
+                model: Periodical,
+                attributes: {
+                  exclude: ['created_at', 'updated_at', 'publishing_company_id'],
+                },
+                include: {
+                  model: PublishingCompany,
+                  attributes: {
+                    exclude: ['created_at', 'updated_at'],
+                  },
+                },
+              },
+            },
+          })
+          .then(documents => res.json(documents))
           .catch(error => res.status(500).json({ error }))
       } else {
         res.sendStatus(404)
@@ -115,43 +167,52 @@ exports.getDocumenti = ({ params: { id } }, res) => {
     })
 }
 
-exports.getConferenze = ({ query }, res) => {
-  Conferenze.findAll({
-    where: Object.entries(query).map(([name, value]) => {
-      if (name === 'data') {
-        return {
-          [toPascalCase(name)]: {
-            $eq: value,
-          },
-        }
-      } else {
-        return {
-          [toPascalCase(name)]: {
-            $like: `%${capitalizeString(value)}%`,
-          },
-        }
-      }
-    }),
+exports.getConferences = (req, res) => {
+  Conference.findAll({
+    attributes: {
+      exclude: ['created_at', 'updated_at'],
+    },
     include: [
       {
         model: Document,
+        attributes: {
+          exclude: ['created_at', 'updated_at'],
+        },
         limit: 3,
+        order: [['updated_at', 'DESC']],
       },
       {
         model: Sponsor,
+        attributes: {
+          exclude: ['created_at', 'updated_at'],
+        },
+        through: {
+          limit: 3,
+          attributes: [],
+        },
+      },
+      {
+        model: Organization,
+        attributes: {
+          exclude: ['created_at', 'updated_at'],
+        },
+        through: {
+          attributes: [],
+          limit: 3,
+        },
       },
     ],
   })
-    .then(conferenze => {
-      res.json(conferenze)
+    .then(conferences => {
+      res.json(conferences)
     })
     .catch(error => {
       res.status(500).json(error)
     })
 }
 
-exports.deleteConferenza = ({ params: { id } }, res) => {
-  Conferenze.destroy({
+exports.deleteConference = ({ params: { id } }, res) => {
+  Conference.destroy({
     where: {
       id,
     },

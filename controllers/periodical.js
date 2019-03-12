@@ -1,17 +1,17 @@
-const db = require('../models').sequelize
-const { capitalizeString } = require('../libs/utils')
-const toPascalCase = require('to-pascal-case')
+const sequelize = require('../models').sequelize
 
-const Riviste = db.import('../models/periodical.js')
+const Periodical = sequelize.import('../models/periodical.js')
+const PublishingCompany = sequelize.import('../models/publishingCompany.js')
+const Number = sequelize.import('../models/number.js')
 
-exports.getCasaEditrice = ({ params: { id } }, res) => {
-  Riviste.findByPk(id)
-    .then(rivista => {
-      if (rivista) {
-        rivista
-          .getCasaEditrice()
-          .then(casaEditrice => {
-            res.json(casaEditrice)
+exports.getPublishingCompany = ({ params: { id } }, res) => {
+  Periodical.findByPk(id)
+    .then(periodical => {
+      if (periodical) {
+        periodical
+          .getPublishingCompany()
+          .then(publishingCompany => {
+            res.json(publishingCompany)
           })
           .catch(error => {
             res.status(500).json({ error })
@@ -25,11 +25,31 @@ exports.getCasaEditrice = ({ params: { id } }, res) => {
     })
 }
 
-exports.getRivista = ({ params: { id } }, res) => {
-  Riviste.findByPk(id)
-    .then(rivista => {
-      if (rivista) {
-        res.json(rivista)
+exports.getPeriodical = ({ params: { id } }, res) => {
+  Periodical.findByPk(id, {
+    attributes: {
+      exclude: ['publishing_company_id'],
+    },
+    include: [
+      {
+        model: PublishingCompany,
+        attributes: {
+          exclude: ['created_at', 'updated_at'],
+        },
+      },
+      {
+        model: Number,
+        attributes: {
+          exclude: ['created_at', 'updated_at'],
+        },
+        limit: 3,
+        order: [['created_at', 'DESC']],
+      },
+    ],
+  })
+    .then(periodical => {
+      if (periodical) {
+        res.json(periodical)
       } else {
         res.sendStatus(404)
       }
@@ -39,13 +59,13 @@ exports.getRivista = ({ params: { id } }, res) => {
     })
 }
 
-exports.getNumeri = ({ params: { id } }, res) => {
-  Riviste.findByPk(id)
-    .then(rivista => {
-      if (rivista) {
-        rivista
-          .getNumeri()
-          .then(numeri => res.json(numeri))
+exports.getPeriodicalNumbers = ({ params: { id } }, res) => {
+  Periodical.findByPk(id)
+    .then(periodical => {
+      if (periodical) {
+        periodical
+          .getNumbers()
+          .then(numbers => res.json(numbers))
           .catch(error => {
             res.status(500).json({ error })
           })
@@ -58,24 +78,24 @@ exports.getNumeri = ({ params: { id } }, res) => {
     })
 }
 
-exports.postRivista = ({ body }, res) => {
-  Riviste.create(body)
-    .then(rivista => {
-      res.status(201).json(rivista)
+exports.createPeriodical = ({ body }, res) => {
+  Periodical.create(body)
+    .then(periodical => {
+      res.status(201).json(periodical)
     })
     .catch(error => {
       res.status(500).json({ error })
     })
 }
 
-exports.patchRivista = ({ body, params: { id } }, res) => {
-  Riviste.findByPk(id)
-    .then(rivista => {
-      if (rivista) {
-        rivista
+exports.updatePeriodical = ({ body, params: { id } }, res) => {
+  Periodical.findByPk(id)
+    .then(periodical => {
+      if (periodical) {
+        periodical
           .update(body)
-          .then(documento => {
-            res.json(documento)
+          .then(periodical => {
+            res.json(periodical)
           })
           .catch(error => {
             res.status(500).json({ error })
@@ -89,62 +109,38 @@ exports.patchRivista = ({ body, params: { id } }, res) => {
     })
 }
 
-exports.getRiviste = ({ query }, res) => {
-  if (
-    Object.keys(query).every(param => {
-      switch (param) {
-        case 'titolo':
-        case 'issn':
-        case 'id_casa_editrice':
-        case 'id_casa_editrice_exclude':
-          return true
-
-        default:
-          return false
-      }
+exports.getPeriodicals = (req, res) => {
+  Periodical.findAll({
+    attributes: {
+      exclude: ['created_at', 'updated_at', 'publishing_company_id'],
+    },
+    include: [
+      {
+        model: PublishingCompany,
+        attributes: {
+          exclude: ['created_at', 'updated_at'],
+        },
+      },
+      {
+        model: Number,
+        attributes: {
+          exclude: ['created_at', 'updated_at'],
+        },
+        limit: 3,
+        order: [['created_at', 'DESC']],
+      },
+    ],
+  })
+    .then(periodicals => {
+      res.json(periodicals)
     })
-  ) {
-    if (Object.keys(query).includes('id_casa_editrice_exclude')) {
-      db.query(
-        `SELECT *
-       FROM RIVISTA
-       WHERE NOT "IdCasaEditrice" = ?
-      `,
-        {
-          raw: true,
-          replacements: [query.id_casa_editrice_exclude],
-        }
-      )
-        .then(([result]) => {
-          res.json(result)
-        })
-        .catch(() => {
-          res.status(404).json({
-            error: 'Not found',
-          })
-        })
-    } else {
-      Riviste.findAll({
-        where: Object.entries(query).map(([name, value]) => ({
-          [toPascalCase(name)]: {
-            $like: `%${capitalizeString(value)}%`,
-          },
-        })),
-      })
-        .then(riviste => {
-          res.status(200).json(riviste)
-        })
-        .catch(({ message }) => {
-          res.status(404).json({ message })
-        })
-    }
-  } else {
-    res.status(500).json({})
-  }
+    .catch(error => {
+      res.status(500).json({ error })
+    })
 }
 
-exports.deleteRivista = ({ params: { id } }, res) => {
-  Riviste.destroy({
+exports.deletePeriodical = ({ params: { id } }, res) => {
+  Periodical.destroy({
     where: {
       id,
     },

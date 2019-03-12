@@ -1,72 +1,22 @@
-const db = require('../models').sequelize
+const sequelize = require('../models').sequelize
 
-const Sponsorizzazione = db.import('../models/sponsorship.js')
+const Sponsorization = sequelize.import('../models/sponsorship.js')
 
-exports.getSponsorizzazioni = ({ query }, res) => {
-  if (Object.keys(query).includes('id_sponsor_exclude')) {
-    db.query(
-      `SELECT *
-       FROM CONFERENZA
-       WHERE NOT "Id" IN (
-        SELECT "IdConferenza"
-        FROM SPONSORIZZAZIONE
-        WHERE "IdSponsor" = ?)
-      `,
-      {
-        raw: true,
-        replacements: [query.id_sponsor_exclude],
-      }
-    )
-      .then(([result]) => {
-        res.json(result)
-      })
-      .catch(() => {
-        res.status(404).json({
-          error: 'Not found',
-        })
-      })
-  }
-
-  if (Object.keys(query).includes('id_conferenza_exclude')) {
-    db.query(
-      `SELECT *
-       FROM SPONSOR
-       WHERE NOT "Id" IN (
-        SELECT "IdSponsor"
-        FROM SPONSORIZZAZIONE
-        WHERE "IdConferenza" = ?)
-      `,
-      {
-        raw: true,
-        replacements: [query.id_conferenza_exclude],
-      }
-    )
-      .then(([result]) => {
-        res.json(result)
-      })
-      .catch(() => {
-        res.status(404).json({
-          error: 'Not found',
-        })
-      })
-  }
-}
-
-exports.postSponsorizzazione = ({ body }, res) => {
-  Sponsorizzazione.create(body)
-    .then(scrittura => {
-      res.status(201).json(scrittura)
+exports.createSponsorship = ({ body }, res) => {
+  Sponsorization.create(body)
+    .then(sponsorship => {
+      res.status(201).json(sponsorship)
     })
     .catch(error => {
       res.status(500).json(error)
     })
 }
 
-exports.patchSponsorizzazione = ({ body, params: { IdSponsor, IdConferenza } }, res) => {
-  Sponsorizzazione.update(body, {
+exports.updateSponsorship = ({ body, params: { sponsor_id, conference_id } }, res) => {
+  Sponsorization.update(body, {
     where: {
-      IdSponsor,
-      IdConferenza,
+      sponsor_id,
+      conference_id,
     },
   })
     .then(() => {
@@ -77,11 +27,11 @@ exports.patchSponsorizzazione = ({ body, params: { IdSponsor, IdConferenza } }, 
     })
 }
 
-exports.deleteSponsorizzazione = ({ params: { IdSponsor, IdConferenza } }, res) => {
-  Sponsorizzazione.destroy({
+exports.deleteSponsorship = ({ params: { sponsor_id, conference_id } }, res) => {
+  Sponsorization.destroy({
     where: {
-      IdSponsor,
-      IdConferenza,
+      sponsor_id,
+      conference_id,
     },
   })
     .then(() => {

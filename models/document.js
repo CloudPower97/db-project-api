@@ -30,31 +30,37 @@ module.exports = (sequelize, DataTypes) => {
       through: {
         model: Write,
       },
+      foreignKey: {
+        name: 'document_id',
+        allowNull: false,
+        onDelete: 'CASCADE',
+      },
+      otherKey: 'author_id',
     })
     Document.belongsToMany(Document, {
-      as: 'citing_documents',
+      as: 'citingDocuments',
       through: {
         model: Citation,
       },
       foreignKey: {
-        name: 'id_cited_doc',
+        name: 'cited_doc_id',
         allowNull: false,
         onDelete: 'CASCADE',
       },
-      otherKey: 'id_doc_that_cites',
+      otherKey: 'citing_doc_id',
     })
 
     Document.belongsToMany(Document, {
-      as: 'cited_documents',
+      as: 'citedDocuments',
       through: {
         model: Citation,
       },
       foreignKey: {
-        name: 'id_doc_that_cites',
+        name: 'citing_doc_id',
         allowNull: false,
         onDelete: 'CASCADE',
       },
-      otherKey: 'id_cited_doc',
+      otherKey: 'cited_doc_id',
     })
   }
   return Document

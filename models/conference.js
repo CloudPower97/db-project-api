@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
       edition: {
         type: DataTypes.VIRTUAL,
         get() {
-          return `${this.Nome} - ${new Date(this.date).getFullYear()}`
+          return `${this.name} - ${new Date(this.date).getFullYear()}`
         },
       },
       name: { type: DataTypes.STRING, allowNull: false, unique: 'UQ_Conference' },
@@ -27,11 +27,23 @@ module.exports = (sequelize, DataTypes) => {
       through: {
         model: Partecipation,
       },
+      foreignKey: {
+        name: 'conference_id',
+        allowNull: false,
+        onDelete: 'CASCADE',
+      },
+      otherKey: 'organization_id',
     })
     Conference.belongsToMany(Sponsor, {
       through: {
         model: Sponsorship,
       },
+      foreignKey: {
+        name: 'conference_id',
+        allowNull: false,
+        onDelete: 'CASCADE',
+      },
+      otherKey: 'sponsor_id',
     })
   }
   return Conference

@@ -1,59 +1,9 @@
-const db = require('../models').sequelize
+const sequelize = require('../models').sequelize
 
-const Redige = db.import('../models/write.js')
+const Write = sequelize.import('../models/write.js')
 
-exports.getScrittura = ({ query }, res) => {
-  if (Object.keys(query).includes('id_autore_exclude')) {
-    db.query(
-      `SELECT *
-     FROM DOCUMENTO
-     WHERE NOT "Id" IN (
-      SELECT "IdDocumento"
-      FROM REDIGE
-      WHERE "IdAutore" = ?)
-    `,
-      {
-        raw: true,
-        replacements: [query.id_autore_exclude],
-      }
-    )
-      .then(([result]) => {
-        res.json(result)
-      })
-      .catch(() => {
-        res.status(404).json({
-          error: 'Not found',
-        })
-      })
-  }
-
-  if (Object.keys(query).includes('id_documento_exclude')) {
-    db.query(
-      `SELECT *
-       FROM AUTORE
-       WHERE NOT "ORCID" IN (
-        SELECT "IdAutore"
-        FROM REDIGE
-        WHERE "IdDocumento" = ?)
-      `,
-      {
-        raw: true,
-        replacements: [query.id_documento_exclude],
-      }
-    )
-      .then(([result]) => {
-        res.json(result)
-      })
-      .catch(() => {
-        res.status(404).json({
-          error: 'Not found',
-        })
-      })
-  }
-}
-
-exports.postScrittura = ({ body }, res) => {
-  Redige.create(body)
+exports.createWrite = ({ body }, res) => {
+  Write.create(body)
     .then(scrittura => {
       res.status(201).json(scrittura)
     })
@@ -62,11 +12,11 @@ exports.postScrittura = ({ body }, res) => {
     })
 }
 
-exports.patchScrittura = ({ body, params: { IdDocumento, IdAutore } }, res) => {
-  Redige.update(body, {
+exports.updateWrite = ({ body, params: { document_id, author_id } }, res) => {
+  Write.update(body, {
     where: {
-      IdDocumento,
-      IdAutore,
+      document_id,
+      author_id,
     },
   })
     .then(() => {
@@ -77,11 +27,11 @@ exports.patchScrittura = ({ body, params: { IdDocumento, IdAutore } }, res) => {
     })
 }
 
-exports.deleteScrittura = ({ params: { IdDocumento, IdAutore } }, res) => {
-  Redige.destroy({
+exports.deleteWrite = ({ params: { document_id, author_id } }, res) => {
+  Write.destroy({
     where: {
-      IdDocumento,
-      IdAutore,
+      document_id,
+      author_id,
     },
   })
     .then(() => {

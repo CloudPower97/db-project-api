@@ -1,17 +1,29 @@
 const sequelize = require('../models').sequelize
-const { capitalizeString } = require('../libs/utils')
-const toPascalCase = require('to-pascal-case')
 
-const CaseEditrici = sequelize.import('../models/publishingCompany.js')
+const PublishingCompanies = sequelize.import('../models/publishingCompany.js')
+const Periodical = sequelize.import('../models/periodical.js')
+const Number = sequelize.import('../models/number.js')
 
-exports.getRiviste = ({ params: { id } }, res) => {
-  CaseEditrici.findByPk(id)
-    .then(casaEditrice => {
-      if (casaEditrice) {
-        casaEditrice
-          .getRiviste()
-          .then(riviste => {
-            res.json(riviste)
+exports.getPeriodicals = ({ params: { id } }, res) => {
+  PublishingCompanies.findByPk(id)
+    .then(PublishingCompany => {
+      if (PublishingCompany) {
+        PublishingCompany.getPeriodicals({
+          attributes: {
+            exclude: ['publishing_company_id'],
+          },
+          include: [
+            {
+              model: Number,
+              limit: 3,
+              attributes: {
+                exclude: ['created_at', 'updated_at'],
+              },
+            },
+          ],
+        })
+          .then(periodicals => {
+            res.json(periodicals)
           })
           .catch(error => {
             res.status(500).json({ error })
@@ -25,11 +37,31 @@ exports.getRiviste = ({ params: { id } }, res) => {
     })
 }
 
-exports.getCasaEditrice = ({ params: { id } }, res) => {
-  CaseEditrici.findByPk(id)
-    .then(casaEditrice => {
-      if (casaEditrice) {
-        res.json(casaEditrice)
+exports.getPublishingCompany = ({ params: { id } }, res) => {
+  PublishingCompanies.findByPk(id, {
+    include: [
+      {
+        model: Periodical,
+        attributes: {
+          exclude: ['created_at', 'updated_at'],
+        },
+        limit: 5,
+        order: [['created_at', 'DESC']],
+        include: [
+          {
+            model: Number,
+            limit: 3,
+            attributes: {
+              exclude: ['created_at', 'updated_at'],
+            },
+          },
+        ],
+      },
+    ],
+  })
+    .then(PublishingCompany => {
+      if (PublishingCompany) {
+        res.json(PublishingCompany)
       } else {
         res.sendStatus(404)
       }
@@ -39,24 +71,23 @@ exports.getCasaEditrice = ({ params: { id } }, res) => {
     })
 }
 
-exports.postCasaEditrice = ({ body }, res) => {
-  CaseEditrici.create(body)
-    .then(casaEditrice => {
-      res.status(201).json(casaEditrice)
+exports.createPublishingCompany = ({ body }, res) => {
+  PublishingCompanies.create(body)
+    .then(PublishingCompany => {
+      res.status(201).json(PublishingCompany)
     })
     .catch(error => {
       res.status(500).json({ error })
     })
 }
 
-exports.patchCasaEditrice = ({ body, params: { id } }, res) => {
-  CaseEditrici.findByPk(id)
-    .then(casaEditrice => {
-      if (casaEditrice) {
-        casaEditrice
-          .update(body)
-          .then(casaEditrice => {
-            res.json(casaEditrice)
+exports.updatePublishingCompany = ({ body, params: { id } }, res) => {
+  PublishingCompanies.findByPk(id)
+    .then(PublishingCompany => {
+      if (PublishingCompany) {
+        PublishingCompany.update(body)
+          .then(PublishingCompany => {
+            res.json(PublishingCompany)
           })
           .catch(error => {
             res.status(500).json(error)
@@ -70,38 +101,41 @@ exports.patchCasaEditrice = ({ body, params: { id } }, res) => {
     })
 }
 
-exports.getCaseEditrici = ({ query }, res) => {
-  if (
-    Object.keys(query).every(param => {
-      switch (param) {
-        case 'nome':
-          return true
-
-        default:
-          return false
-      }
-    })
-  ) {
-    CaseEditrici.findAll({
-      where: Object.entries(query).map(([name, value]) => ({
-        [toPascalCase(name)]: {
-          $like: `%${capitalizeString(value)}%`,
+exports.getPublishingCompanies = (req, res) => {
+  PublishingCompanies.findAll({
+    attributes: {
+      exclude: ['created_at', 'updated_at'],
+    },
+    include: [
+      {
+        model: Periodical,
+        attributes: {
+          exclude: ['created_at', 'updated_at'],
         },
-      })),
+        limit: 3,
+        order: [['created_at', 'DESC']],
+        include: [
+          {
+            model: Number,
+            limit: 3,
+            attributes: {
+              exclude: ['created_at', 'updated_at'],
+            },
+          },
+        ],
+      },
+    ],
+  })
+    .then(publishingCompanies => {
+      res.json(publishingCompanies)
     })
-      .then(caseEditrici => {
-        res.json(caseEditrici)
-      })
-      .catch(({ message }) => {
-        res.sendJson(message)
-      })
-  } else {
-    res.status(500).json({})
-  }
+    .catch(error => {
+      res.status(500).json({ error })
+    })
 }
 
-exports.deleteCasaEditrice = ({ params: { id } }, res) => {
-  CaseEditrici.destroy({
+exports.deletePublishingCompany = ({ params: { id } }, res) => {
+  PublishingCompanies.destroy({
     where: {
       id,
     },

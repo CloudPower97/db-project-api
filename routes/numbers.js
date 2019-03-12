@@ -1,31 +1,28 @@
 const express = require('express')
 const {
-  getArticoli,
-  getRivista,
-  getNumeri,
-  getNumero,
-  postNumero,
-  postNumero: putNumero,
-  deleteNumero,
-  patchNumero,
+  getDocuments,
+  getPeriodical,
+  getNumbers,
+  getNumber,
+  createNumber,
+  deleteNumber,
+  updateNumber,
 } = require('../controllers/numbers')
 
 const router = express.Router()
 
-router.get('/', getNumeri)
+router.get('/', getNumbers)
 
-router.get('/:id', getNumero)
+router.get('/:id', getNumber)
 
-router.get('/:id/rivista', getRivista)
+router.get('/:id/periodical', getPeriodical)
 
-router.get('/:id/articoli', getArticoli)
+router.get('/:id/documents', getDocuments)
 
-router.post('/', postNumero)
+router.post('/', createNumber)
 
-router.put('/', putNumero)
+router.delete('/:id', deleteNumber)
 
-router.delete('/:id', deleteNumero)
-
-router.patch('/:id', patchNumero)
+router.patch('/:id', updateNumber)
 
 module.exports = router

@@ -1,18 +1,20 @@
 const sequelize = require('../models').sequelize
-const { capitalizeString } = require('../libs/utils')
-const toPascalCase = require('to-pascal-case')
 
 const Sponsor = sequelize.import('../models/sponsor.js')
 const Conference = sequelize.import('../models/conference.js')
 
-exports.getConferenze = ({ params: id }, res) => {
+exports.getConferences = ({ params: { id } }, res) => {
   Sponsor.findByPk(id)
     .then(sponsor => {
       if (sponsor) {
         sponsor
-          .getConferenze()
-          .then(conferenze => {
-            res.json(conferenze)
+          .getConferences({
+            attributes: {
+              exclude: ['created_at', 'updated_at'],
+            },
+          })
+          .then(conferences => {
+            res.json(conferences)
           })
           .catch(error => {
             res.status(500).json({ error })
@@ -26,14 +28,17 @@ exports.getConferenze = ({ params: id }, res) => {
     })
 }
 
-exports.getSponsor = ({ params: id }, res) => {
+exports.getSponsor = ({ params: { id } }, res) => {
   Sponsor.findByPk(id, {
-    include: [
-      {
-        model: Conference,
-        limit: 3,
+    include: {
+      model: Conference,
+      attributes: {
+        exclude: ['created_at', 'updated_at'],
       },
-    ],
+      through: {
+        attributes: [],
+      },
+    },
   })
     .then(sponsor => {
       if (sponsor) {
@@ -47,7 +52,7 @@ exports.getSponsor = ({ params: id }, res) => {
     })
 }
 
-exports.postSponsor = ({ body }, res) => {
+exports.createSponsor = ({ body }, res) => {
   Sponsor.create(body)
     .then(author => {
       res.status(201).json(author)
@@ -57,7 +62,7 @@ exports.postSponsor = ({ body }, res) => {
     })
 }
 
-exports.patchSponsor = ({ body, params: id }, res) => {
+exports.updateSponsor = ({ body, params: { id } }, res) => {
   Sponsor.findByPk(id)
     .then(sponsor => {
       if (sponsor) {
@@ -78,34 +83,29 @@ exports.patchSponsor = ({ body, params: id }, res) => {
     })
 }
 
-exports.getSponsors = ({ query }, res) => {
-  if (
-    Object.keys(query).every(param => {
-      switch (param) {
-        case 'nome':
-          return true
-
-        default:
-          return false
-      }
-    })
-  ) {
-    Sponsor.findAll({
-      where: Object.entries(query).map(([name, value]) => ({
-        [toPascalCase(name)]: {
-          $like: `%${capitalizeString(value)}%`,
+exports.getSponsors = (req, res) => {
+  Sponsor.findAll({
+    attributes: {
+      exclude: ['created_at', 'updated_at'],
+    },
+    include: [
+      {
+        model: Conference,
+        attributes: {
+          exclude: ['created_at', 'updated_at'],
         },
-      })),
+        through: {
+          attributes: [],
+        },
+      },
+    ],
+  })
+    .then(sponsors => {
+      res.json(sponsors)
     })
-      .then(sponsors => {
-        res.json(sponsors)
-      })
-      .catch(error => {
-        res.status(500).json(error)
-      })
-  } else {
-    res.status(400).json({})
-  }
+    .catch(error => {
+      res.status(500).json(error)
+    })
 }
 
 exports.deleteSponsor = ({ params: { id } }, res) => {

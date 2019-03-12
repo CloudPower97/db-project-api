@@ -1,12 +1,11 @@
 const express = require('express')
 const {
-  getConferenze,
+  getConferences,
   getSponsors,
   getSponsor,
-  postSponsor,
-  postSponsor: putSponsor,
+  createSponsor,
   deleteSponsor,
-  patchSponsor,
+  updateSponsor,
 } = require('../controllers/sponsors')
 
 const router = express.Router()
@@ -15,14 +14,12 @@ router.get('/', getSponsors)
 
 router.get('/:id', getSponsor)
 
-router.get('/:id/conferenze', getConferenze)
+router.get('/:id/conferences', getConferences)
 
-router.post('/', postSponsor)
-
-router.put('/', putSponsor)
+router.post('/', createSponsor)
 
 router.delete('/:id', deleteSponsor)
 
-router.patch('/:id', patchSponsor)
+router.patch('/:id', updateSponsor)
 
 module.exports = router

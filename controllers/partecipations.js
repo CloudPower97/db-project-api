@@ -1,59 +1,9 @@
-const db = require('../models').sequelize
+const sequelize = require('../models').sequelize
 
-const Partecipazioni = db.import('../models/partecipation.js')
+const Partecipation = sequelize.import('../models/partecipation.js')
 
-exports.getPartecipazione = ({ query }, res) => {
-  if (Object.keys(query).includes('id_organizzazione_exclude')) {
-    db.query(
-      `SELECT *
-       FROM CONFERENZA
-       WHERE NOT "Id" IN (
-        SELECT "IdConferenza"
-        FROM PARTECIPAZIONE
-        WHERE "IdOrg" = ?)
-      `,
-      {
-        raw: true,
-        replacements: [query.id_organizzazione_exclude],
-      }
-    )
-      .then(([result]) => {
-        res.json(result)
-      })
-      .catch(() => {
-        res.status(404).json({
-          error: 'Not found',
-        })
-      })
-  }
-
-  if (Object.keys(query).includes('id_conferenza_exclude')) {
-    db.query(
-      `SELECT *
-       FROM ORGANIZZAZIONE
-       WHERE NOT "Id" IN (
-        SELECT "IdOrg"
-        FROM PARTECIPAZIONE
-        WHERE "IdConferenza" = ?)
-      `,
-      {
-        raw: true,
-        replacements: [query.id_conferenza_exclude],
-      }
-    )
-      .then(([result]) => {
-        res.json(result)
-      })
-      .catch(() => {
-        res.status(404).json({
-          error: 'Not found',
-        })
-      })
-  }
-}
-
-exports.postPartecipazione = ({ body }, res) => {
-  Partecipazioni.create(body)
+exports.createPartecipation = ({ body }, res) => {
+  Partecipation.create(body)
     .then(partecipazione => {
       res.status(201).json(partecipazione)
     })
@@ -62,19 +12,19 @@ exports.postPartecipazione = ({ body }, res) => {
     })
 }
 
-exports.patchPartecipazione = ({ body, params: { IdConferenza, IdOrg } }, res) => {
-  Partecipazioni.findOne({
+exports.updatePartecipazione = ({ body, params: { conference_id, organization_id } }, res) => {
+  Partecipation.findOne({
     where: {
-      IdConferenza,
-      IdOrg,
+      conference_id,
+      organization_id,
     },
   })
-    .then(partecipazione => {
-      if (partecipazione) {
-        partecipazione
+    .then(partecipation => {
+      if (partecipation) {
+        partecipation
           .update(body)
-          .then(partecipazione => {
-            res.json(partecipazione)
+          .then(partecipation => {
+            res.json(partecipation)
           })
           .catch(error => {
             res.status(500).json({ error })
@@ -88,11 +38,11 @@ exports.patchPartecipazione = ({ body, params: { IdConferenza, IdOrg } }, res) =
     })
 }
 
-exports.deletePartecipazione = ({ params: { IdConferenza, IdOrg } }, res) => {
-  Partecipazioni.destroy({
+exports.deletePartecipation = ({ params: { conference_id, organization_id } }, res) => {
+  Partecipation.destroy({
     where: {
-      IdConferenza,
-      IdOrg,
+      conference_id,
+      organization_id,
     },
   })
     .then(() => {

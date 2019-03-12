@@ -1,31 +1,28 @@
 const express = require('express')
 const {
-  getAutori,
-  getOrganizzazione,
-  getConferenze,
-  getOrganizzazioni,
-  postOrganizzazione,
-  postOrganizzazione: putOrganizzazione,
-  deleteOrganizzazione,
-  patchOrganizzazione,
+  getAuthors,
+  getOrganization,
+  getConferences,
+  getOrganizations,
+  createOrganization,
+  deleteOrganization,
+  updateOrganization,
 } = require('../controllers/organizations')
 
 const router = express.Router()
 
-router.get('/', getOrganizzazioni)
+router.get('/', getOrganizations)
 
-router.get('/:id', getOrganizzazione)
+router.get('/:id', getOrganization)
 
-router.get('/:id/conferenze', getConferenze)
+router.get('/:id/conferences', getConferences)
 
-router.get('/:id/autori', getAutori)
+router.get('/:id/authors', getAuthors)
 
-router.post('/', postOrganizzazione)
+router.post('/', createOrganization)
 
-router.put('/', putOrganizzazione)
+router.delete('/:id', deleteOrganization)
 
-router.delete('/:id', deleteOrganizzazione)
-
-router.patch('/:id', patchOrganizzazione)
+router.patch('/:id', updateOrganization)
 
 module.exports = router

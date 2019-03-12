@@ -1,34 +1,31 @@
 const express = require('express')
 const {
   getSponsors,
-  getConferenza,
-  getOrganizzazioni,
-  getConferenze,
-  getDocumenti,
-  postConferenza,
-  postConferenza: putConferenza,
-  deleteConferenza,
-  patchConferenza,
+  getConference,
+  getOrganizations,
+  getConferences,
+  getDocuments,
+  createConference,
+  deleteConference,
+  updateConference,
 } = require('../controllers/conferences')
 
 const router = express.Router()
 
-router.get('/', getConferenze)
+router.get('/', getConferences)
 
-router.get('/:id', getConferenza)
+router.get('/:id', getConference)
 
-router.get('/:id/documenti', getDocumenti)
+router.get('/:id/documents', getDocuments)
 
-router.get('/:id/organizzazioni', getOrganizzazioni)
+router.get('/:id/organizations', getOrganizations)
 
 router.get('/:id/sponsors', getSponsors)
 
-router.post('/', postConferenza)
+router.post('/', createConference)
 
-router.put('/', putConferenza)
+router.delete('/:id', deleteConference)
 
-router.delete('/:id', deleteConferenza)
-
-router.patch('/:id', patchConferenza)
+router.patch('/:id', updateConference)
 
 module.exports = router

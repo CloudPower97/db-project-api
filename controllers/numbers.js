@@ -1,47 +1,75 @@
-const db = require('../models').sequelize
-// const { capitalizeString } = require('../libs/utils')
-// const toPascalCase = require('to-pascal-case')
+const sequelize = require('../models').sequelize
 
-const Numeri = db.import('../models/number.js')
+const Number = sequelize.import('../models/number.js')
+const Document = sequelize.import('../models/document.js')
+const Periodical = sequelize.import('../models/periodical.js')
+const PublishingCompany = sequelize.import('../models/publishingCompany.js')
+const Conference = sequelize.import('../models/conference.js')
 
-exports.getNumero = ({ params: { id } }, res) => {
-  Numeri.findByPk(id)
-    .then(numero => {
-      res.json(numero)
+exports.getNumber = ({ params: { id } }, res) => {
+  Number.findByPk(id, {
+    attributes: {
+      exclude: ['periodical_id'],
+    },
+    include: [
+      {
+        model: Document,
+        attributes: {
+          exclude: ['created_at', 'updated_at', 'conference_id'],
+        },
+        limit: 3,
+        order: [['updated_at', 'DESC']],
+        include: [
+          {
+            model: Conference,
+            attributes: {
+              exclude: ['created_at', 'updated_at'],
+            },
+          },
+        ],
+      },
+      {
+        model: Periodical,
+        attributes: {
+          exclude: ['created_at', 'updated_at', 'publishing_company_id'],
+        },
+        include: {
+          model: PublishingCompany,
+          attributes: {
+            exclude: ['created_at', 'updated_at', 'publishing_company_id'],
+          },
+        },
+      },
+    ],
+  })
+    .then(number => {
+      res.json(number)
     })
     .catch(error => {
       res.status(500).json({ error })
     })
 }
 
-exports.getRivista = ({ params: { id } }, res) => {
-  Numeri.findByPk(id)
-    .then(numero => {
-      if (numero) {
-        numero
-          .getRivista()
-          .then(rivista => {
-            let numPagine = 0
-
-            numero
-              .getDocumenti()
-              .then(documenti => {
-                documenti.forEach(documento => {
-                  numPagine += documento.NUM_PAGINE
-                })
-
-                numero = JSON.parse(JSON.stringify(numero))
-                numero.Titolo = `${rivista.Titolo} - Volume ${numero.Volume}, Numero ${
-                  numero.Numero
-                }`
-                numero.NumPagine = numPagine
-                numero.ISSN = rivista.ISSN
-
-                res.json(numero)
-              })
-              .catch(({ message }) => {
-                res.status(500).json({ message })
-              })
+exports.getPeriodical = ({ params: { id } }, res) => {
+  Number.findByPk(id)
+    .then(number => {
+      if (number) {
+        number
+          .getPeriodical({
+            attributes: {
+              exclude: ['publishing_company_id'],
+            },
+            include: [
+              {
+                model: PublishingCompany,
+                attributes: {
+                  exclude: ['created_at', 'updated_at'],
+                },
+              },
+            ],
+          })
+          .then(periodical => {
+            res.json(periodical)
           })
           .catch(error => {
             res.status(500).json({ error })
@@ -55,14 +83,46 @@ exports.getRivista = ({ params: { id } }, res) => {
     })
 }
 
-exports.getArticoli = ({ params: { id } }, res) => {
-  Numeri.findByPk(id)
-    .then(numero => {
-      if (numero) {
-        numero
-          .getDocumenti()
-          .then(documenti => {
-            res.json(documenti)
+exports.getDocuments = ({ params: { id } }, res) => {
+  Number.findByPk(id)
+    .then(number => {
+      if (number) {
+        number
+          .getDocuments({
+            attributes: {
+              exclude: ['created_at', 'updated_at', 'conference_id', 'number_id'],
+            },
+            include: [
+              {
+                model: Number,
+                attributes: {
+                  exclude: ['created_at', 'updated_at', 'periodical_id'],
+                },
+                include: [
+                  {
+                    model: Periodical,
+                    attributes: {
+                      exclude: ['created_at', 'updated_at', 'publishing_company_id'],
+                    },
+                    include: {
+                      model: PublishingCompany,
+                      attributes: {
+                        exclude: ['created_at', 'updated_at'],
+                      },
+                    },
+                  },
+                ],
+              },
+              {
+                model: Conference,
+                attributes: {
+                  exclude: ['created_at', 'updated_at'],
+                },
+              },
+            ],
+          })
+          .then(documents => {
+            res.json(documents)
           })
           .catch(error => {
             res.status(500).json({ error })
@@ -76,24 +136,24 @@ exports.getArticoli = ({ params: { id } }, res) => {
     })
 }
 
-exports.postNumero = ({ body }, res) => {
-  Numeri.create(body)
-    .then(numero => {
-      res.status(201).json(numero)
+exports.createNumber = ({ body }, res) => {
+  Number.create(body)
+    .then(number => {
+      res.status(201).json(number)
     })
     .catch(error => {
       res.status(500).json({ error })
     })
 }
 
-exports.patchNumero = ({ body, params: { id } }, res) => {
-  Numeri.findByPk(id)
-    .then(numero => {
-      if (numero) {
-        numero
+exports.updateNumber = ({ body, params: { id } }, res) => {
+  Number.findByPk(id)
+    .then(number => {
+      if (number) {
+        number
           .update(body)
-          .then(numero => {
-            res.json(numero)
+          .then(number => {
+            res.json(number)
           })
           .catch(error => {
             res.status(500).json({ error })
@@ -107,65 +167,52 @@ exports.patchNumero = ({ body, params: { id } }, res) => {
     })
 }
 
-exports.getNumeri = (req, res) => {
-  Numeri.findAll()
-    .then(numeri => {
-      res.json(numeri)
+exports.getNumbers = (req, res) => {
+  Number.findAll({
+    attributes: {
+      exclude: ['periodical_id', 'created_at', 'updated_at'],
+    },
+    include: [
+      {
+        model: Document,
+        attributes: {
+          exclude: ['created_at', 'updated_at', 'conference_id'],
+        },
+        limit: 3,
+        order: [['updated_at', 'DESC']],
+        include: [
+          {
+            model: Conference,
+            attributes: {
+              exclude: ['created_at', 'updated_at'],
+            },
+          },
+        ],
+      },
+      {
+        model: Periodical,
+        attributes: {
+          exclude: ['created_at', 'updated_at', 'publishing_company_id'],
+        },
+        include: {
+          model: PublishingCompany,
+          attributes: {
+            exclude: ['created_at', 'updated_at'],
+          },
+        },
+      },
+    ],
+  })
+    .then(numbers => {
+      res.json(numbers)
     })
     .catch(error => {
       res.status(500).json(error)
     })
-
-  // if (Object.keys(query).includes('id_rivista_exclude')) {
-  //   db.query(
-  //     `SELECT *
-  //      FROM NUMERO
-  //      WHERE NOT "IdRivista" = ?
-  //     `,
-  //     {
-  //       raw: true,
-  //       replacements: [query.id_rivista_exclude],
-  //     }
-  //   )
-  //     .then(([result]) => {
-  //       res.json(result)
-  //     })
-  //     .catch(({ message }) => {
-  //       res.status(404).json({ message })
-  //     })
-  // } else if (
-  //   Object.keys(query).every(param => {
-  //     switch (param) {
-  //       case 'volume':
-  //       case 'numero':
-  //       case 'anno':
-  //       case 'id_rivista':
-  //         return true
-  //       default:
-  //         return false
-  //     }
-  //   })
-  // ) {
-  //   Numeri.findAll({
-  //     where: Object.entries(query).map(([name, value]) => ({
-  //       [toPascalCase(name)]: {
-  //         $like: `%${capitalizeString(value)}%`,
-  //       },
-  //     })),
-  //   })
-  //     .then(numeri => {
-  //       res.json(numeri)
-  //     })
-  //     .catch(() => {
-  //       res.status(500)
-  //     })
-  // } else {
-  //   res.status(400)
-  // }
 }
 
-exports.deleteNumero = ({ params: { id } }, res) => {
-  Numeri.destroy({
+exports.deleteNumber = ({ params: { id } }, res) => {
+  Number.destroy({
     where: {
       id,
     },
