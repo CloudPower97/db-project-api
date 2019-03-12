@@ -1,5 +1,5 @@
 const express = require('express')
-const db = require('./models').sequelize
+const sequelize = require('./models').sequelize
 const {
   publishingCompaniesRouter,
   authorsRouter,
@@ -20,7 +20,8 @@ const morgan = require('morgan')
 
 const { PORT } = process.env
 
-db.authenticate()
+sequelize
+  .authenticate()
   .then(() => {
     express()
       .use(helmet())
