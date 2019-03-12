@@ -2,17 +2,16 @@ const sequelize = require('../models').sequelize
 const { capitalizeString } = require('../libs/utils')
 const toPascalCase = require('to-pascal-case')
 
-const Sponsor = sequelize.import('../models/sponsor.js')
-const Conference = sequelize.import('../models/conference.js')
+const CaseEditrici = sequelize.import('../models/publishingCompany.js')
 
-exports.getConferenze = ({ params: id }, res) => {
-  Sponsor.findByPk(id)
-    .then(sponsor => {
-      if (sponsor) {
-        sponsor
-          .getConferenze()
-          .then(conferenze => {
-            res.json(conferenze)
+exports.getRiviste = ({ params: { id } }, res) => {
+  CaseEditrici.findByPk(id)
+    .then(casaEditrice => {
+      if (casaEditrice) {
+        casaEditrice
+          .getRiviste()
+          .then(riviste => {
+            res.json(riviste)
           })
           .catch(error => {
             res.status(500).json({ error })
@@ -26,18 +25,11 @@ exports.getConferenze = ({ params: id }, res) => {
     })
 }
 
-exports.getSponsor = ({ params: id }, res) => {
-  Sponsor.findByPk(id, {
-    include: [
-      {
-        model: Conference,
-        limit: 3,
-      },
-    ],
-  })
-    .then(sponsor => {
-      if (sponsor) {
-        res.json(sponsor)
+exports.getCasaEditrice = ({ params: { id } }, res) => {
+  CaseEditrici.findByPk(id)
+    .then(casaEditrice => {
+      if (casaEditrice) {
+        res.json(casaEditrice)
       } else {
         res.sendStatus(404)
       }
@@ -47,27 +39,27 @@ exports.getSponsor = ({ params: id }, res) => {
     })
 }
 
-exports.postSponsor = ({ body }, res) => {
-  Sponsor.create(body)
-    .then(author => {
-      res.status(201).json(author)
+exports.postCasaEditrice = ({ body }, res) => {
+  CaseEditrici.create(body)
+    .then(casaEditrice => {
+      res.status(201).json(casaEditrice)
     })
     .catch(error => {
       res.status(500).json({ error })
     })
 }
 
-exports.patchSponsor = ({ body, params: id }, res) => {
-  Sponsor.findByPk(id)
-    .then(sponsor => {
-      if (sponsor) {
-        sponsor
+exports.patchCasaEditrice = ({ body, params: { id } }, res) => {
+  CaseEditrici.findByPk(id)
+    .then(casaEditrice => {
+      if (casaEditrice) {
+        casaEditrice
           .update(body)
-          .then(sponsor => {
-            res.json(sponsor)
+          .then(casaEditrice => {
+            res.json(casaEditrice)
           })
           .catch(error => {
-            res.status(500).json({ error })
+            res.status(500).json(error)
           })
       } else {
         res.sendStatus(404)
@@ -78,7 +70,7 @@ exports.patchSponsor = ({ body, params: id }, res) => {
     })
 }
 
-exports.getSponsors = ({ query }, res) => {
+exports.getCaseEditrici = ({ query }, res) => {
   if (
     Object.keys(query).every(param => {
       switch (param) {
@@ -90,26 +82,26 @@ exports.getSponsors = ({ query }, res) => {
       }
     })
   ) {
-    Sponsor.findAll({
+    CaseEditrici.findAll({
       where: Object.entries(query).map(([name, value]) => ({
         [toPascalCase(name)]: {
           $like: `%${capitalizeString(value)}%`,
         },
       })),
     })
-      .then(sponsors => {
-        res.json(sponsors)
+      .then(caseEditrici => {
+        res.json(caseEditrici)
       })
-      .catch(error => {
-        res.status(500).json(error)
+      .catch(({ message }) => {
+        res.sendJson(message)
       })
   } else {
-    res.status(400).json({})
+    res.status(500).json({})
   }
 }
 
-exports.deleteSponsor = ({ params: { id } }, res) => {
-  Sponsor.destroy({
+exports.deleteCasaEditrice = ({ params: { id } }, res) => {
+  CaseEditrici.destroy({
     where: {
       id,
     },

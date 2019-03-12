@@ -13,16 +13,16 @@ const router = express.Router()
 
 router.get('/', getSponsors)
 
-router.get('/:Id', getSponsor)
+router.get('/:id', getSponsor)
 
-router.get('/:Id/conferenze', getConferenze)
+router.get('/:id/conferenze', getConferenze)
 
 router.post('/', postSponsor)
 
 router.put('/', putSponsor)
 
-router.delete('/:Id', deleteSponsor)
+router.delete('/:id', deleteSponsor)
 
-router.patch('/:Id', patchSponsor)
+router.patch('/:id', patchSponsor)
 
 module.exports = router
