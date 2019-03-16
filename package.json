@@ -7,13 +7,16 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "node app.js",
-    "dev": "nodemon --exec 'heroku local' --signal SIGTERM",
+    "start": "concurrently –kill-others-on-fail \"npm run server\" \"npm run client\"",
+    "client": "npm start --prefix client",
+    "server": "nodemon --exec 'heroku local' --signal SIGTERM",
+    "dev": "concurrently –kill-others-on-fail \"npm run server\" \"npm run client\"",
     "lint": "eslint \"**/*.js\"",
     "lint:fix": "eslint \"**/*.js\" --fix",
     "pretty": "prettier --write ./**/*.js"
   },
   "dependencies": {
+    "concurrently": "^4.1.0",
     "cors": "^2.8.5",
     "doi-regex": "^0.1.10",
     "dotenv": "^6.2.0",
@@ -24,7 +27,8 @@
     "orcid-utils": "^1.0.2",
     "pg": "^7.8.2",
     "pg-hstore": "^2.3.2",
-    "sequelize": "^4.43.0"
+    "sequelize": "^4.43.0",
+    "sequelize-querystring": "^0.10.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^7.5.2",

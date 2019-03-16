@@ -1,4 +1,5 @@
 const sequelize = require('../models').sequelize
+const sqs = require('sequelize-querystring')
 
 const Author = sequelize.import('../models/author.js')
 const Organization = sequelize.import('../models/organization.js')
@@ -185,9 +186,18 @@ exports.getAuthor = ({ params: { ORCID } }, res) => {
       },
     ],
   })
-    .then(author => {
+    .then(async author => {
       if (author) {
-        res.json(author)
+        const documents_count = await author.countDocuments()
+
+        if (documents_count) {
+          res.json({
+            author,
+            documents_count,
+          })
+        } else {
+          res.status(500)
+        }
       } else {
         res.sendStatus(404)
       }
@@ -230,6 +240,8 @@ exports.updateAuthor = ({ body, params: { ORCID } }, res) => {
 
 exports.getAuthors = (req, res) => {
   Author.findAll({
+    where: req.query.filter ? sqs.find(req.query.filter) : {},
+    order: req.query.sort ? sqs.sort(req.query.sort) : [],
     attributes: {
       exclude: ['organization_id', 'created_at', 'updated_at'],
     },
@@ -280,7 +292,19 @@ exports.getAuthors = (req, res) => {
     ],
   })
     .then(authors => {
-      res.json(authors)
+      const authors_with_documents_count = authors.map(async author => {
+        const documents_count = await author.countDocuments()
+
+        return Object.assign(JSON.parse(JSON.stringify(author)), { documents_count })
+      })
+
+      Promise.all(authors_with_documents_count)
+        .then(authors => {
+          res.json(authors)
+        })
+        .catch(error => {
+          res.status(500).json({ error })
+        })
     })
     .catch(error => {
       res.status(500).json({ error })

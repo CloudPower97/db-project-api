@@ -54,6 +54,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     {}
   )
+
   Author.associate = function({ Organization, Document, Write }) {
     // associations can be defined here
     Author.belongsTo(Organization)
@@ -69,5 +70,6 @@ module.exports = (sequelize, DataTypes) => {
       otherKey: 'document_id',
     })
   }
+
   return Author
 }

@@ -1,5 +1,10 @@
 const express = require('express')
+const path = require('path')
 const sequelize = require('./models').sequelize
+const helmet = require('helmet')
+const cors = require('cors')
+const morgan = require('morgan')
+
 const {
   publishingCompaniesRouter,
   authorsRouter,
@@ -14,11 +19,8 @@ const {
   sponsorsRouter,
   sponsorshipRouter,
 } = require('./routes')
-const helmet = require('helmet')
-const cors = require('cors')
-const morgan = require('morgan')
 
-const { PORT } = process.env
+const { PORT, NODE_ENV } = process.env
 
 sequelize
   .authenticate()
@@ -33,18 +35,26 @@ sequelize
         })
       )
       .use(morgan('combined'))
-      .use('/organizations', organizationsRouter)
-      .use('/publishing-companies', publishingCompaniesRouter)
-      .use('/periodicals', periodicalRouter)
-      .use('/numbers', numbersRouter)
-      .use('/conferences', conferencesRouter)
-      .use('/sponsors', sponsorsRouter)
-      .use('/sponsorship', sponsorshipRouter)
-      .use('/documents', documentsRouter)
-      .use('/authors', authorsRouter)
-      .use('/write', writeRouter)
-      .use('/citations', citationsRouter)
-      .use('/partecipations', partecipationsRouter)
+      .use(express.static(path.join(__dirname, 'client/build')))
+      .use('/api/organizations', organizationsRouter)
+      .use('/api/publishing-companies', publishingCompaniesRouter)
+      .use('/api/periodicals', periodicalRouter)
+      .use('/api/numbers', numbersRouter)
+      .use('/api/conferences', conferencesRouter)
+      .use('/api/sponsors', sponsorsRouter)
+      .use('/api/sponsorship', sponsorshipRouter)
+      .use('/api/documents', documentsRouter)
+      .use('/api/authors', authorsRouter)
+      .use('/api/write', writeRouter)
+      .use('/api/citations', citationsRouter)
+      .use('/api/partecipations', partecipationsRouter)
+      .get('*', (req, res) => {
+        res.sendfile(
+          path.join(
+            `${__dirname}/client/${NODE_ENV === 'production' ? 'build' : 'public'}/index.html`
+          )
+        )
+      })
       .listen(PORT, () => {
         /* eslint-disable-next-line */
         console.log(`Listening on port ${PORT}`)
