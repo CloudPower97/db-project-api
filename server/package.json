@@ -6,9 +6,6 @@
   "author": "Claudio Cortese",
   "license": "MIT",
   "private": true,
-  "engines": {
-    "node": "v11.11.0"
-  },
   "scripts": {
     "start": "node index",
     "dev": "nodemon --exec 'heroku local' --signal SIGTERM",

@@ -35,7 +35,7 @@ sequelize
         })
       )
       .use(morgan('combined'))
-      .use(express.static(path.join(__dirname, 'client/build')))
+      .use(express.static(path.join(__dirname, '../client/build')))
       .use('/api/organizations', organizationsRouter)
       .use('/api/publishing-companies', publishingCompaniesRouter)
       .use('/api/periodicals', periodicalRouter)
@@ -49,9 +49,10 @@ sequelize
       .use('/api/citations', citationsRouter)
       .use('/api/partecipations', partecipationsRouter)
       .get('*', (req, res) => {
-        res.sendfile(
+        res.sendFile(
           path.join(
-            `${__dirname}/client/${NODE_ENV === 'production' ? 'build' : 'public'}/index.html`
+            __dirname,
+            `../client/${NODE_ENV === 'production' ? 'build' : 'public'}/index.html`
           )
         )
       })
