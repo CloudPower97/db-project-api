@@ -2,6 +2,10 @@
   min-height: 250px;
   transition: transform 0.5s ease-out;
 
+  & h5 {
+    text-align: center;
+  }
+
   & .FeatureIcon {
     align-items: center;
     background-color: #ececec;
@@ -30,6 +34,7 @@
       transition: transform 0.25s ease-out;
       width: 100px;
     }
+
     @media screen and (prefers-reduced-motion: reduce) {
       &::before {
         background-image: var(--orange-gradient);
@@ -63,7 +68,7 @@
   &:focus {
     & .FeatureIcon {
       & svg {
-        fill: #ececec;
+        fill: #ececec !important;
         filter: drop-shadow(0 3px 3px rgba(0, 0, 0, 0.25));
         transform: scale(1.15);
       }
@@ -73,8 +78,200 @@
       }
     }
   }
-}
 
-h5 {
-  text-align: center;
+  &:global(.documents) {
+    & .FeatureIcon {
+      @media screen and (prefers-reduced-motion: reduce) {
+        & svg {
+          fill: var(--purple);
+        }
+      }
+
+      & svg {
+        fill: var(--purple);
+      }
+
+      @media screen and (prefers-reduced-motion: reduce) {
+        &::before {
+          background-image: var(--purple-gradient);
+        }
+      }
+
+      &::before {
+        background-image: var(--purple-gradient);
+      }
+    }
+
+    & h5 {
+      color: var(--purple);
+    }
+  }
+
+  &:global(.authors) {
+    & .FeatureIcon {
+      @media screen and (prefers-reduced-motion: reduce) {
+        & svg {
+          fill: var(--orange);
+        }
+      }
+
+      & svg {
+        fill: var(--orange);
+      }
+
+      @media screen and (prefers-reduced-motion: reduce) {
+        &::before {
+          background-image: var(--orange-gradient);
+        }
+      }
+
+      &::before {
+        background-image: var(--orange-gradient);
+      }
+    }
+
+    & h5 {
+      color: var(--orange);
+    }
+  }
+
+  &:global(.documents) {
+    & .FeatureIcon {
+      @media screen and (prefers-reduced-motion: reduce) {
+        & svg {
+          fill: var(--purple);
+        }
+      }
+
+      & svg {
+        fill: var(--purple);
+      }
+
+      @media screen and (prefers-reduced-motion: reduce) {
+        &::before {
+          background-image: var(--purple-gradient);
+        }
+      }
+
+      &::before {
+        background-image: var(--purple-gradient);
+      }
+    }
+
+    & h5 {
+      color: var(--purple);
+    }
+  }
+
+  &:global(.periodicals) {
+    & .FeatureIcon {
+      @media screen and (prefers-reduced-motion: reduce) {
+        & svg {
+          fill: var(--red);
+        }
+      }
+
+      & svg {
+        fill: var(--red);
+      }
+
+      @media screen and (prefers-reduced-motion: reduce) {
+        &::before {
+          background-image: var(--red-gradient);
+        }
+      }
+
+      &::before {
+        background-image: var(--red-gradient);
+      }
+    }
+
+    & h5 {
+      color: var(--red);
+    }
+  }
+
+  &:global(.organizations) {
+    & .FeatureIcon {
+      @media screen and (prefers-reduced-motion: reduce) {
+        & svg {
+          fill: var(--blue);
+        }
+      }
+
+      & svg {
+        fill: var(--blue);
+      }
+
+      @media screen and (prefers-reduced-motion: reduce) {
+        &::before {
+          background-image: var(--blue-gradient);
+        }
+      }
+
+      &::before {
+        background-image: var(--blue-gradient);
+      }
+    }
+
+    & h5 {
+      color: var(--blue);
+    }
+  }
+
+  &:global(.conferences) {
+    & .FeatureIcon {
+      @media screen and (prefers-reduced-motion: reduce) {
+        & svg {
+          fill: var(--green);
+        }
+      }
+
+      & svg {
+        fill: var(--green);
+      }
+
+      @media screen and (prefers-reduced-motion: reduce) {
+        &::before {
+          background-image: var(--green-gradient);
+        }
+      }
+
+      &::before {
+        background-image: var(--green-gradient);
+      }
+    }
+
+    & h5 {
+      color: var(--green);
+    }
+  }
+
+  &:global(.publishing-companies) {
+    & .FeatureIcon {
+      @media screen and (prefers-reduced-motion: reduce) {
+        & svg {
+          fill: var(--plum);
+        }
+      }
+
+      & svg {
+        fill: var(--plum);
+      }
+
+      @media screen and (prefers-reduced-motion: reduce) {
+        &::before {
+          background-image: var(--plum-gradient);
+        }
+      }
+
+      &::before {
+        background-image: var(--plum-gradient);
+      }
+    }
+
+    & h5 {
+      color: var(--plum);
+    }
+  }
 }

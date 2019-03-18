@@ -191,10 +191,11 @@ exports.getAuthor = ({ params: { ORCID } }, res) => {
         const documents_count = await author.countDocuments()
 
         if (documents_count) {
-          res.json({
-            author,
-            documents_count,
-          })
+          let author_with_documents_count = author.get({ plain: true })
+
+          author_with_documents_count.documents_count = documents_count
+
+          res.json(author_with_documents_count)
         } else {
           res.status(500)
         }
@@ -294,8 +295,11 @@ exports.getAuthors = (req, res) => {
     .then(authors => {
       const authors_with_documents_count = authors.map(async author => {
         const documents_count = await author.countDocuments()
+        let x = JSON.parse(JSON.stringify(author))
 
-        return Object.assign(JSON.parse(JSON.stringify(author)), { documents_count })
+        x.documents_count = documents_count
+
+        return x
       })
 
       Promise.all(authors_with_documents_count)

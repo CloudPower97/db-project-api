@@ -7,35 +7,37 @@ import ScrollToTop from 'react-scroll-up'
 import { NavHashLink as Link } from 'react-router-hash-link'
 import { withNamespaces } from 'react-i18next'
 import PropTypes from 'prop-types'
+import Headroom from 'react-headroom'
 
 const Layout = ({ children, t }) => (
   <>
     <header>
-      <Navbar
-        brand={<Link to="/">Database Systems Project</Link>}
-        className="z-depth-3"
-        fixed
-        alignLinks="right"
-      >
-        <Link className="sidenav-close" to="/authors/search">
-          {t('authorSearch')}
-        </Link>
-        <Link className="sidenav-close" to="/documents/search">
-          {t('documentSearch')}
-        </Link>
-        <Link className="sidenav-close" to="/periodicals/search">
-          {t('periodicalSearch')}
-        </Link>
-        <Link className="sidenav-close" to="/organizations/search">
-          {t('organizationSearch')}
-        </Link>
-        <Link className="sidenav-close" to="/conferences/search">
-          {t('conferencesSearch')}
-        </Link>
-        <Link className="sidenav-close" to="/publishing-companies/search">
-          {t('publishingCompaniesSearch')}
-        </Link>
-      </Navbar>
+      <Headroom>
+        <Navbar
+          brand={<Link to="/">Database Systems Project</Link>}
+          className="z-depth-3"
+          alignLinks="right"
+        >
+          <Link className="sidenav-close" to="/authors/search">
+            {t('authorSearch')}
+          </Link>
+          <Link className="sidenav-close" to="/documents/search">
+            {t('documentSearch')}
+          </Link>
+          <Link className="sidenav-close" to="/periodicals/search">
+            {t('periodicalSearch')}
+          </Link>
+          <Link className="sidenav-close" to="/organizations/search">
+            {t('organizationSearch')}
+          </Link>
+          <Link className="sidenav-close" to="/conferences/search">
+            {t('conferencesSearch')}
+          </Link>
+          <Link className="sidenav-close" to="/publishing-companies/search">
+            {t('publishingCompaniesSearch')}
+          </Link>
+        </Navbar>
+      </Headroom>
     </header>
     <main>{children}</main>
     <ScrollToTop showUnder={800} style={{ zIndex: '2' }}>

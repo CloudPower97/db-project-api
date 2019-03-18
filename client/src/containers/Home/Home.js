@@ -34,6 +34,7 @@ const Home = () => {
                   icon={mdiAccountGroup}
                   title="Authors"
                   content="Look up for authors by first name, last name, organization or ORCID"
+                  className="authors"
                 />
               </Link>
             </Col>
@@ -43,6 +44,7 @@ const Home = () => {
                   icon={mdiFileDocumentBoxMultipleOutline}
                   title="Documents"
                   content="Look up for authors by first name, last name, organization or ORCID"
+                  className="documents"
                 />
               </Link>
             </Col>
@@ -52,6 +54,7 @@ const Home = () => {
                   icon={mdiBookOpenPageVariant}
                   title="Periodicals"
                   content="Look up for authors by first name, last name, organization or ORCID"
+                  className="periodicals"
                 />
               </Link>
             </Col>
@@ -61,6 +64,7 @@ const Home = () => {
                   icon={mdiDomain}
                   title="Organizations"
                   content="Look up for authors by first name, last name, organization or ORCID"
+                  className="organizations"
                 />
               </Link>
             </Col>
@@ -70,6 +74,7 @@ const Home = () => {
                   icon={mdiCalendarMultiple}
                   title="Conferences"
                   content="Look up for authors by first name, last name, organization or ORCID"
+                  className="conferences"
                 />
               </Link>
             </Col>
@@ -79,6 +84,7 @@ const Home = () => {
                   icon={mdiFeather}
                   title="Publishing Companies"
                   content="Look up for authors by first name, last name, organization or ORCID"
+                  className="publishing-companies"
                 />
               </Link>
             </Col>

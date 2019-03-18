@@ -5,8 +5,8 @@ import { CardPanel } from 'react-materialize'
 import Icon from '@mdi/react'
 import Style from './FeatureCard.module.css'
 
-const FeatureCard = ({ children, icon, title, content, hoverable, rounded }) => (
-  <CardPanel className={cx(Style.FeatureCard, { hoverable, rounded })}>
+const FeatureCard = ({ children, className, icon, title, content, hoverable, rounded }) => (
+  <CardPanel className={cx(className, Style.FeatureCard, { hoverable, rounded })}>
     <div className={Style.FeatureIcon}>
       <Icon path={icon} size={2.7} />
     </div>
@@ -17,6 +17,7 @@ const FeatureCard = ({ children, icon, title, content, hoverable, rounded }) => 
 )
 
 FeatureCard.propTypes = {
+  className: PropTypes.string,
   children: PropTypes.node,
   icon: PropTypes.node.isRequired,
   title: PropTypes.string.isRequired,

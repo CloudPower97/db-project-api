@@ -39,7 +39,25 @@ exports.getConference = ({ params: { id } }, res) => {
       {
         model: Document,
         attributes: {
-          exclude: ['created_at', 'updated_at'],
+          exclude: ['created_at', 'updated_at', 'number_id'],
+        },
+        include: {
+          model: Number,
+          attributes: {
+            exclude: ['created_at', 'updated_at', 'periodical_id'],
+          },
+          include: {
+            model: Periodical,
+            attributes: {
+              exclude: ['created_at', 'updated_at', 'publishing_company_id'],
+            },
+            include: {
+              model: PublishingCompany,
+              attributes: {
+                exclude: ['created_at', 'updated_at'],
+              },
+            },
+          },
         },
       },
       {

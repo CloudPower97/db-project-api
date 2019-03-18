@@ -66,11 +66,35 @@ exports.getAuthors = ({ params: { id } }, res) => {
         organization
           .getAuthors({
             attributes: {
-              exclude: ['created_at', 'updated_at'],
+              exclude: ['created_at', 'updated_at', 'organization_id'],
+            },
+            include: {
+              model: Organization,
+              attributes: {
+                exclude: ['created_at', 'updated_at'],
+              },
             },
           })
           .then(authors => {
-            res.json(authors)
+            const authors_with_documents_count = authors.map(async author => {
+              const documents_count = await author.countDocuments()
+
+              let x = JSON.parse(JSON.stringify(author))
+
+              x.documents_count = documents_count
+
+              return x
+
+              // return Object.assign(JSON.parse(JSON.stringify(author)), { documents_count })
+            })
+
+            Promise.all(authors_with_documents_count)
+              .then(authors => {
+                res.json(authors)
+              })
+              .catch(error => {
+                res.status(500).json({ error })
+              })
           })
           .catch(error => {
             res.status(500).json({ error })

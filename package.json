@@ -7,13 +7,14 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "concurrently –kill-others-on-fail \"npm run server\" \"npm run client\"",
-    "client": "npm start --prefix client",
+    "start": "node index",
+    "client": "yarn start --prefix client",
     "server": "nodemon --exec 'heroku local' --signal SIGTERM",
-    "dev": "concurrently –kill-others-on-fail \"npm run server\" \"npm run client\"",
+    "dev": "concurrently –kill-others-on-fail \"yarn server\" \"yarn client\"",
     "lint": "eslint \"**/*.js\"",
     "lint:fix": "eslint \"**/*.js\" --fix",
-    "pretty": "prettier --write ./**/*.js"
+    "pretty": "prettier --write ./**/*.js",
+    "heroku-postbuild": "cd client && yarn && yarn run build"
   },
   "dependencies": {
     "concurrently": "^4.1.0",

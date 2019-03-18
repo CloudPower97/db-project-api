@@ -1,0 +1,25 @@
+.ChoosePage {
+  &:global(.authors) {
+    color: var(--orange);
+  }
+
+  &:global(.documents) {
+    color: var(--purple);
+  }
+
+  &:global(.periodicals) {
+    color: var(--red);
+  }
+
+  &:global(.organizations) {
+    color: var(--blue);
+  }
+
+  &:global(.conferences) {
+    color: var(--green);
+  }
+
+  &:global(.publishing-companies) {
+    color: var(--plum);
+  }
+}

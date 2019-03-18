@@ -1,22 +1,15 @@
 import React, { Component } from 'react'
 import { Section, Container, Row, Input } from 'react-materialize'
-import Button from 'components/Button'
-import { mdiMagnify } from '@mdi/js'
-import Icon from '@mdi/react'
-import { Link } from 'react-router-dom'
 
-import SearchPage from 'containers/SearchPage'
-
-class SearchAuthor extends Component {
+class SearchPeriodical extends Component {
   state = {
     title: '',
-    number_of_pages: '',
-    doi: '',
+    issn: '',
   }
 
   render() {
     return (
-      <SearchPage>
+      <>
         <Section>
           <Container
             className="white"
@@ -27,21 +20,11 @@ class SearchAuthor extends Component {
           >
             <Row>
               <Input
-                s={6}
+                s={12}
                 label="Title"
                 onChange={({ target: { value: title } }) => {
                   this.setState({
                     title,
-                  })
-                }}
-              />
-              <Input
-                s={6}
-                label="Number of pages"
-                type="number"
-                onChange={({ target: { value: number_of_pages } }) => {
-                  this.setState({
-                    number_of_pages,
                   })
                 }}
               />
@@ -69,27 +52,19 @@ class SearchAuthor extends Component {
             <Row>
               <Input
                 s={12}
-                label="DOI"
-                onChange={({ target: { value: doi } }) => {
+                label="ISSN"
+                onChange={({ target: { value: issn } }) => {
                   this.setState({
-                    doi,
+                    issn,
                   })
                 }}
               />
             </Row>
           </Container>
         </Section>
-
-        <Section className="center">
-          <Link to={`/documents?filter=name iLike %${this.state.name}%`}>
-            <Button large className="purple-gradient">
-              <Icon size={1.25} path={mdiMagnify} color="white" /> Search
-            </Button>
-          </Link>
-        </Section>
-      </SearchPage>
+      </>
     )
   }
 }
 
-export default SearchAuthor
+export default SearchPeriodical

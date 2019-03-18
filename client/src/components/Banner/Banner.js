@@ -51,8 +51,6 @@ const Banner = ({ match: { path }, className, icon, iconColor, iconSize, text, t
 
   return (
     <Section className={cx('banner', collection, className, Styles.Banner)}>
-      {console.log(Styles)}
-
       <h1 className={cx(textClassName)}>
         <Icon size={iconSize} color={iconColor} path={icon || fallbackIcon} /> {text}
       </h1>
@@ -61,11 +59,11 @@ const Banner = ({ match: { path }, className, icon, iconColor, iconSize, text, t
 }
 
 Banner.propTypes = {
-  className: PropTypes.string.isRequired,
+  className: PropTypes.string,
   icon: PropTypes.string,
   iconColor: PropTypes.string.isRequired,
   iconSize: PropTypes.number.isRequired,
-  text: PropTypes.string.isRequired,
+  text: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
   textClassName: PropTypes.string.isRequired,
 }
 
