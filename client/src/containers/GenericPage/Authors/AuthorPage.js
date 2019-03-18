@@ -1,66 +1,58 @@
-import React, { Component } from "react";
-import axios from "axios";
-import Spinner from "components/Spinner";
-import Banner from "components/Banner";
-import {
-  Tab,
-  Container,
-  Row,
-  Col,
-  Card,
-  Section,
-  Chip
-} from "react-materialize";
-import Tabs from "components/Tabs";
-import Picture from "@cloudpower97/react-progressive-picture";
-import Styles from "./AuthorPage.module.css";
-import cx from "class-names";
-import Icon, { Stack } from "@mdi/react";
+import React, { Component } from 'react'
+import axios from 'axios'
+import Spinner from 'components/Spinner'
+import Banner from 'components/Banner'
+import { Tab, Container, Row, Col, Card, Section, Chip } from 'react-materialize'
+import Tabs from 'components/Tabs'
+import Picture from '@cloudpower97/react-progressive-picture'
+import Styles from './AuthorPage.module.css'
+import cx from 'class-names'
+import Icon, { Stack } from '@mdi/react'
 import {
   mdiFormatQuoteClose,
   mdiFileDocumentBoxMultipleOutline,
   mdiCheckboxBlankCircle,
   mdiAlphaH,
-  mdiDomain
-} from "@mdi/js";
-import DocumentsTable from "components/DocumentsTable";
-import { Redirect, Link } from "react-router-dom";
+  mdiDomain,
+} from '@mdi/js'
+import DocumentsTable from 'components/DocumentsTable'
+import { Redirect, Link } from 'react-router-dom'
 
 export class AuthorPage extends Component {
   state = {
     data: null,
-    error: false
-  };
+    error: false,
+  }
 
   componentDidMount() {
-    const { match } = this.props;
+    const { match } = this.props
 
     axios
       .get(`${match.url}`)
       .then(({ data }) => {
         this.setState({
           data,
-          error: typeof data === "string"
-        });
+          error: typeof data === 'string',
+        })
       })
       .catch(() => {
         this.setState({
-          error: true
-        });
-      });
+          error: true,
+        })
+      })
   }
 
   render() {
-    const { data, error } = this.state;
+    const { data, error } = this.state
 
-    let text = "Fetching author info...";
-    let content = <Spinner />;
+    let text = 'Fetching author info...'
+    let content = <Spinner />
 
     if (error) {
-      return <Redirect to="/authors/error" />;
+      return <Redirect to="/authors/error" />
     } else {
       if (data) {
-        text = `${data.name} ${data.surname}`;
+        text = `${data.name} ${data.surname}`
 
         content = (
           <Tabs className="tabs-fixed-width z-depth-1">
@@ -69,43 +61,35 @@ export class AuthorPage extends Component {
                 <Container>
                   <Row
                     style={{
-                      display: "flex",
-                      flexWrap: "wrap"
-                    }}
-                  >
+                      display: 'flex',
+                      flexWrap: 'wrap',
+                    }}>
                     <Col s={12} xl={9}>
                       <Card
                         className="rounded large"
                         actions={[
                           <a href={`https://www.orcid.org/${data.ORCID}`}>
-                            <Chip className="hoverable">
-                              ORCID: {data.ORCID}
-                            </Chip>
-                          </a>
-                        ]}
-                      >
+                            <Chip className="hoverable">ORCID: {data.ORCID}</Chip>
+                          </a>,
+                        ]}>
                         <Picture
                           src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png"
                           alt="User avatar placholder"
                           blur={0}
                           width={128}
-                          className={cx("circle left", Styles.AuthorPicture)}
+                          className={cx('circle left', Styles.AuthorPicture)}
                         />
                         <p className="flow-text">
-                          Lorem ipsum dolor sit amet, consectetur adipiscing
-                          elit. Fusce sed faucibus nunc, eu laoreet urna. Sed
-                          urna elit, placerat eget quam id, dignissim elementum
-                          metus. Aenean sed ullamcorper quam, in condimentum
-                          magna. Donec elementum laoreet erat et gravida.
-                          Pellentesque augue orci, volutpat eget lectus ac,
-                          pretium gravida quam. Nunc ac dignissim augue.
-                          Suspendisse risus diam, porttitor at ligula at,
-                          pretium aliquet nunc. Suspendisse potenti. In
-                          elementum mauris luctus euismod feugiat. Donec ac
-                          lectus venenatis, rhoncus massa et, scelerisque leo.
-                          Pellentesque enim ipsum, malesuada non venenatis non,
-                          ornare in purus. Ut convallis orci et ex auctor, a
-                          tincidunt velit accumsan.
+                          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sed
+                          faucibus nunc, eu laoreet urna. Sed urna elit, placerat eget quam id,
+                          dignissim elementum metus. Aenean sed ullamcorper quam, in condimentum
+                          magna. Donec elementum laoreet erat et gravida. Pellentesque augue orci,
+                          volutpat eget lectus ac, pretium gravida quam. Nunc ac dignissim augue.
+                          Suspendisse risus diam, porttitor at ligula at, pretium aliquet nunc.
+                          Suspendisse potenti. In elementum mauris luctus euismod feugiat. Donec ac
+                          lectus venenatis, rhoncus massa et, scelerisque leo. Pellentesque enim
+                          ipsum, malesuada non venenatis non, ornare in purus. Ut convallis orci et
+                          ex auctor, a tincidunt velit accumsan.
                         </p>
                       </Card>
                     </Col>
@@ -120,21 +104,14 @@ export class AuthorPage extends Component {
                                   color="var(--orange)"
                                   size={1.8}
                                 />
-                                <Icon
-                                  path={mdiDomain}
-                                  color="white"
-                                  size={1.2}
-                                />
+                                <Icon path={mdiDomain} color="white" size={1.2} />
                               </Stack>
                               Organization
                             </span>
                           }
-                          className={cx("rounded hoverable", Styles.InfoCard)}
-                        >
+                          className={cx('rounded hoverable', Styles.InfoCard)}>
                           <span className="flow-text">
-                            {`${data.Organization.name}, ${
-                              data.Organization.location
-                            }`}
+                            {`${data.Organization.name}, ${data.Organization.location}`}
                           </span>
                         </Card>
                       </Link>
@@ -153,8 +130,7 @@ export class AuthorPage extends Component {
                             H Index
                           </span>
                         }
-                        className={cx("rounded", Styles.InfoCard)}
-                      >
+                        className={cx('rounded', Styles.InfoCard)}>
                         <span className="flow-text">{data.hIndex}</span>
                       </Card>
 
@@ -176,11 +152,8 @@ export class AuthorPage extends Component {
                             Documents
                           </span>
                         }
-                        className={cx("rounded", Styles.InfoCard)}
-                      >
-                        <span className="flow-text">
-                          {data.documents_count}
-                        </span>
+                        className={cx('rounded', Styles.InfoCard)}>
+                        <span className="flow-text">{data.documents_count}</span>
                       </Card>
                     </Col>
                   </Row>
@@ -191,7 +164,7 @@ export class AuthorPage extends Component {
               <DocumentsTable data={data.Documents} className={Styles.Table} />
             </Tab>
           </Tabs>
-        );
+        )
       }
     }
 
@@ -200,8 +173,8 @@ export class AuthorPage extends Component {
         <Banner text={text} />
         {content}
       </>
-    );
+    )
   }
 }
 
-export default AuthorPage;
+export default AuthorPage

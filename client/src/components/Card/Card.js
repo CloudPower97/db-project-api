@@ -1,11 +1,11 @@
-import React from "react";
-import cx from "class-names";
-import PropTypes from "prop-types";
-import CardContent from "./CardContent/CardContent";
-import CardTitle from "./CardTitle/CardTitle";
-import CardAction from "./CardAction/CardAction";
-import CardImage from "./CardImage/CardImage";
-import CardTabs from "./CardTabs/CardTabs";
+import React from 'react'
+import cx from 'class-names'
+import PropTypes from 'prop-types'
+import CardContent from './CardContent/CardContent'
+import CardTitle from './CardTitle/CardTitle'
+import CardAction from './CardAction/CardAction'
+import CardImage from './CardImage/CardImage'
+import CardTabs from './CardTabs/CardTabs'
 
 const Card = ({
   children,
@@ -21,19 +21,19 @@ const Card = ({
   small,
   medium,
   large,
-  style
+  style,
 }) => {
   const cardCSS = cx(
-    "card",
+    'card',
     {
       horizontal,
-      "sticky-action": stickyActions,
+      'sticky-action': stickyActions,
       small,
       medium,
-      large
+      large,
     },
     className
-  );
+  )
 
   let card = (
     <>
@@ -43,25 +43,22 @@ const Card = ({
       </CardContent>
       {actions ? <CardAction>{actions}</CardAction> : null}
     </>
-  );
+  )
 
   if (image) {
-    const isFabLarge =
-      fab && (fab.props.large || fab.props.children.props.large);
+    const isFabLarge = fab && (fab.props.large || fab.props.children.props.large)
 
     card = (
       <>
         <CardImage image={image} fab={fab}>
-          {!isFabLarge ? (
-            <CardTitle className={title.className}>{title}</CardTitle>
-          ) : null}
+          {!isFabLarge ? <CardTitle className={title.className}>{title}</CardTitle> : null}
         </CardImage>
         <CardContent>
           {isFabLarge ? <CardTitle>{title}</CardTitle> : null} {children}
         </CardContent>
         {actions ? <CardAction>{actions}</CardAction> : null}
       </>
-    );
+    )
   }
 
   if (tabs) {
@@ -72,7 +69,7 @@ const Card = ({
         </CardContent>
         <CardTabs>{tabs}</CardTabs>
       </>
-    );
+    )
   }
 
   if (horizontal) {
@@ -84,7 +81,7 @@ const Card = ({
           {actions ? <CardAction>{actions}</CardAction> : null}
         </div>
       </>
-    );
+    )
   }
 
   if (reveal) {
@@ -100,15 +97,15 @@ const Card = ({
           {children}
         </div>
       </>
-    );
+    )
   }
 
   return (
     <div className={cardCSS} style={style}>
       {card}
     </div>
-  );
-};
+  )
+}
 
 Card.propTypes = {
   children: PropTypes.node,
@@ -125,7 +122,7 @@ Card.propTypes = {
   small: PropTypes.bool,
   medium: PropTypes.bool,
   large: PropTypes.bool,
-  tabs: PropTypes.node
-};
+  tabs: PropTypes.node,
+}
 
-export default Card;
+export default Card

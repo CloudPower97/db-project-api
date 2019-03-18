@@ -1,11 +1,11 @@
-import React from "react";
-import { Switch, Route } from "react-router-dom";
-import Authors from "./Authors";
-import Conferences from "./Conferences";
-import Documents from "./Documents";
-import Organizations from "./Organizations";
-import Periodicals from "./Periodicals";
-import PublishingCompanies from "./PublishingCompanies";
+import React from 'react'
+import { Switch, Route } from 'react-router-dom'
+import Authors from './Authors'
+import Conferences from './Conferences'
+import Documents from './Documents'
+import Organizations from './Organizations'
+import Periodicals from './Periodicals'
+import PublishingCompanies from './PublishingCompanies'
 
 const GenericPage = () => (
   <Switch>
@@ -16,6 +16,6 @@ const GenericPage = () => (
     <Route path="/periodicals" component={Periodicals} />
     <Route path="/publishing-companies" component={PublishingCompanies} />
   </Switch>
-);
+)
 
-export default GenericPage;
+export default GenericPage

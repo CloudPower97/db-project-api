@@ -1,10 +1,10 @@
-import React from "react";
-import { Switch, Route, Redirect } from "react-router-dom";
-import ErrorPage from "containers/ErrorPage";
-import SearchPage from "containers/SearchPage";
-import ResultsPage from "containers/ResultsPage";
-import ChoosePage from "containers/ChoosePage";
-import AuthorPage from "./AuthorPage";
+import React from 'react'
+import { Switch, Route, Redirect } from 'react-router-dom'
+import ErrorPage from 'containers/ErrorPage'
+import SearchPage from 'containers/SearchPage'
+import ResultsPage from 'containers/ResultsPage'
+import ChoosePage from 'containers/ChoosePage'
+import AuthorPage from './AuthorPage'
 
 const Authors = ({ match: { path } }) => (
   <>
@@ -17,6 +17,6 @@ const Authors = ({ match: { path } }) => (
       <Redirect to={`${path}/choose`} />
     </Switch>
   </>
-);
+)
 
-export default Authors;
+export default Authors

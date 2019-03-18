@@ -1,50 +1,45 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import ReactTable from "react-table";
-import Spinner from "components/Spinner";
-import cx from "class-names";
+import React from 'react'
+import { Link } from 'react-router-dom'
+import ReactTable from 'react-table'
+import Spinner from 'components/Spinner'
+import cx from 'class-names'
 
 const AuthorsTable = ({ data, className }) => {
   const columns = [
     {
-      id: "author",
-      Header: "Author",
+      id: 'author',
+      Header: 'Author',
       accessor: d => `${d.name} ${d.surname}`,
       Cell: props => {
-        console.log(props);
-        return (
-          <Link to={`/authors/${props.original.ORCID}`}>{props.value}</Link>
-        );
-      }
+        return <Link to={`/authors/${props.original.ORCID}`}>{props.value}</Link>
+      },
     },
     {
-      Header: "Documents",
-      accessor: "documents_count"
+      Header: 'Documents',
+      accessor: 'documents_count',
     },
     {
-      id: "organization",
-      Header: "Organization",
+      id: 'organization',
+      Header: 'Organization',
       accessor: d => d.Organization.name,
       Cell: props => (
-        <Link to={`/organizations/${props.original.Organization.id}`}>
-          {props.value}
-        </Link>
-      )
-    }
-  ];
+        <Link to={`/organizations/${props.original.Organization.id}`}>{props.value}</Link>
+      ),
+    },
+  ]
 
   if (data) {
     return (
       <ReactTable
-        className={cx("-striped", className)}
+        className={cx('-striped', className)}
         data={data}
         columns={columns}
         showPaginationTop
       />
-    );
+    )
   } else {
-    return <Spinner />;
+    return <Spinner />
   }
-};
+}
 
-export default AuthorsTable;
+export default AuthorsTable

@@ -1,10 +1,10 @@
-import React from "react";
-import { Switch, Route } from "react-router-dom";
-import SearchPage from "containers/SearchPage";
-import ChoosePage from "containers/ChoosePage";
-import ResultsPage from "containers/ResultsPage";
-import ErrorPage from "containers/ErrorPage";
-import PeriodicalPage from "./PublishingCompanyPage";
+import React from 'react'
+import { Switch, Route } from 'react-router-dom'
+import SearchPage from 'containers/SearchPage'
+import ChoosePage from 'containers/ChoosePage'
+import ResultsPage from 'containers/ResultsPage'
+import ErrorPage from 'containers/ErrorPage'
+import PeriodicalPage from './PublishingCompanyPage'
 
 const PublishingCompanies = ({ match: { path } }) => (
   <>
@@ -16,6 +16,6 @@ const PublishingCompanies = ({ match: { path } }) => (
       <Route exact path={`${path}/:id`} component={PeriodicalPage} />
     </Switch>
   </>
-);
+)
 
-export default PublishingCompanies;
+export default PublishingCompanies

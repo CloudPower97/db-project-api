@@ -1,10 +1,10 @@
-import React from "react";
-import { Switch, Route } from "react-router-dom";
-import SearchPage from "containers/SearchPage";
-import ChoosePage from "containers/ChoosePage";
-import ResultsPage from "containers/ResultsPage";
-import ErrorPage from "containers/ErrorPage";
-import OrganizationPage from "./OrganizationPage";
+import React from 'react'
+import { Switch, Route } from 'react-router-dom'
+import SearchPage from 'containers/SearchPage'
+import ChoosePage from 'containers/ChoosePage'
+import ResultsPage from 'containers/ResultsPage'
+import ErrorPage from 'containers/ErrorPage'
+import OrganizationPage from './OrganizationPage'
 
 const Organizations = ({ match: { path } }) => (
   <>
@@ -16,6 +16,6 @@ const Organizations = ({ match: { path } }) => (
       <Route exact path={`${path}/:id`} component={OrganizationPage} />
     </Switch>
   </>
-);
+)
 
-export default Organizations;
+export default Organizations

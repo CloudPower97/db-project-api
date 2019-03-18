@@ -1,46 +1,44 @@
-import React, { Component, lazy, Suspense } from "react";
-import axios from "axios";
-import Spinner from "components/Spinner";
-import Banner from "components/Banner";
-import { withRouter } from "react-router-dom";
+import React, { Component, lazy, Suspense } from 'react'
+import axios from 'axios'
+import Spinner from 'components/Spinner'
+import Banner from 'components/Banner'
+import { withRouter } from 'react-router-dom'
 
-const AuthorsTable = lazy(() => import("components/AuthorsTable"));
-const ConferencesTable = lazy(() => import("components/ConferencesTable"));
-const DocumentsTable = lazy(() => import("components/DocumentsTable"));
-const PeriodicalsTable = lazy(() => import("components/PeriodicalsTable"));
-const PublishingCompaniesTable = lazy(() =>
-  import("components/PublishingCompaniesTable")
-);
-const OrganizationsTable = lazy(() => import("components/OrganizationsTable"));
+const AuthorsTable = lazy(() => import('components/AuthorsTable'))
+const ConferencesTable = lazy(() => import('components/ConferencesTable'))
+const DocumentsTable = lazy(() => import('components/DocumentsTable'))
+const PeriodicalsTable = lazy(() => import('components/PeriodicalsTable'))
+const PublishingCompaniesTable = lazy(() => import('components/PublishingCompaniesTable'))
+const OrganizationsTable = lazy(() => import('components/OrganizationsTable'))
 
 export class Results extends Component {
   state = {
-    data: null
-  };
+    data: null,
+  }
 
   componentDidMount() {
-    const { match } = this.props;
+    const { match } = this.props
 
     axios
       .get(`${match.path}`)
       .then(({ data }) => {
         this.setState({
-          data
-        });
+          data,
+        })
       })
       .catch(err => {
-        console.log(err);
-      });
+        console.log(err)
+      })
   }
 
   render() {
-    const { data } = this.state;
+    const { data } = this.state
     const {
-      location: { pathname, search }
-    } = this.props;
+      location: { pathname, search },
+    } = this.props
 
-    const collection = pathname.split("/").pop();
-    let text = `All ${collection}`;
+    const collection = pathname.split('/').pop()
+    let text = `All ${collection}`
 
     const tables = {
       authors: <AuthorsTable data={data} />,
@@ -48,13 +46,11 @@ export class Results extends Component {
       documents: <DocumentsTable data={data} />,
       organizations: <OrganizationsTable data={data} />,
       periodicals: <PeriodicalsTable data={data} />,
-      "publishing-companies": <PublishingCompaniesTable data={data} />
-    };
+      'publishing-companies': <PublishingCompaniesTable data={data} />,
+    }
 
     if (search) {
-      text =
-        (data && `${data.length} ${collection} found`) ||
-        `Searching ${collection}...`;
+      text = (data && `${data.length} ${collection} found`) || `Searching ${collection}...`
     }
 
     return (
@@ -62,8 +58,8 @@ export class Results extends Component {
         <Banner text={text} />
         <Suspense fallback={<Spinner />}>{tables[collection]}</Suspense>
       </>
-    );
+    )
   }
 }
 
-export default withRouter(Results);
+export default withRouter(Results)

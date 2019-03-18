@@ -1,3 +1,282 @@
+@media screen and (prefers-reduced-motion: reduce) {
+.FeatureCard {
+  min-height: 250px;
+  transition: none;
+
+  & h5 {
+    text-align: center;
+  }
+
+  & .FeatureIcon {
+    align-items: center;
+    background-color: #ececec;
+    clip-path: circle(50px at 50.1% 50.9%);
+    display: flex;
+    justify-content: center;
+    z-index: 1;
+
+    @media screen and (prefers-reduced-motion: reduce) {
+      & svg {
+        border-radius: 50%;
+        fill: var(--orange);
+        height: 100px;
+        line-height: 100px;
+        position: relative;
+        transition: none;
+        width: 100px;
+      }
+    }
+
+    & svg {
+      border-radius: 50%;
+      fill: var(--orange);
+      height: 100px;
+      line-height: 100px;
+      transition: transform 0.25s ease-out;
+      width: 100px;
+    }
+
+    @media screen and (prefers-reduced-motion: reduce) {
+      &::before {
+        background-image: var(--orange-gradient);
+        bottom: 0;
+        content: '';
+        left: 0;
+        opacity: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+        transition: none;
+        z-index: -1;
+      }
+    }
+
+    &::before {
+      background-image: var(--orange-gradient);
+      bottom: 0;
+      content: '';
+      left: 0;
+      opacity: 0;
+      position: absolute;
+      right: 0;
+      top: 0;
+      transition: opacity 0.25s ease-out;
+      z-index: -1;
+    }
+  }
+
+  &:hover,
+  &:focus {
+    & .FeatureIcon {
+      & svg {
+        fill: #ececec !important;
+        filter: drop-shadow(0 3px 3px rgba(0, 0, 0, 0.25));
+        transform: scale(1.15);
+      }
+
+      &::before {
+        opacity: 1;
+      }
+    }
+  }
+
+  &:global(.documents) {
+    & .FeatureIcon {
+      @media screen and (prefers-reduced-motion: reduce) {
+        & svg {
+          fill: var(--purple);
+        }
+      }
+
+      & svg {
+        fill: var(--purple);
+      }
+
+      @media screen and (prefers-reduced-motion: reduce) {
+        &::before {
+          background-image: var(--purple-gradient);
+        }
+      }
+
+      &::before {
+        background-image: var(--purple-gradient);
+      }
+    }
+
+    & h5 {
+      color: var(--purple);
+    }
+  }
+
+  &:global(.authors) {
+    & .FeatureIcon {
+      @media screen and (prefers-reduced-motion: reduce) {
+        & svg {
+          fill: var(--orange);
+        }
+      }
+
+      & svg {
+        fill: var(--orange);
+      }
+
+      @media screen and (prefers-reduced-motion: reduce) {
+        &::before {
+          background-image: var(--orange-gradient);
+        }
+      }
+
+      &::before {
+        background-image: var(--orange-gradient);
+      }
+    }
+
+    & h5 {
+      color: var(--orange);
+    }
+  }
+
+  &:global(.documents) {
+    & .FeatureIcon {
+      @media screen and (prefers-reduced-motion: reduce) {
+        & svg {
+          fill: var(--purple);
+        }
+      }
+
+      & svg {
+        fill: var(--purple);
+      }
+
+      @media screen and (prefers-reduced-motion: reduce) {
+        &::before {
+          background-image: var(--purple-gradient);
+        }
+      }
+
+      &::before {
+        background-image: var(--purple-gradient);
+      }
+    }
+
+    & h5 {
+      color: var(--purple);
+    }
+  }
+
+  &:global(.periodicals) {
+    & .FeatureIcon {
+      @media screen and (prefers-reduced-motion: reduce) {
+        & svg {
+          fill: var(--red);
+        }
+      }
+
+      & svg {
+        fill: var(--red);
+      }
+
+      @media screen and (prefers-reduced-motion: reduce) {
+        &::before {
+          background-image: var(--red-gradient);
+        }
+      }
+
+      &::before {
+        background-image: var(--red-gradient);
+      }
+    }
+
+    & h5 {
+      color: var(--red);
+    }
+  }
+
+  &:global(.organizations) {
+    & .FeatureIcon {
+      @media screen and (prefers-reduced-motion: reduce) {
+        & svg {
+          fill: var(--blue);
+        }
+      }
+
+      & svg {
+        fill: var(--blue);
+      }
+
+      @media screen and (prefers-reduced-motion: reduce) {
+        &::before {
+          background-image: var(--blue-gradient);
+        }
+      }
+
+      &::before {
+        background-image: var(--blue-gradient);
+      }
+    }
+
+    & h5 {
+      color: var(--blue);
+    }
+  }
+
+  &:global(.conferences) {
+    & .FeatureIcon {
+      @media screen and (prefers-reduced-motion: reduce) {
+        & svg {
+          fill: var(--green);
+        }
+      }
+
+      & svg {
+        fill: var(--green);
+      }
+
+      @media screen and (prefers-reduced-motion: reduce) {
+        &::before {
+          background-image: var(--green-gradient);
+        }
+      }
+
+      &::before {
+        background-image: var(--green-gradient);
+      }
+    }
+
+    & h5 {
+      color: var(--green);
+    }
+  }
+
+  &:global(.publishing-companies) {
+    & .FeatureIcon {
+      @media screen and (prefers-reduced-motion: reduce) {
+        & svg {
+          fill: var(--plum);
+        }
+      }
+
+      & svg {
+        fill: var(--plum);
+      }
+
+      @media screen and (prefers-reduced-motion: reduce) {
+        &::before {
+          background-image: var(--plum-gradient);
+        }
+      }
+
+      &::before {
+        background-image: var(--plum-gradient);
+      }
+    }
+
+    & h5 {
+      color: var(--plum);
+    }
+  }
+}
+}
 .FeatureCard {
   min-height: 250px;
   transition: transform 0.5s ease-out;

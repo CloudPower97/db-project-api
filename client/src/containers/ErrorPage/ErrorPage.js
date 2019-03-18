@@ -1,23 +1,21 @@
-import React from "react";
-import { Container, Row, Col } from "react-materialize";
-import { mdiAccountGroup, mdiHome } from "@mdi/js";
-import Banner from "components/Banner";
-import FeatureCard from "components/FeatureCard";
-import { Link } from "react-router-dom";
-import Styles from "./ErrorPage.module.css";
-import cx from "class-names";
+import React from 'react'
+import { Container, Row, Col } from 'react-materialize'
+import { mdiAccountGroup, mdiHome } from '@mdi/js'
+import Banner from 'components/Banner'
+import FeatureCard from 'components/FeatureCard'
+import { Link } from 'react-router-dom'
+import Styles from './ErrorPage.module.css'
+import cx from 'class-names'
 
 const ChoosePage = ({ match: { path } }) => {
-  const collection = path.split("/")[1];
+  const collection = path.split('/')[1]
 
   return (
     <>
-      <Banner text={`${collection.replace("-", " ")} not found`} />
+      <Banner text={`${collection.replace('-', ' ')} not found`} />
 
       <Container>
-        <h2 className={cx("center", collection, Styles.ErrorPage)}>
-          Whoops! That's an error!
-        </h2>
+        <h2 className={cx('center', collection, Styles.ErrorPage)}>Whoops! That's an error!</h2>
 
         <Row>
           <Col s={12} l={6}>
@@ -41,7 +39,7 @@ const ChoosePage = ({ match: { path } }) => {
         </Row>
       </Container>
     </>
-  );
-};
+  )
+}
 
-export default ChoosePage;
+export default ChoosePage
