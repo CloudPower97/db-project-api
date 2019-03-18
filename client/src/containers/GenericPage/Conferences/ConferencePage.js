@@ -1,53 +1,108 @@
-import React, { Component } from 'react'
-import axios from 'axios'
-import Spinner from 'components/Spinner'
-import Banner from 'components/Banner'
-import { Tab, Container, Row, Col, Card, Section, CardTitle } from 'react-materialize'
-import Tabs from 'components/Tabs'
-import Styles from './ConferencePage.module.css'
-import cx from 'class-names'
-import Icon, { Stack } from '@mdi/react'
+import React, { Component } from "react";
+import axios from "axios";
+import Spinner from "components/Spinner";
+import Banner from "components/Banner";
 import {
-  mdiFormatQuoteClose,
-  mdiFileDocumentBoxMultipleOutline,
+  Tab,
+  Container,
+  Row,
+  Col,
+  Card,
+  Section,
+  CardTitle
+} from "react-materialize";
+import Tabs from "components/Tabs";
+import Styles from "./ConferencePage.module.css";
+import cx from "class-names";
+import Icon, { Stack } from "@mdi/react";
+import {
   mdiCheckboxBlankCircle,
-  mdiAlphaH,
-} from '@mdi/js'
-import DocumentsTable from 'components/DocumentsTable'
-import { Redirect } from 'react-router-dom'
+  mdiDomain,
+  mdiFileDocumentBoxMultipleOutline,
+  mdiBullhornOutline
+} from "@mdi/js";
+import DocumentsTable from "components/DocumentsTable";
+import OrganizationsTable from "components/OrganizationsTable";
+import SponsorsTable from "components/SponsorsTable";
+import { Redirect } from "react-router-dom";
 
-export class AuthorPage extends Component {
+export class ConferencesPage extends Component {
   state = {
     data: null,
-    error: false,
-  }
+    documents: [],
+    sponsors: [],
+    organizations: [],
+    error: false
+  };
 
   componentDidMount() {
-    const { match } = this.props
+    const { match } = this.props;
 
     axios
       .get(`${match.url}`)
       .then(({ data }) => {
         this.setState({
           data,
-          error: typeof data === 'string',
-        })
+          error: typeof data === "string"
+        });
       })
       .catch(() => {
         this.setState({
-          error: true,
-        })
+          error: true
+        });
+      });
+
+    axios
+      .get(`${match.url}/documents`)
+      .then(({ data: documents }) => {
+        this.setState({
+          documents,
+          error: typeof documents === "string"
+        });
       })
+      .catch(() => {
+        this.setState({
+          error: true
+        });
+      });
+
+    axios
+      .get(`${match.url}/sponsors`)
+      .then(({ data: sponsors }) => {
+        this.setState({
+          sponsors,
+          error: typeof sponsors === "string"
+        });
+      })
+      .catch(() => {
+        this.setState({
+          error: true
+        });
+      });
+
+    axios
+      .get(`${match.url}/organizations`)
+      .then(({ data: organizations }) => {
+        this.setState({
+          organizations,
+          error: typeof organizations === "string"
+        });
+      })
+      .catch(() => {
+        this.setState({
+          error: true
+        });
+      });
   }
 
   render() {
-    const { data, error } = this.state
+    const { data, error, organizations, sponsors, documents } = this.state;
 
-    let text = 'Fetching conference info...'
-    let content = <Spinner />
+    let text = "Fetching conference info...";
+    let content = <Spinner />;
 
     if (error) {
-      return <Redirect to="/conferences/error" />
+      return <Redirect to="/conferences/error" />;
     }
 
     if (!error && data) {
@@ -58,14 +113,14 @@ export class AuthorPage extends Component {
           <span
             className="flow-text"
             style={{
-              fontStyle: 'italic',
-              marginLeft: 85,
+              fontStyle: "italic",
+              marginLeft: 85
             }}
           >
             {`${data.location}`}
           </span>
         </>
-      )
+      );
 
       content = (
         <Tabs className="tabs-fixed-width z-depth-1">
@@ -74,24 +129,23 @@ export class AuthorPage extends Component {
               <Container>
                 <Row
                   style={{
-                    display: 'flex',
-                    flexWrap: 'wrap',
+                    display: "flex",
+                    flexWrap: "wrap"
                   }}
                 >
                   <Col s={12} xl={9}>
                     <Card
                       className="rounded large flow-text"
                       header={
-                        <CardTitle image="https://images.pexels.com/photos/159213/hall-congress-architecture-building-159213.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940">
-                          Card Title
-                        </CardTitle>
+                        <CardTitle image="https://images.pexels.com/photos/159213/hall-congress-architecture-building-159213.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" />
                       }
                     >
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sed faucibus
-                      nunc, eu laoreet urna. Sed urna elit, placerat eget quam id, dignissim
-                      elementum metus. Aenean sed ullamcorper quam, in condimentum magna. Donec
-                      elementum laoreet erat et gravida. Pellentesque augue orci, volutpat eget
-                      lectus ac, pretium gravida quam.
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                      Fusce sed faucibus nunc, eu laoreet urna. Sed urna elit,
+                      placerat eget quam id, dignissim elementum metus. Aenean
+                      sed ullamcorper quam, in condimentum magna. Donec
+                      elementum laoreet erat et gravida. Pellentesque augue
+                      orci, volutpat eget lectus ac, pretium gravida quam.
                     </Card>
                   </Col>
                   <Col s={12} xl={3} className={cx(Styles.InfoCardsCol)}>
@@ -99,63 +153,82 @@ export class AuthorPage extends Component {
                       title={
                         <span className="card-title grey-text text-darken-4">
                           <Stack size={1.8}>
-                            <Icon path={mdiCheckboxBlankCircle} color="var(--green)" size={1.8} />
-                            <Icon path={mdiAlphaH} color="white" size={1.2} />
+                            <Icon
+                              path={mdiCheckboxBlankCircle}
+                              color="var(--green)"
+                              size={1.8}
+                            />
+                            <Icon
+                              path={mdiFileDocumentBoxMultipleOutline}
+                              color="white"
+                              size={1}
+                            />
                           </Stack>
                           Documents
                         </span>
                       }
-                      className={cx('rounded', Styles.InfoCard)}
+                      className={cx("rounded", Styles.InfoCard)}
                     >
-                      <span className="flow-text">0</span>
+                      <span className="flow-text">{documents.length}</span>
                     </Card>
+
                     <Card
                       title={
                         <span className="card-title grey-text text-darken-4">
                           <Stack size={1.8}>
-                            <Icon path={mdiCheckboxBlankCircle} color="var(--green)" size={1.8} />
-                            <Icon path={mdiFileDocumentBoxMultipleOutline} color="white" size={1} />
+                            <Icon
+                              path={mdiCheckboxBlankCircle}
+                              color="var(--green)"
+                              size={1.8}
+                            />
+                            <Icon
+                              path={mdiBullhornOutline}
+                              color="white"
+                              size={1.1}
+                            />
                           </Stack>
                           Sponsors
                         </span>
                       }
-                      className={cx('rounded', Styles.InfoCard)}
+                      className={cx("rounded", Styles.InfoCard)}
                     >
-                      <span className="flow-text">{data.documents_count}</span>
+                      <span className="flow-text">{sponsors.length}</span>
                     </Card>
+
                     <Card
                       title={
                         <span className="card-title grey-text text-darken-4">
                           <Stack size={1.8}>
-                            <Icon path={mdiCheckboxBlankCircle} color="var(--green)" size={1.8} />
-                            <Icon path={mdiFormatQuoteClose} color="white" size={1.2} />
+                            <Icon
+                              path={mdiCheckboxBlankCircle}
+                              color="var(--green)"
+                              size={1.8}
+                            />
+                            <Icon path={mdiDomain} color="white" size={1.2} />
                           </Stack>
                           Organizations
                         </span>
                       }
-                      className={cx('rounded', Styles.InfoCard)}
+                      className={cx("rounded", Styles.InfoCard)}
                     >
-                      <span className="flow-text">{data.documents_count + 3 * 5}</span>
+                      <span className="flow-text">{organizations.length}</span>
                     </Card>
                   </Col>
                 </Row>
               </Container>
             </Section>
           </Tab>
-          <Tab title="Editions" active>
-            Conference Editions
+          <Tab title="Documents">
+            <DocumentsTable data={documents} className={Styles.Table} />
           </Tab>
-          <Tab title="Documents" active>
-            <DocumentsTable data={data.Documents} className={Styles.Table} />
+          <Tab title="Sponsors">
+            <SponsorsTable data={sponsors} className={Styles.Table} />
           </Tab>
-          <Tab title="Sponsors" active>
-            Sponsors
-          </Tab>
-          <Tab title="Organizations" active>
-            Organizations
+          <Tab title="Organizations">
+            <OrganizationsTable data={organizations} className={Styles.Table} />
           </Tab>
         </Tabs>
-      )
+      );
     }
 
     return (
@@ -163,8 +236,8 @@ export class AuthorPage extends Component {
         <Banner text={text} />
         {content}
       </>
-    )
+    );
   }
 }
 
-export default AuthorPage
+export default ConferencesPage;

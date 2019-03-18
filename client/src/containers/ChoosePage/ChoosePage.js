@@ -1,21 +1,21 @@
-import React from 'react'
-import { Container, Row, Col } from 'react-materialize'
-import { mdiMagnify, mdiArrowRight } from '@mdi/js'
-import Banner from 'components/Banner'
-import FeatureCard from 'components/FeatureCard'
-import { Link } from 'react-router-dom'
-import Styles from './ChoosePage.module.css'
-import cx from 'class-names'
+import React from "react";
+import { Container, Row, Col } from "react-materialize";
+import { mdiMagnify, mdiArrowRight } from "@mdi/js";
+import Banner from "components/Banner";
+import FeatureCard from "components/FeatureCard";
+import { Link } from "react-router-dom";
+import Styles from "./ChoosePage.module.css";
+import cx from "class-names";
 
 const ChoosePage = ({ match: { path } }) => {
-  const collection = path.split('/')[1]
+  const collection = path.split("/")[1];
 
   return (
     <>
-      <Banner text={collection.replace('-', ' ')} />
+      <Banner text={collection.replace("-", " ")} />
 
       <Container>
-        <h2 className={cx('center', collection, Styles.ChoosePage)}>
+        <h2 className={cx("center", collection, Styles.ChoosePage)}>
           What would you like to do now?
         </h2>
 
@@ -41,7 +41,7 @@ const ChoosePage = ({ match: { path } }) => {
         </Row>
       </Container>
     </>
-  )
-}
+  );
+};
 
-export default ChoosePage
+export default ChoosePage;

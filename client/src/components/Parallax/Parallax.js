@@ -1,33 +1,33 @@
 // TODO: Remove this component if this PR is accepted: https://github.com/react-materialize/react-materialize/pull/699
-import React, { Component } from 'react'
-import cx from 'class-names'
-import PropTypes from 'prop-types'
+import React, { Component } from "react";
+import cx from "class-names";
+import PropTypes from "prop-types";
 
 class Parallax extends Component {
   componentDidMount() {
-    if (typeof M !== 'undefined') {
-      const { options } = this.props
-      this.instance = window.M.Parallax.init(this._parallax, options)
+    if (typeof M !== "undefined") {
+      const { options } = this.props;
+      this.instance = window.M.Parallax.init(this._parallax, options);
     }
   }
 
   componentWillUnmount() {
-    this.instance && this.instance.destroy()
+    this.instance && this.instance.destroy();
   }
 
   render() {
-    const { className, children, imageSrc, ...props } = this.props
+    const { className, children, imageSrc, ...props } = this.props;
 
-    delete props.options
+    delete props.options;
 
     return (
-      <div className={cx('parallax-container', className)} {...props}>
+      <div className={cx("parallax-container", className)} {...props}>
         {children}
         <div className="parallax" ref={div => (this._parallax = div)}>
           <img alt="" src={imageSrc} />
         </div>
       </div>
-    )
+    );
   }
 }
 
@@ -42,14 +42,14 @@ Parallax.propTypes = {
     /**
      * The minimum width of the screen, in pixels, where the parallax functionality starts working.
      */
-    responsiveThreshold: PropTypes.number,
-  }),
-}
+    responsiveThreshold: PropTypes.number
+  })
+};
 
 Parallax.defaultProps = {
   options: {
-    responsiveThreshold: 0,
-  },
-}
+    responsiveThreshold: 0
+  }
+};
 
-export default Parallax
+export default Parallax;

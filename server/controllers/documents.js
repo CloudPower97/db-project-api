@@ -87,6 +87,12 @@ exports.getDocument = ({ params: { id } }, res) => {
         attributes: {
           exclude: ['organization_id', 'created_at', 'updated_at'],
         },
+        include: {
+          model: Organization,
+          attributes: {
+            exclude: ['created_at', 'updated_at'],
+          },
+        },
       },
       {
         model: Number,

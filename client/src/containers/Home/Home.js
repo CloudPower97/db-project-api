@@ -1,17 +1,19 @@
-import React from 'react'
-import { Section, Container, Row, Col } from 'react-materialize'
-import Parallax from 'components/Parallax'
-import { Link } from 'react-router-dom'
-import FeatureCard from 'components/FeatureCard'
+import React from "react";
+import { Section, Container, Row, Col } from "react-materialize";
+import Parallax from "components/Parallax";
+import { Link } from "react-router-dom";
+import FeatureCard from "components/FeatureCard";
 import {
   mdiDomain,
   mdiAccountGroup,
   mdiFileDocumentBoxMultipleOutline,
   mdiBookOpenPageVariant,
   mdiCalendarMultiple,
-  mdiFeather,
-} from '@mdi/js'
-import homeImage from 'assets/img/documents.jpeg'
+  mdiFeather
+} from "@mdi/js";
+import homeImage from "assets/img/documents.jpeg";
+import cx from "class-names";
+import Styles from "./Home.module.css";
 
 const Home = () => {
   return (
@@ -19,13 +21,15 @@ const Home = () => {
       <Parallax
         imageSrc={homeImage}
         style={{
-          height: 280,
+          height: 280
         }}
       />
 
       <Section>
         <Container>
-          <h1> an online subscription-based scientific citation indexing service</h1>
+          <h1 className={cx("center grey-text text-darken-2", Styles.Title)}>
+            An online subscription-based scientific citation indexing service
+          </h1>
 
           <Row>
             <Col s={12} l={6} xl={4}>
@@ -92,7 +96,7 @@ const Home = () => {
         </Container>
       </Section>
     </>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

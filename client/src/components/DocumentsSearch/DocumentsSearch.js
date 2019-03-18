@@ -1,12 +1,12 @@
-import React, { Component } from 'react'
-import { Section, Container, Row, Input } from 'react-materialize'
+import React, { Component } from "react";
+import { Section, Container, Row, Input } from "react-materialize";
 
 class SearchDocument extends Component {
   state = {
-    title: '',
-    number_of_pages: '',
-    doi: '',
-  }
+    title: "",
+    number_of_pages: "",
+    doi: ""
+  };
 
   render() {
     return (
@@ -16,7 +16,7 @@ class SearchDocument extends Component {
             className="white"
             style={{
               padding: 12.5,
-              borderRadius: 25,
+              borderRadius: 25
             }}
           >
             <Row>
@@ -25,8 +25,8 @@ class SearchDocument extends Component {
                 label="Title"
                 onChange={({ target: { value: title } }) => {
                   this.setState({
-                    title,
-                  })
+                    title
+                  });
                 }}
               />
               <Input
@@ -35,8 +35,8 @@ class SearchDocument extends Component {
                 type="number"
                 onChange={({ target: { value: number_of_pages } }) => {
                   this.setState({
-                    number_of_pages,
-                  })
+                    number_of_pages
+                  });
                 }}
               />
             </Row>
@@ -46,7 +46,7 @@ class SearchDocument extends Component {
         <span
           className="center-block center flow-text"
           style={{
-            fontFamily: 'Raleway,sans-serif',
+            fontFamily: "Raleway,sans-serif"
           }}
         >
           OR
@@ -57,7 +57,7 @@ class SearchDocument extends Component {
             className="white"
             style={{
               padding: 12.5,
-              borderRadius: 25,
+              borderRadius: 25
             }}
           >
             <Row>
@@ -66,16 +66,16 @@ class SearchDocument extends Component {
                 label="DOI"
                 onChange={({ target: { value: doi } }) => {
                   this.setState({
-                    doi,
-                  })
+                    doi
+                  });
                 }}
               />
             </Row>
           </Container>
         </Section>
       </>
-    )
+    );
   }
 }
 
-export default SearchDocument
+export default SearchDocument;

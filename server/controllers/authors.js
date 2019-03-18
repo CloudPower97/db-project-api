@@ -41,8 +41,7 @@ exports.getHIndex = ({ params: { ORCID } }, res) => {
             Promise.all(citingDocuments)
               .then(citations => {
                 res.json({
-                  author,
-                  indiceH: hIndex(
+                  hIndex: hIndex(
                     JSON.parse(JSON.stringify(citations)).map(citazioni => citazioni.length)
                   ),
                 })
@@ -193,9 +192,27 @@ exports.getAuthor = ({ params: { ORCID } }, res) => {
         if (documents_count) {
           let author_with_documents_count = author.get({ plain: true })
 
-          author_with_documents_count.documents_count = documents_count
+          author
+            .getDocuments()
+            .then(documents => {
+              const citingDocuments = documents.map(document => document.getCitingDocuments())
 
-          res.json(author_with_documents_count)
+              Promise.all(citingDocuments)
+                .then(citations => {
+                  author_with_documents_count.documents_count = documents_count
+                  author_with_documents_count.hIndex = hIndex(
+                    JSON.parse(JSON.stringify(citations)).map(citazioni => citazioni.length)
+                  )
+
+                  res.json(author_with_documents_count)
+                })
+                .catch(({ message }) => {
+                  res.json({ message })
+                })
+            })
+            .catch(({ message }) => {
+              res.status(500).json(message)
+            })
         } else {
           res.status(500)
         }

@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
-import { Section, Container, Row, Input } from 'react-materialize'
+import React, { Component } from "react";
+import { Section, Container, Row, Input } from "react-materialize";
 
 class SearchPeriodical extends Component {
   state = {
-    title: '',
-    issn: '',
-  }
+    title: "",
+    issn: ""
+  };
 
   render() {
     return (
@@ -15,7 +15,7 @@ class SearchPeriodical extends Component {
             className="white"
             style={{
               padding: 12.5,
-              borderRadius: 25,
+              borderRadius: 25
             }}
           >
             <Row>
@@ -24,8 +24,8 @@ class SearchPeriodical extends Component {
                 label="Title"
                 onChange={({ target: { value: title } }) => {
                   this.setState({
-                    title,
-                  })
+                    title
+                  });
                 }}
               />
             </Row>
@@ -35,7 +35,7 @@ class SearchPeriodical extends Component {
         <span
           className="center-block center flow-text"
           style={{
-            fontFamily: 'Raleway,sans-serif',
+            fontFamily: "Raleway,sans-serif"
           }}
         >
           OR
@@ -46,7 +46,7 @@ class SearchPeriodical extends Component {
             className="white"
             style={{
               padding: 12.5,
-              borderRadius: 25,
+              borderRadius: 25
             }}
           >
             <Row>
@@ -55,16 +55,16 @@ class SearchPeriodical extends Component {
                 label="ISSN"
                 onChange={({ target: { value: issn } }) => {
                   this.setState({
-                    issn,
-                  })
+                    issn
+                  });
                 }}
               />
             </Row>
           </Container>
         </Section>
       </>
-    )
+    );
   }
 }
 
-export default SearchPeriodical
+export default SearchPeriodical;

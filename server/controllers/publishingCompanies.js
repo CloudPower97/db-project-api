@@ -10,9 +10,15 @@ exports.getPeriodicals = ({ params: { id } }, res) => {
       if (PublishingCompany) {
         PublishingCompany.getPeriodicals({
           attributes: {
-            exclude: ['publishing_company_id'],
+            exclude: ['created_at', 'updated_at', 'publishing_company_id'],
           },
           include: [
+            {
+              model: PublishingCompanies,
+              attributes: {
+                exclude: ['created_at', 'updated_at'],
+              },
+            },
             {
               model: Number,
               limit: 3,

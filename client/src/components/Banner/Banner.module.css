@@ -1,6 +1,10 @@
 .Banner {
   padding: 2rem 0;
 
+  @media only screen and (max-width: 765px) {
+    text-align: center;
+  }
+
   &:global(.authors) {
     background: var(--orange-gradient);
   }
@@ -26,7 +30,14 @@
   }
 
   & h1 {
-    text-transform: capitalize;
     margin: 0;
+    text-transform: capitalize;
+
+    @media only screen and (max-width: 765px) {
+      font-size: xx-large !important;
+      & svg {
+        width: 40px !important;
+      }
+    }
   }
 }
