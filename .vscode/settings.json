@@ -1,0 +1,13 @@
+{
+  "files.associations": {
+    "**/components/**/*.js": "javascriptreact",
+    "**/containers/**/*.js": "javascriptreact",
+    "./client/index.js": "javascriptreact",
+    "./client/src/App.js": "javascriptreact",
+    "**/*.css": "scss"
+  },
+  "eslint.options": {
+    "configFile": "./client/.eslintrc.js"
+  },
+  "eslint.enable": true
+}
