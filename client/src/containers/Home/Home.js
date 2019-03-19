@@ -12,8 +12,6 @@ import {
   mdiFeather,
 } from '@mdi/js'
 import homeImage from 'assets/img/documents.jpeg'
-import cx from 'class-names'
-import Styles from './Home.module.css'
 
 const Home = () => (
   <>
@@ -26,7 +24,7 @@ const Home = () => (
 
     <Section>
       <Container>
-        <h1 className={cx('center grey-text text-darken-2', Styles.Title)}>
+        <h1 className="center grey-text text-darken-2">
           An online subscription-based scientific citation indexing service
         </h1>
 

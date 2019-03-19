@@ -11,7 +11,7 @@ import { mdiBookOpenPageVariant, mdiCheckboxBlankCircle } from '@mdi/js'
 import PeriodicalsTable from 'components/PeriodicalsTable'
 import { Redirect } from 'react-router-dom'
 
-export class AuthorPage extends Component {
+class AuthorPage extends Component {
   state = {
     data: null,
     periodicals: [],

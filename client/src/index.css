@@ -25,6 +25,13 @@
   font-family: 'Raleway', sans-serif;
 }
 
+h1,
+h2 {
+  @media only screen and (max-width: 765px) {
+    font-size: xx-large !important;
+  }
+}
+
 html {
   font-size: 15px;
   letter-spacing: 0.05em;
@@ -163,4 +170,28 @@ main {
 
 .sidenav-overlay {
   z-index: 0;
+}
+
+.authors-dropdown li > a {
+  color: var(--orange);
+}
+
+.documents-dropdown li > a {
+  color: var(--purple);
+}
+
+.periodicals-dropdown li > a {
+  color: var(--red);
+}
+
+.organizations-dropdown li > a {
+  color: var(--blue);
+}
+
+.conferences-dropdown li > a {
+  color: var(--green);
+}
+
+.publishing-companies-dropdown li > a {
+  color: var(--plum);
 }

@@ -20,7 +20,16 @@ class Navbar extends Component {
   }
 
   render() {
-    const { children, brand, className, extendWith, fixed, alignLinks, centerLogo } = this.props
+    const {
+      children,
+      brand,
+      className,
+      extendWith,
+      fixed,
+      alignLinks,
+      centerLogo,
+      mobileLinks,
+    } = this.props
 
     const brandClasses = cx({
       'brand-logo': true,
@@ -32,6 +41,10 @@ class Navbar extends Component {
     const navMobileCSS = cx('hide-on-med-and-down', [alignLinks])
 
     const links = Children.map(children, (link, index) => <li key={index}>{link}</li>)
+
+    const navMobileLinks =
+      (mobileLinks && mobileLinks.map((link, index) => <li key={`mobile-${index}`}>{link}</li>)) ||
+      null
 
     let navbar = (
       <nav className={navCSS}>
@@ -76,7 +89,7 @@ class Navbar extends Component {
           ref={ul => {
             this._sidenav = ul
           }}>
-          {links}
+          {navMobileLinks || links}
         </ul>
       </>
     )

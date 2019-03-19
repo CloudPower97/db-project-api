@@ -11,7 +11,7 @@ const PeriodicalsTable = lazy(() => import('components/PeriodicalsTable'))
 const PublishingCompaniesTable = lazy(() => import('components/PublishingCompaniesTable'))
 const OrganizationsTable = lazy(() => import('components/OrganizationsTable'))
 
-export class Results extends Component {
+class Results extends Component {
   state = {
     data: null,
   }

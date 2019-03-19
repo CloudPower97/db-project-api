@@ -34,7 +34,6 @@
     text-transform: capitalize;
 
     @media only screen and (max-width: 765px) {
-      font-size: xx-large !important;
       & svg {
         width: 40px !important;
       }

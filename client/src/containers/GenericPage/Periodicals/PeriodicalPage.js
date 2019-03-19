@@ -11,7 +11,7 @@ import { mdiBarcode, mdiCheckboxBlankCircle, mdiFeather, mdiBuffer } from '@mdi/
 import NumbersTable from 'components/NumbersTable'
 import { Redirect, Link } from 'react-router-dom'
 
-export class PeriodicalPage extends Component {
+class PeriodicalPage extends Component {
   state = {
     data: null,
     numbers: [],

@@ -12,7 +12,7 @@ import AuthorsTable from 'components/AuthorsTable'
 import ConferencesTable from 'components/ConferencesTable'
 import { Redirect } from 'react-router-dom'
 
-export class AuthorPage extends Component {
+class AuthorPage extends Component {
   state = {
     data: null,
     authors: [],

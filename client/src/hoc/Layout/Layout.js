@@ -5,58 +5,159 @@ import Icon from '@mdi/react'
 import { mdiArrowUp, mdiGithubCircle, mdiReact, mdiNodejs } from '@mdi/js'
 import ScrollToTop from 'react-scroll-up'
 import { NavHashLink as Link } from 'react-router-hash-link'
-import { withNamespaces } from 'react-i18next'
 import PropTypes from 'prop-types'
 import Headroom from 'react-headroom'
 import PostgreLogo from 'assets/PostgreSQL.svg'
 import HerokuLogo from 'assets/Heroku.svg'
 import Dropdown from 'components/Dropdown'
 
-const Layout = ({ children, t }) => (
+const Layout = ({ children }) => (
   <>
     <header>
       <Headroom>
         <Navbar
           brand={<Link to="/">DB Systems Project</Link>}
           className="z-depth-3"
-          alignLinks="right">
-          {/* <Dropdown
+          alignLinks="right"
+          /* eslint-disable */
+          mobileLinks={[
+            <Link to="/authors/choose" className="sidenav-close">
+              Authors
+            </Link>,
+            <Link to="/documents/choose" className="sidenav-close">
+              Documents
+            </Link>,
+            <Link to="/periodicals/choose" className="sidenav-close">
+              Periodicals
+            </Link>,
+            <Link to="/organizations/choose" className="sidenav-close">
+              Organizations
+            </Link>,
+            <Link to="/conferences/choose" className="sidenav-close">
+              Conferences
+            </Link>,
+            <Link to="/publishing-companies/choose" className="sidenav-close">
+              Publishing Companies
+            </Link>,
+          ]}
+          /* eslint-enable */
+        >
+          <Dropdown
             trigger={
-              <Button flat className="white-text">
-                Authors
-              </Button>
+              <span>
+                <Link to="/authors">Authors</Link>
+              </span>
             }
             options={{
               alignment: 'right',
               hover: true,
-              constrainWidth: false
+              constrainWidth: false,
+              coverTrigger: false,
             }}
-          >
-            <Link className="sidenav-close" to="/authors/search">
-              Search author
+            className="authors-dropdown">
+            <Link to="/authors/search">Search author</Link>
+            <Link to="/authors">All authors</Link>
+          </Dropdown>
+          <Dropdown
+            trigger={
+              <span>
+                <Link to="/documents">Documents</Link>
+              </span>
+            }
+            options={{
+              alignment: 'right',
+              hover: true,
+              constrainWidth: false,
+              coverTrigger: false,
+            }}
+            className="documents-dropdown">
+            <Link className="sidenav-close" to="/documents/search">
+              Search documents
             </Link>
-            <Link className="sidenav-close" to="/authors">
-              All authors
+            <Link className="sidenav-close" to="/documents">
+              All documents
             </Link>
-          </Dropdown> */}
-          <Link className="sidenav-close" to="/authors/search">
-            {t('authorSearch')}
-          </Link>
-          <Link className="sidenav-close" to="/documents/search">
-            {t('documentSearch')}
-          </Link>
-          <Link className="sidenav-close" to="/periodicals/search">
-            {t('periodicalSearch')}
-          </Link>
-          <Link className="sidenav-close" to="/organizations/search">
-            {t('organizationSearch')}
-          </Link>
-          <Link className="sidenav-close" to="/conferences/search">
-            {t('conferencesSearch')}
-          </Link>
-          <Link className="sidenav-close" to="/publishing-companies/search">
-            {t('publishingCompaniesSearch')}
-          </Link>
+          </Dropdown>
+          <Dropdown
+            trigger={
+              <span>
+                <Link to="/periodicals">Periodicals</Link>
+              </span>
+            }
+            options={{
+              alignment: 'right',
+              hover: true,
+              constrainWidth: false,
+              coverTrigger: false,
+            }}
+            className="periodicals-dropdown">
+            <Link className="sidenav-close" to="/periodicals/search">
+              Search periodicals
+            </Link>
+            <Link className="sidenav-close" to="/periodicals">
+              All periodicals
+            </Link>
+          </Dropdown>
+          <Dropdown
+            trigger={
+              <span>
+                <Link to="/organizations">Organizations</Link>
+              </span>
+            }
+            options={{
+              alignment: 'right',
+              hover: true,
+              constrainWidth: false,
+              coverTrigger: false,
+            }}
+            className="organizations-dropdown">
+            <Link className="sidenav-close" to="/organizations/search">
+              Search organization
+            </Link>
+            <Link className="sidenav-close" to="/organizations">
+              All organizations
+            </Link>
+          </Dropdown>
+          <Dropdown
+            trigger={
+              <span>
+                <Link to="/conferences">Conferences</Link>
+              </span>
+            }
+            options={{
+              alignment: 'right',
+              hover: true,
+              constrainWidth: false,
+              coverTrigger: false,
+            }}
+            className="conferences-dropdown">
+            <Link className="sidenav-close" to="/conferences/search">
+              Search conference
+            </Link>
+            <Link className="sidenav-close" to="/conferences">
+              All conferences
+            </Link>
+          </Dropdown>
+          <Dropdown
+            trigger={
+              <span>
+                <Link to="/publishing-companies">Publishing Companies</Link>
+              </span>
+            }
+            options={{
+              alignment: 'right',
+              hover: true,
+              constrainWidth: false,
+              coverTrigger: false,
+            }}
+            className="publishing-companies-dropdown">
+            <Link className="sidenav-close" to="/publishing-companies/search">
+              Search publishing company
+            </Link>
+            <Link className="sidenav-close" to="/publishing-companies">
+              All publishing companies
+            </Link>
+          </Dropdown>
         </Navbar>
       </Headroom>
     </header>
@@ -120,7 +221,7 @@ const Layout = ({ children, t }) => (
                 href="https://www.heroku.com/home"
                 rel="external noopener noreferrer"
                 target="_blank">
-                <img src={HerokuLogo} width={31.5} />
+                <img src={HerokuLogo} alt="Heroku" width={25} />
                 Heroku
               </a>
             </Chip>
@@ -132,7 +233,7 @@ const Layout = ({ children, t }) => (
                 href="https://www.postgresql.org/"
                 rel="external noopener noreferrer"
                 target="_blank">
-                <img src={PostgreLogo} width={30} />
+                <img src={PostgreLogo} alt="PostgreSQL" width={28} />
                 PostgreSQL
               </a>
             </Chip>
@@ -161,7 +262,6 @@ const Layout = ({ children, t }) => (
 
 Layout.propTypes = {
   children: PropTypes.node,
-  t: PropTypes.func.isRequired,
 }
 
-export default withNamespaces(['navbar', 'footer'])(Layout)
+export default Layout

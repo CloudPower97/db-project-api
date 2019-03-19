@@ -18,7 +18,7 @@ import OrganizationsTable from 'components/OrganizationsTable'
 import SponsorsTable from 'components/SponsorsTable'
 import { Redirect } from 'react-router-dom'
 
-export class ConferencesPage extends Component {
+class ConferencesPage extends Component {
   state = {
     data: null,
     documents: [],

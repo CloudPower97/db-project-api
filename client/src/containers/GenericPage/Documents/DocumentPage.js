@@ -17,7 +17,7 @@ import DocumentsTable from 'components/DocumentsTable'
 import AuthorsTable from 'components/AuthorsTable'
 import { Redirect, Link } from 'react-router-dom'
 
-export class AuthorPage extends Component {
+class AuthorPage extends Component {
   state = {
     data: null,
     error: false,

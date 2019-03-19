@@ -7,12 +7,15 @@ import 'react-table/react-table.css'
 import App from './App'
 import { BrowserRouter } from 'react-router-dom'
 import * as serviceWorker from './serviceWorker'
+import ScrollToTop from 'components/ScrollToTop'
 
 const { PUBLIC_URL } = process.env
 
 const app = (
   <BrowserRouter basename={PUBLIC_URL}>
-    <App />
+    <ScrollToTop>
+      <App />
+    </ScrollToTop>
   </BrowserRouter>
 )
 

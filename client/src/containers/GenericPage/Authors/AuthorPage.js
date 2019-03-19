@@ -9,7 +9,6 @@ import Styles from './AuthorPage.module.css'
 import cx from 'class-names'
 import Icon, { Stack } from '@mdi/react'
 import {
-  mdiFormatQuoteClose,
   mdiFileDocumentBoxMultipleOutline,
   mdiCheckboxBlankCircle,
   mdiAlphaH,
@@ -17,8 +16,9 @@ import {
 } from '@mdi/js'
 import DocumentsTable from 'components/DocumentsTable'
 import { Redirect, Link } from 'react-router-dom'
+import { Helmet } from 'react-helmet'
 
-export class AuthorPage extends Component {
+class AuthorPage extends Component {
   state = {
     data: null,
     error: false,
@@ -170,6 +170,18 @@ export class AuthorPage extends Component {
 
     return (
       <>
+        <Helmet>
+          <title>Educabile - Azienda</title>
+          <meta
+            name="description"
+            content="Educabile Srl si propone referente affidabile nel gestire scenari complessi ad alto contenuto tecnologico"
+          />
+          <meta
+            name="keyword"
+            content="educabile, referente, affidabile, tecnologico, tecnologia"
+          />
+          <meta name="theme-color" content="#f98012" />
+        </Helmet>
         <Banner text={text} />
         {content}
       </>

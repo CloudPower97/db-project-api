@@ -1,5 +1,4 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import ReactTable from 'react-table'
 import Spinner from 'components/Spinner'
 import cx from 'class-names'
