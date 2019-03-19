@@ -1,0 +1,7 @@
+.SpinnerContainer {
+  align-items: center;
+  display: flex;
+  /* navbar height + parallax height + footer height*/
+  height: calc(100vh - 553px);
+  justify-content: center;
+}

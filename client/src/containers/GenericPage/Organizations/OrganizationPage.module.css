@@ -1,0 +1,21 @@
+.AuthorPicture {
+  margin: 25px 25px 0;
+}
+
+.InfoCard {
+  height: 150px;
+
+  & :global(.card-title) {
+    margin-bottom: 20px !important;
+  }
+}
+
+.InfoCardsCol {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.Table {
+  margin: 0 -0.75rem;
+}

@@ -1,0 +1,27 @@
+@value blue: #006E90;
+@value orange: #f98012;
+@value green: #76B041;
+@value gray: #363537;
+@value black: #2E282A;
+@value purple: #D90368;
+@value red: #A31621;
+@value plum: #88498F;
+
+:root {
+  --blue: blue;
+  --blue-gradient: linear-gradient(to right, blue, ease-out, color(blue tint(20%)));
+  --orange: orange;
+  --orange-gradient: linear-gradient(to right, orange, 75%, color(orange tint(20%)));
+  --purple: purple;
+  --purple-gradient: linear-gradient(to right, purple, ease-out, color(purple tint(20%)));
+  --green: green;
+  --green-gradient: linear-gradient(to right, green, ease-out, color(green tint(20%)));
+  --gray: gray;
+  --gray-gradient: linear-gradient(to right, gray, ease-out, color(gray tint(20%)));
+  --black: black;
+  --black-gradient: linear-gradient(to right, black, ease-out, color(black tint(20%)));
+  --red: red;
+  --red-gradient: linear-gradient(to right, red, ease-out, color(red tint(20%)));
+  --plum: plum;
+  --plum-gradient: linear-gradient(to right, plum, ease-out, color(plum tint(20%)));
+}

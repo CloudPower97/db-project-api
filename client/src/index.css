@@ -1,0 +1,197 @@
+@value colors: './style/colors.css';
+@value blue, orange, green from colors;
+
+::selection {
+  background-color: var(--orange);
+  color: #eaeaea;
+}
+
+::-webkit-scrollbar {
+  height: 5px;
+  width: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: #eaeaea;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--orange);
+  border-radius: 6px;
+}
+
+:--heading {
+  color: var(--orange);
+  font-family: 'Raleway', sans-serif;
+}
+
+h1,
+h2 {
+  @media only screen and (max-width: 765px) {
+    font-size: xx-large !important;
+  }
+}
+
+html {
+  font-size: 15px;
+  letter-spacing: 0.05em;
+  text-rendering: optimizeLegibility;
+}
+
+.blue-gradient {
+  background-image: var(--blue-gradient);
+}
+
+.orange-gradient {
+  background: var(--orange-gradient);
+}
+
+.green-gradient {
+  background: var(--green-gradient);
+}
+
+.purple-gradient {
+  background: var(--purple-gradient);
+}
+
+.plum-gradient {
+  background: var(--plum-gradient);
+}
+
+.red-gradient {
+  background: var(--red-gradient);
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+@media screen and (prefers-reduced-motion: reduce) {
+  .move-icon-forward svg {
+    fill: white;
+    transform: translateX(35%);
+    transition: none;
+  }
+}
+
+.move-icon-forward svg {
+  fill: white;
+  transform: translateX(35%);
+  transition: transform 0.5s ease-out;
+}
+
+.move-icon-forward:hover svg,
+.move-icon-forward:focus svg {
+  transform: translateX(75%);
+}
+
+.card.large {
+  height: 550px;
+}
+
+.rounded {
+  border-radius: 30px;
+}
+
+.rounded .card-image {
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+}
+
+.rounded .card-action {
+  border-bottom-left-radius: 25px !important;
+  border-bottom-right-radius: 25px !important;
+}
+
+.hiddendiv {
+  width: 100% !important;
+}
+
+.search-page {
+  min-height: calc(100vh - 315px);
+}
+
+#footer-links {
+  & li {
+    margin-bottom: 5px;
+
+    & a {
+      align-items: center;
+      color: white;
+      display: flex;
+
+      & svg,
+      & img {
+        margin-right: 20px;
+      }
+    }
+  }
+}
+
+.footer-copyright {
+  @media only screen and (max-width: 600px) {
+    & > .container {
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  & > .container {
+    & a {
+      align-items: center;
+      display: flex;
+
+      & svg {
+        margin-right: 10px;
+      }
+    }
+  }
+}
+
+.brand-logo {
+  @media only screen and (max-width: 600px) {
+    font-size: x-large !important;
+  }
+
+  font-family: Raleway, sans-serif;
+  white-space: nowrap;
+}
+
+#mobile-nav {
+  height: calc(100vh + 60%);
+}
+
+.sidenav-overlay {
+  z-index: 0;
+}
+
+.authors-dropdown li > a {
+  color: var(--orange);
+}
+
+.documents-dropdown li > a {
+  color: var(--purple);
+}
+
+.periodicals-dropdown li > a {
+  color: var(--red);
+}
+
+.organizations-dropdown li > a {
+  color: var(--blue);
+}
+
+.conferences-dropdown li > a {
+  color: var(--green);
+}
+
+.publishing-companies-dropdown li > a {
+  color: var(--plum);
+}

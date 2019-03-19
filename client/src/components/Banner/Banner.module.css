@@ -1,0 +1,42 @@
+.Banner {
+  padding: 2rem 0;
+
+  @media only screen and (max-width: 765px) {
+    text-align: center;
+  }
+
+  &:global(.authors) {
+    background: var(--orange-gradient);
+  }
+
+  &:global(.documents) {
+    background: var(--purple-gradient);
+  }
+
+  &:global(.periodicals) {
+    background: var(--red-gradient);
+  }
+
+  &:global(.organizations) {
+    background: var(--blue-gradient);
+  }
+
+  &:global(.conferences) {
+    background: var(--green-gradient);
+  }
+
+  &:global(.publishing-companies) {
+    background: var(--plum-gradient);
+  }
+
+  & h1 {
+    margin: 0;
+    text-transform: capitalize;
+
+    @media only screen and (max-width: 765px) {
+      & svg {
+        width: 40px !important;
+      }
+    }
+  }
+}
