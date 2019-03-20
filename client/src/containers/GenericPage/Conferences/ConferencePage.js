@@ -31,7 +31,7 @@ class ConferencesPage extends Component {
     const { match } = this.props
 
     axios
-      .get(`${match.url}`)
+      .get(`/api${match.url}`)
       .then(({ data }) => {
         this.setState({
           data,
@@ -45,7 +45,7 @@ class ConferencesPage extends Component {
       })
 
     axios
-      .get(`${match.url}/documents`)
+      .get(`/api${match.url}/documents`)
       .then(({ data: documents }) => {
         this.setState({
           documents,
@@ -59,7 +59,7 @@ class ConferencesPage extends Component {
       })
 
     axios
-      .get(`${match.url}/sponsors`)
+      .get(`/api${match.url}/sponsors`)
       .then(({ data: sponsors }) => {
         this.setState({
           sponsors,
@@ -73,7 +73,7 @@ class ConferencesPage extends Component {
       })
 
     axios
-      .get(`${match.url}/organizations`)
+      .get(`/api${match.url}/organizations`)
       .then(({ data: organizations }) => {
         this.setState({
           organizations,

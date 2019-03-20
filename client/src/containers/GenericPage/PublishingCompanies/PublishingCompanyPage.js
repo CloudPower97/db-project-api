@@ -22,7 +22,7 @@ class AuthorPage extends Component {
     const { match } = this.props
 
     axios
-      .get(`${match.url}`)
+      .get(`/api${match.url}`)
       .then(({ data }) => {
         this.setState({
           data,
@@ -36,7 +36,7 @@ class AuthorPage extends Component {
       })
 
     axios
-      .get(`${match.url}/periodicals`)
+      .get(`/api${match.url}/periodicals`)
       .then(({ data: periodicals }) => {
         this.setState({
           periodicals,

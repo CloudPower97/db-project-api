@@ -27,7 +27,7 @@ class AuthorPage extends Component {
     const { match } = this.props
 
     axios
-      .get(`${match.url}`)
+      .get(`/api${match.url}`)
       .then(({ data }) => {
         this.setState({
           data,
