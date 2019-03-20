@@ -1,26 +1,6 @@
 {
-  "name": "react-advanced-boilerplate",
+  "name": "client",
   "version": "0.2.0",
-  "description": "An advanced React boilerplate with PostCSS, Eslint, StyleLint, a release manager, prettier, Storybook and internazionalization out of the box",
-  "homepage": "https://github.com/CloudPower97/react-advanced-boilerplate",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/CloudPower97/react-advanced-boilerplate.git"
-  },
-  "keywords": [
-    "react",
-    "boilerplate",
-    "scaffolding",
-    "i18n"
-  ],
-  "author": {
-    "name": "Claudio Cortese",
-    "url": "https://github.com/CloudPower97"
-  },
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/CloudPower97/react-advanced-boilerplate/issues"
-  },
   "dependencies": {
     "@cloudpower97/react-progressive-picture": "^1.1.0",
     "@mdi/js": "^3.5.95",
