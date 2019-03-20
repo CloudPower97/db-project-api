@@ -1,8 +1,8 @@
-import React, { Component, lazy, Suspense } from 'react'
-import axios from 'axios'
+import React, { lazy, Suspense } from 'react'
 import Spinner from 'components/Spinner'
 import Banner from 'components/Banner'
-import { withRouter, Redirect } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
+import withData from 'hoc/withData'
 
 const AuthorsTable = lazy(() => import('components/AuthorsTable'))
 const ConferencesTable = lazy(() => import('components/ConferencesTable'))
@@ -11,63 +11,35 @@ const PeriodicalsTable = lazy(() => import('components/PeriodicalsTable'))
 const PublishingCompaniesTable = lazy(() => import('components/PublishingCompaniesTable'))
 const OrganizationsTable = lazy(() => import('components/OrganizationsTable'))
 
-class Results extends Component {
-  state = {
-    data: null,
-    error: false,
+const Results = props => {
+  const { data } = props
+  const {
+    location: { pathname, search },
+  } = props
+
+  const collection = pathname.split('/').pop()
+
+  let text = `All ${collection}`
+
+  const tables = {
+    authors: <AuthorsTable data={data} />,
+    conferences: <ConferencesTable data={data} />,
+    documents: <DocumentsTable data={data} />,
+    organizations: <OrganizationsTable data={data} />,
+    periodicals: <PeriodicalsTable data={data} />,
+    'publishing-companies': <PublishingCompaniesTable data={data} />,
   }
 
-  componentDidMount() {
-    const { match } = this.props
-
-    axios
-      .get(`/api${match.url}`)
-      .then(({ data }) => {
-        this.setState({
-          data,
-          error: typeof data === 'string',
-        })
-      })
-      .catch(() => {
-        this.setState({
-          error: true,
-        })
-      })
+  if (search) {
+    text = (data && `${data.length} ${collection} found`) || `Searching ${collection}...`
   }
 
-  render() {
-    const { data, error } = this.state
-    const {
-      location: { pathname, search },
-    } = this.props
-
-    const collection = pathname.split('/').pop()
-    let text = `All ${collection}`
-
-    const tables = {
-      authors: <AuthorsTable data={data} />,
-      conferences: <ConferencesTable data={data} />,
-      documents: <DocumentsTable data={data} />,
-      organizations: <OrganizationsTable data={data} />,
-      periodicals: <PeriodicalsTable data={data} />,
-      'publishing-companies': <PublishingCompaniesTable data={data} />,
-    }
-
-    if (search) {
-      text = (data && `${data.length} ${collection} found`) || `Searching ${collection}...`
-    }
-
-    if (error) {
-      return <Redirect to={`/${collection}/error`} />
-    }
-
-    return (
-      <>
-        <Banner text={text} />
-        <Suspense fallback={<Spinner />}>{tables[collection]}</Suspense>
-      </>
-    )
-  }
+  return (
+    <>
+      <Banner text={text} />
+      <Suspense fallback={<Spinner />}>{tables[collection]}</Suspense>
+    </>
+  )
 }
 
-export default withRouter(Results)
+export default withData(withRouter(Results))

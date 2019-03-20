@@ -10,6 +10,10 @@
   }
 }
 
+.OrganizationCard {
+  height: 200px;
+}
+
 .InfoCardsCol {
   display: flex;
   flex-direction: column;
