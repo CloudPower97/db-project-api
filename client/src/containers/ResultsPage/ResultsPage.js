@@ -2,7 +2,7 @@ import React, { Component, lazy, Suspense } from 'react'
 import axios from 'axios'
 import Spinner from 'components/Spinner'
 import Banner from 'components/Banner'
-import { withRouter } from 'react-router-dom'
+import { withRouter, Redirect } from 'react-router-dom'
 
 const AuthorsTable = lazy(() => import('components/AuthorsTable'))
 const ConferencesTable = lazy(() => import('components/ConferencesTable'))
@@ -14,25 +14,29 @@ const OrganizationsTable = lazy(() => import('components/OrganizationsTable'))
 class Results extends Component {
   state = {
     data: null,
+    error: false,
   }
 
   componentDidMount() {
     const { match } = this.props
 
     axios
-      .get(`${match.path}`)
+      .get(`/api${match.url}`)
       .then(({ data }) => {
         this.setState({
           data,
+          error: typeof data === 'string',
         })
       })
-      .catch(err => {
-        console.log(err)
+      .catch(() => {
+        this.setState({
+          error: true,
+        })
       })
   }
 
   render() {
-    const { data } = this.state
+    const { data, error } = this.state
     const {
       location: { pathname, search },
     } = this.props
@@ -51,6 +55,10 @@ class Results extends Component {
 
     if (search) {
       text = (data && `${data.length} ${collection} found`) || `Searching ${collection}...`
+    }
+
+    if (error) {
+      return <Redirect to={`/${collection}/error`} />
     }
 
     return (

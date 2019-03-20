@@ -139,7 +139,7 @@
     "stylelint-order": "^2.0.0",
     "stylelint-selector-no-empty": "^1.0.7"
   },
-  "proxy": "http://localhost:5000/api",
+  "proxy": "http://localhost:5000",
   "browserslist": [
     ">0.2%",
     "not dead",

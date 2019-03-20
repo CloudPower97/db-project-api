@@ -22,7 +22,7 @@ class PeriodicalPage extends Component {
     const { match } = this.props
 
     axios
-      .get(`${match.url}`)
+      .get(`/api${match.url}`)
       .then(({ data }) => {
         this.setState({
           data,
@@ -36,7 +36,7 @@ class PeriodicalPage extends Component {
       })
 
     axios
-      .get(`${match.url}/numbers`)
+      .get(`/api${match.url}/numbers`)
       .then(({ data: numbers }) => {
         this.setState({
           numbers,
