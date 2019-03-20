@@ -215,18 +215,6 @@ const Layout = ({ children }) => (
             </Chip>
           </li>
           <li>
-            <Chip className="purple hoverable">
-              <a
-                className="grey-text text-lighten-3"
-                href="https://www.heroku.com/home"
-                rel="external noopener noreferrer"
-                target="_blank">
-                <img src={HerokuLogo} alt="Heroku" width={25} />
-                Heroku
-              </a>
-            </Chip>
-          </li>
-          <li>
             <Chip className="blue darken-3 hoverable">
               <a
                 className="grey-text text-lighten-3"
@@ -235,6 +223,18 @@ const Layout = ({ children }) => (
                 target="_blank">
                 <img src={PostgreLogo} alt="PostgreSQL" width={28} />
                 PostgreSQL
+              </a>
+            </Chip>
+          </li>
+          <li>
+            <Chip className="purple hoverable">
+              <a
+                className="grey-text text-lighten-3"
+                href="https://www.heroku.com/home"
+                rel="external noopener noreferrer"
+                target="_blank">
+                <img src={HerokuLogo} alt="Heroku" width={25} />
+                Heroku
               </a>
             </Chip>
           </li>

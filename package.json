@@ -8,7 +8,10 @@
     "node": "10.x"
   },
   "dependencies": {
-    "concurrently": "^4.1.0"
+    "concurrently": "^4.1.0",
+    "pluralize": "^7.0.0",
+    "to-camel-case": "^1.0.0",
+    "to-capital-case": "^1.0.0"
   },
   "scripts": {
     "install": "(cd client && yarn) && (cd server && yarn)",
