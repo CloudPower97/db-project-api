@@ -17,6 +17,7 @@ import DocumentsTable from 'components/DocumentsTable'
 import OrganizationsTable from 'components/OrganizationsTable'
 import SponsorsTable from 'components/SponsorsTable'
 import withData from 'hoc/withData'
+import conferenceImage from 'assets/img/conference.jpg'
 
 const ConferencePage = ({ data }) => {
   let text = 'Fetching conference info...'
@@ -52,9 +53,7 @@ const ConferencePage = ({ data }) => {
                 <Col s={12} xl={9}>
                   <Card
                     className="rounded large flow-text"
-                    header={
-                      <CardTitle image="https://images.pexels.com/photos/159213/hall-congress-architecture-building-159213.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" />
-                    }>
+                    header={<CardTitle image={conferenceImage} />}>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sed faucibus
                     nunc, eu laoreet urna. Sed urna elit, placerat eget quam id, dignissim elementum
                     metus. Aenean sed ullamcorper quam, in condimentum magna. Donec elementum
