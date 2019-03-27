@@ -11,6 +11,7 @@ import AuthorsTable from 'components/AuthorsTable'
 import ConferencesTable from 'components/ConferencesTable'
 import withData from 'hoc/withData'
 import Helmet from 'react-helmet'
+import organizationImage from 'assets/img/organization.jpg'
 
 const OrganizationPage = ({ data }) => {
   let text = 'Fetching organization info...'
@@ -33,9 +34,7 @@ const OrganizationPage = ({ data }) => {
                 <Col s={12} xl={9}>
                   <Card
                     className="rounded large flow-text"
-                    header={
-                      <CardTitle image="https://images.pexels.com/photos/269077/pexels-photo-269077.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" />
-                    }>
+                    header={<CardTitle image={organizationImage} />}>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sed faucibus
                     nunc, eu laoreet urna. Sed urna elit, placerat eget quam id, dignissim elementum
                     metus. Aenean sed ullamcorper quam, in condimentum magna. Donec elementum

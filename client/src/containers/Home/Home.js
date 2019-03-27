@@ -11,7 +11,7 @@ import {
   mdiCalendarMultiple,
   mdiFeather,
 } from '@mdi/js'
-import homeImage from 'assets/img/documents.jpeg'
+import homeImage from 'assets/img/home.jpg'
 
 const Home = () => (
   <>
