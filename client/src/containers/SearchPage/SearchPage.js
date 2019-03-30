@@ -1,15 +1,10 @@
 import React, { lazy, Suspense } from 'react'
-import { Section } from 'react-materialize'
 import Banner from 'components/Banner'
-import Button from 'components/Button'
-import { mdiMagnify } from '@mdi/js'
-import Icon from '@mdi/react'
-import { Link, withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import cx from 'class-names'
-import Styles from './SearchPage.module.css'
-import qs from 'querystring'
 import Spinner from 'components/Spinner'
 import Helmet from 'react-helmet'
+import Styles from './SearchPage.module.css'
 
 const AuthorsSearch = lazy(() => import('components/AuthorsSearch'))
 const ConferencesSearch = lazy(() => import('components/ConferencesSearch'))
@@ -18,16 +13,16 @@ const OrganizationsSearch = lazy(() => import('components/OrganizationsSearch'))
 const PeriodicalsSearch = lazy(() => import('components/PeriodicalsSearch'))
 const PublishingCompaniesSearch = lazy(() => import('components/PublishingCompaniesSearch'))
 
-const SearchPage = ({ match: { path }, search }) => {
+const SearchPage = ({ match: { path } }) => {
   const collection = path.split('/')[1]
 
   const pages = {
-    authors: <AuthorsSearch />,
-    conferences: <ConferencesSearch />,
-    documents: <DocumentsSearch />,
-    organizations: <OrganizationsSearch />,
-    periodicals: <PeriodicalsSearch />,
-    'publishing-companies': <PublishingCompaniesSearch />,
+    authors: <AuthorsSearch className={Styles.SearchWrapper} />,
+    conferences: <ConferencesSearch className={Styles.SearchWrapper} />,
+    documents: <DocumentsSearch className={Styles.SearchWrapper} />,
+    organizations: <OrganizationsSearch className={Styles.SearchWrapper} />,
+    periodicals: <PeriodicalsSearch className={Styles.SearchWrapper} />,
+    'publishing-companies': <PublishingCompaniesSearch className={Styles.SearchWrapper} />,
   }
 
   return (
@@ -38,22 +33,7 @@ const SearchPage = ({ match: { path }, search }) => {
       <div className={cx('grey lighten-4 search-page', collection)}>
         <Banner text={`Search for ${collection.replace('-', ' ')}`} />
 
-        <Suspense fallback={<Spinner />}>
-          <>
-            {pages[collection]}
-            <Section className="center">
-              <Link
-                to={{
-                  pathname: `/${collection}`,
-                  search: qs.stringify(search),
-                }}>
-                <Button large className={cx(Styles.SearchButton, collection)}>
-                  <Icon size={1.25} path={mdiMagnify} color="white" /> Search
-                </Button>
-              </Link>
-            </Section>
-          </>
-        </Suspense>
+        <Suspense fallback={<Spinner />}>{pages[collection]}</Suspense>
       </div>
     </>
   )

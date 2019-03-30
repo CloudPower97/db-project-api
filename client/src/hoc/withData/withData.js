@@ -11,10 +11,10 @@ const withData = (WrappedComponent, additionalResources) =>
       error: false,
     }
 
-    getData = ([, collection, id]) => {
+    getData = ([, collection, id], search = '') => {
       const getCollection = () => {
         axios
-          .get(`/api/${collection}/`)
+          .get(`/api/${collection}${search}`)
           .then(({ data }) => {
             this.setState({
               data,
@@ -70,9 +70,12 @@ const withData = (WrappedComponent, additionalResources) =>
     }
 
     componentDidMount() {
-      const { match } = this.props
+      const {
+        match,
+        location: { search },
+      } = this.props
 
-      this.getData(match.url.split('/'))
+      this.getData(match.url.split('/'), search)
     }
 
     render() {

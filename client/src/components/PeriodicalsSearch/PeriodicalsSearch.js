@@ -1,15 +1,15 @@
 import React, { Component } from 'react'
 import { Section, Container, Row, Input } from 'react-materialize'
+import SearchButton from 'components/SearchButton'
 
 class SearchPeriodical extends Component {
-  state = {
-    title: '',
-    issn: '',
-  }
+  state = {}
 
   render() {
+    const { className } = this.props
+
     return (
-      <>
+      <div className={className}>
         <Section>
           <Container
             className="white"
@@ -50,16 +50,29 @@ class SearchPeriodical extends Component {
               <Input
                 s={12}
                 label="ISSN"
-                onChange={({ target: { value: issn } }) => {
+                onChange={({ target: { value: ISSN } }) => {
                   this.setState({
-                    issn,
+                    ISSN,
                   })
                 }}
               />
             </Row>
           </Container>
         </Section>
-      </>
+
+        <Section className="center">
+          <SearchButton
+            search={
+              Object.keys(this.state).length
+                ? `?filter=${Object.entries(this.state)
+                    .filter(([, value]) => value.length)
+                    .map(([field, value]) => encodeURIComponent(`${field} iLike %${value}%`))
+                    .join(',')}`
+                : ''
+            }
+          />
+        </Section>
+      </div>
     )
   }
 }

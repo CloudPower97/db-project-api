@@ -1,4 +1,5 @@
 const sequelize = require('../models').sequelize
+const sqs = require('sequelize-querystring')
 
 const Conference = sequelize.import('../models/conference.js')
 const Document = sequelize.import('../models/document.js')
@@ -185,8 +186,10 @@ exports.getDocuments = ({ params: { id } }, res) => {
     })
 }
 
-exports.getConferences = (req, res) => {
+exports.getConferences = ({ query: { filter, sort } }, res) => {
   Conference.findAll({
+    where: filter ? sqs.find(filter) : {},
+    order: sort ? sqs.sort(sort) : [],
     attributes: {
       exclude: ['created_at', 'updated_at'],
     },

@@ -1,25 +1,7 @@
-.SearchButton {
-  &:global(.authors) {
-    background: var(--orange-gradient);
-  }
-
-  &:global(.documents) {
-    background: var(--purple-gradient);
-  }
-
-  &:global(.periodicals) {
-    background: var(--red-gradient);
-  }
-
-  &:global(.organizations) {
-    background: var(--blue-gradient);
-  }
-
-  &:global(.conferences) {
-    background: var(--green-gradient);
-  }
-
-  &:global(.publishing-companies) {
-    background: var(--plum-gradient);
-  }
+.SearchWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: calc(100vh - 64px - 392px);
+  padding: 25px 0;
 }

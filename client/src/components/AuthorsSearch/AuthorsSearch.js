@@ -1,17 +1,15 @@
 import React, { Component } from 'react'
 import { Section, Container, Row, Input } from 'react-materialize'
+import SearchButton from 'components/SearchButton'
 
 class SearchAuthor extends Component {
-  state = {
-    name: '',
-    surname: '',
-    organization: '',
-    orcid: '',
-  }
+  state = {}
 
   render() {
+    const { className } = this.props
+
     return (
-      <>
+      <div className={className}>
         <Section>
           <Container
             className="white"
@@ -25,7 +23,7 @@ class SearchAuthor extends Component {
                 label="First Name"
                 onChange={({ target: { value: name } }) => {
                   this.setState({
-                    name: `%${name}%`,
+                    name,
                   })
                 }}
               />
@@ -70,16 +68,29 @@ class SearchAuthor extends Component {
               <Input
                 s={12}
                 label="ORCID"
-                onChange={({ target: { value: orcid } }) => {
+                onChange={({ target: { value: ORCID } }) => {
                   this.setState({
-                    orcid,
+                    ORCID,
                   })
                 }}
               />
             </Row>
           </Container>
         </Section>
-      </>
+
+        <Section className="center">
+          <SearchButton
+            search={
+              Object.keys(this.state).length
+                ? `?filter=${Object.entries(this.state)
+                    .filter(([value]) => value.length)
+                    .map(([field, value]) => encodeURIComponent(`${field} iLike %${value}%`))
+                    .join(',')}`
+                : ''
+            }
+          />
+        </Section>
+      </div>
     )
   }
 }

@@ -256,10 +256,10 @@ exports.updateAuthor = ({ body, params: { ORCID } }, res) => {
     })
 }
 
-exports.getAuthors = (req, res) => {
+exports.getAuthors = ({ query: { filter, sort } }, res) => {
   Author.findAll({
-    where: req.query.filter ? sqs.find(req.query.filter) : {},
-    order: req.query.sort ? sqs.sort(req.query.sort) : [],
+    where: filter ? sqs.find(filter) : {},
+    order: sort ? sqs.sort(sort) : [],
     attributes: {
       exclude: ['organization_id', 'created_at', 'updated_at'],
     },
