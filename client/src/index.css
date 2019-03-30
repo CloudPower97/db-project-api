@@ -195,3 +195,7 @@ main {
 .publishing-companies-dropdown li > a {
   color: var(--plum);
 }
+
+.headroom.headroom--unfixed {
+  transform: none !important;
+}
