@@ -72,23 +72,22 @@ main {
   flex: 1 0 auto;
 }
 
-@media screen and (prefers-reduced-motion: reduce) {
-  .move-icon-forward svg {
+.move-icon-forward {
+  align-items: center;
+  display: inline-flex;
+
+  & svg {
     fill: white;
     transform: translateX(35%);
-    transition: none;
+    transition: transform 0.5s ease-out;
   }
-}
 
-.move-icon-forward svg {
-  fill: white;
-  transform: translateX(35%);
-  transition: transform 0.5s ease-out;
-}
-
-.move-icon-forward:hover svg,
-.move-icon-forward:focus svg {
-  transform: translateX(75%);
+  &:hover,
+  &:focus {
+    & svg {
+      transform: translateX(75%);
+    }
+  }
 }
 
 .card.large {
