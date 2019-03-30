@@ -1,15 +1,15 @@
 import React, { Component } from 'react'
 import { Section, Container, Row, Input } from 'react-materialize'
+import SearchButton from 'components/SearchButton'
 
 class SearchPublishingCompany extends Component {
-  state = {
-    title: '',
-    issn: '',
-  }
+  state = {}
 
   render() {
+    const { className } = this.props
+
     return (
-      <>
+      <div className={className}>
         <Section>
           <Container
             className="white"
@@ -21,16 +21,29 @@ class SearchPublishingCompany extends Component {
               <Input
                 s={12}
                 label="Title"
-                onChange={({ target: { value: title } }) => {
+                onChange={({ target: { value: name } }) => {
                   this.setState({
-                    title,
+                    name,
                   })
                 }}
               />
             </Row>
           </Container>
         </Section>
-      </>
+
+        <Section className="center">
+          <SearchButton
+            search={
+              Object.keys(this.state).length
+                ? `?filter=${Object.entries(this.state)
+                  .filter(([, value]) => value.length)
+                  .map(([field, value]) => encodeURIComponent(`${field} iLike %${value}%`))
+                  .join(',')}`
+                : ''
+            }
+          />
+        </Section>
+      </div>
     )
   }
 }

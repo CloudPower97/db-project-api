@@ -1,4 +1,5 @@
 const sequelize = require('../models').sequelize
+const sqs = require('sequelize-querystring')
 
 const Organization = sequelize.import('../models/organization.js')
 const Author = sequelize.import('../models/author.js')
@@ -135,8 +136,10 @@ exports.updateOrganization = ({ body, params: { id } }, res) => {
     })
 }
 
-exports.getOrganizations = (req, res) => {
+exports.getOrganizations = ({ query: { filter, sort } }, res) => {
   Organization.findAll({
+    where: filter ? sqs.find(filter) : {},
+    order: sort ? sqs.sort(sort) : [],
     attributes: {
       exclude: ['created_at', 'updated_at'],
     },

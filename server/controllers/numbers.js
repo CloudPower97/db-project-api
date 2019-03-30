@@ -1,4 +1,5 @@
 const sequelize = require('../models').sequelize
+const sqs = require('sequelize-querystring')
 
 const Number = sequelize.import('../models/number.js')
 const Document = sequelize.import('../models/document.js')
@@ -167,8 +168,10 @@ exports.updateNumber = ({ body, params: { id } }, res) => {
     })
 }
 
-exports.getNumbers = (req, res) => {
+exports.getNumbers = ({ query: { filter, sort } }, res) => {
   Number.findAll({
+    where: filter ? sqs.find(filter) : {},
+    order: sort ? sqs.sort(sort) : [],
     attributes: {
       exclude: ['periodical_id', 'created_at', 'updated_at'],
     },

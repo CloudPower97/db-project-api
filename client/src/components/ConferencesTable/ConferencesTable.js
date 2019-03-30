@@ -9,10 +9,12 @@ const ConferencesTable = ({ data, className }) => {
     {
       Header: 'Conference',
       accessor: 'name',
-      Cell: props => {
-        console.log(props)
-        return <Link to={`/conferences/${props.original.id}`}>{props.value}</Link>
-      },
+      // eslint-disable-next-line react/display-name
+      Cell: props => <Link to={`/conferences/${props.original.id}`}>{props.value}</Link>,
+    },
+    {
+      Header: 'Location',
+      accessor: 'location',
     },
     {
       Header: 'Date',

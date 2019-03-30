@@ -1,0 +1,25 @@
+.SearchButton {
+  &:global(.authors) {
+    background: var(--orange-gradient);
+  }
+
+  &:global(.documents) {
+    background: var(--purple-gradient);
+  }
+
+  &:global(.periodicals) {
+    background: var(--red-gradient);
+  }
+
+  &:global(.organizations) {
+    background: var(--blue-gradient);
+  }
+
+  &:global(.conferences) {
+    background: var(--green-gradient);
+  }
+
+  &:global(.publishing-companies) {
+    background: var(--plum-gradient);
+  }
+}

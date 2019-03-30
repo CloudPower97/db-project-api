@@ -1,4 +1,5 @@
 const sequelize = require('../models').sequelize
+const sqs = require('sequelize-querystring')
 
 const Document = sequelize.import('../models/document.js')
 const Author = sequelize.import('../models/author.js')
@@ -234,8 +235,10 @@ exports.updateDocument = ({ body, params: { id } }, res) => {
     })
 }
 
-exports.getDocuments = (req, res) => {
+exports.getDocuments = ({ query: { filter, sort } }, res) => {
   Document.findAll({
+    where: filter ? sqs.find(filter) : {},
+    order: sort ? sqs.sort(sort) : [],
     attributes: {
       exclude: ['number_id', 'conference_id', 'created_at', 'updated_at'],
     },

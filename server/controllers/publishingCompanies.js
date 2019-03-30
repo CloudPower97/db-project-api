@@ -1,4 +1,5 @@
 const sequelize = require('../models').sequelize
+const sqs = require('sequelize-querystring')
 
 const PublishingCompanies = sequelize.import('../models/publishingCompany.js')
 const Periodical = sequelize.import('../models/periodical.js')
@@ -107,8 +108,10 @@ exports.updatePublishingCompany = ({ body, params: { id } }, res) => {
     })
 }
 
-exports.getPublishingCompanies = (req, res) => {
+exports.getPublishingCompanies = ({ query: { filter, sort } }, res) => {
   PublishingCompanies.findAll({
+    where: filter ? sqs.find(filter) : {},
+    order: sort ? sqs.sort(sort) : [],
     attributes: {
       exclude: ['created_at', 'updated_at'],
     },
