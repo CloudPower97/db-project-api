@@ -1,5 +1,5 @@
 import React from 'react'
-import { Section, Container, Row, Col } from 'react-materialize'
+import { Section, Container, Row, Col, Divider, Button } from 'react-materialize'
 import Parallax from 'components/Parallax'
 import { Link } from 'react-router-dom'
 import FeatureCard from 'components/FeatureCard'
@@ -10,7 +10,9 @@ import {
   mdiBookOpenPageVariant,
   mdiCalendarMultiple,
   mdiFeather,
+  mdiArrowRight,
 } from '@mdi/js'
+import Icon from '@mdi/react'
 import homeImage from 'assets/img/home.jpg'
 
 const Home = () => (
@@ -24,9 +26,22 @@ const Home = () => (
 
     <Section>
       <Container>
-        <h1 className="center grey-text text-darken-2">
-          An online subscription-based scientific citation indexing service
-        </h1>
+        <div
+          className="center"
+          style={{
+            paddingBottom: '3rem',
+          }}>
+          <h1 className="center grey-text text-darken-2">
+            An online scientific citation indexing service
+          </h1>
+
+          <Link to="/learn-more">
+            <Button className="hoverable move-icon-forward blueGradient" large>
+              Discover more
+              <Icon path={mdiArrowRight} size="1.3rem" />
+            </Button>
+          </Link>
+        </div>
 
         <Row>
           <Col s={12} l={6} xl={4}>
@@ -44,7 +59,7 @@ const Home = () => (
               <FeatureCard
                 icon={mdiFileDocumentBoxMultipleOutline}
                 title="Documents"
-                content="Look up for authors by first name, last name, organization or ORCID"
+                content="Look up for documents by title, number of pages or DOI"
                 className="documents"
               />
             </Link>
@@ -54,7 +69,7 @@ const Home = () => (
               <FeatureCard
                 icon={mdiBookOpenPageVariant}
                 title="Periodicals"
-                content="Look up for authors by first name, last name, organization or ORCID"
+                content="Look up for periodicals by title or ISSN"
                 className="periodicals"
               />
             </Link>
@@ -64,7 +79,7 @@ const Home = () => (
               <FeatureCard
                 icon={mdiDomain}
                 title="Organizations"
-                content="Look up for authors by first name, last name, organization or ORCID"
+                content="Look up for organizations by name and location"
                 className="organizations"
               />
             </Link>
@@ -74,7 +89,7 @@ const Home = () => (
               <FeatureCard
                 icon={mdiCalendarMultiple}
                 title="Conferences"
-                content="Look up for authors by first name, last name, organization or ORCID"
+                content="Look up for conferences by name and location"
                 className="conferences"
               />
             </Link>
@@ -84,7 +99,7 @@ const Home = () => (
               <FeatureCard
                 icon={mdiFeather}
                 title="Publishing Companies"
-                content="Look up for authors by first name, last name, organization or ORCID"
+                content="Look up for publishing companies by name"
                 className="publishing-companies"
               />
             </Link>
