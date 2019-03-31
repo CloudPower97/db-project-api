@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Section, Container, Row, Input } from 'react-materialize'
+import { Section, Container, Row, TextInput } from 'react-materialize'
 import SearchButton from 'components/SearchButton'
 
 class SearchPeriodical extends Component {
@@ -18,7 +18,7 @@ class SearchPeriodical extends Component {
               borderRadius: 25,
             }}>
             <Row>
-              <Input
+              <TextInput
                 s={12}
                 label="Title"
                 onChange={({ target: { value: title } }) => {
@@ -47,7 +47,7 @@ class SearchPeriodical extends Component {
               borderRadius: 25,
             }}>
             <Row>
-              <Input
+              <TextInput
                 s={12}
                 label="ISSN"
                 onChange={({ target: { value: ISSN } }) => {
@@ -65,9 +65,9 @@ class SearchPeriodical extends Component {
             search={
               Object.keys(this.state).length
                 ? `?filter=${Object.entries(this.state)
-                    .filter(([, value]) => value.length)
-                    .map(([field, value]) => encodeURIComponent(`${field} iLike %${value}%`))
-                    .join(',')}`
+                  .filter(([, value]) => value.length)
+                  .map(([field, value]) => encodeURIComponent(`${field} iLike %${value}%`))
+                  .join(',')}`
                 : ''
             }
           />

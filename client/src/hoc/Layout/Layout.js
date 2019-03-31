@@ -1,6 +1,6 @@
 import React from 'react'
 import Navbar from 'components/Navbar'
-import { Button, Footer, Chip } from 'react-materialize'
+import { Button, Footer, Chip, Dropdown } from 'react-materialize'
 import Icon from '@mdi/react'
 import { mdiArrowUp, mdiGithubCircle, mdiReact, mdiNodejs } from '@mdi/js'
 import ScrollToTop from 'react-scroll-up'
@@ -9,7 +9,6 @@ import PropTypes from 'prop-types'
 import Headroom from 'react-headroom'
 import PostgreLogo from 'assets/PostgreSQL.svg'
 import HerokuLogo from 'assets/Heroku.svg'
-import Dropdown from 'components/Dropdown'
 
 const Layout = ({ children }) => (
   <>

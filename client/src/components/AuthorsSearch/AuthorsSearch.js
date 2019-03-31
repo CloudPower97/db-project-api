@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Section, Container, Row, Input } from 'react-materialize'
+import { Section, Container, Row, TextInput } from 'react-materialize'
 import SearchButton from 'components/SearchButton'
 
 class SearchAuthor extends Component {
@@ -18,7 +18,7 @@ class SearchAuthor extends Component {
               borderRadius: 25,
             }}>
             <Row>
-              <Input
+              <TextInput
                 s={6}
                 label="First Name"
                 onChange={({ target: { value: name } }) => {
@@ -27,7 +27,7 @@ class SearchAuthor extends Component {
                   })
                 }}
               />
-              <Input
+              <TextInput
                 s={6}
                 label="Last Name"
                 onChange={({ target: { value: surname } }) => {
@@ -36,7 +36,7 @@ class SearchAuthor extends Component {
                   })
                 }}
               />
-              <Input
+              <TextInput
                 s={12}
                 label="Organization"
                 onChange={({ target: { value: organization } }) => {
@@ -65,7 +65,7 @@ class SearchAuthor extends Component {
               borderRadius: 25,
             }}>
             <Row>
-              <Input
+              <TextInput
                 s={12}
                 label="ORCID"
                 onChange={({ target: { value: ORCID } }) => {
