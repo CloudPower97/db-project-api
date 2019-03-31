@@ -1,6 +1,5 @@
 import React from 'react'
-import { Section, Container, Row, Col, Divider, Button } from 'react-materialize'
-import Parallax from 'components/Parallax'
+import { Section, Container, Row, Col, Parallax, Button } from 'react-materialize'
 import { Link } from 'react-router-dom'
 import FeatureCard from 'components/FeatureCard'
 import {

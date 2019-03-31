@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Section, Container, Row, Input } from 'react-materialize'
+import { Section, Container, Row, TextInput } from 'react-materialize'
 import SearchButton from 'components/SearchButton'
 
 class SearchPublishingCompany extends Component {
@@ -18,7 +18,7 @@ class SearchPublishingCompany extends Component {
               borderRadius: 25,
             }}>
             <Row>
-              <Input
+              <TextInput
                 s={12}
                 label="Title"
                 onChange={({ target: { value: name } }) => {
