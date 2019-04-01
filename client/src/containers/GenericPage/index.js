@@ -8,12 +8,11 @@ import Documents from './Documents'
 import Organizations from './Organizations'
 import Periodicals from './Periodicals'
 import PublishingCompanies from './PublishingCompanies'
-import { capitalizeString } from 'libs/utils'
 
 const GenericPage = ({ match: { url } }) => (
   <>
     <Helmet>
-      <title>{capitalizeString(toCapitalCase(url.split('/')[1]))}</title>
+      <title>{toCapitalCase(url.split('/')[1])}</title>
     </Helmet>
     <Switch>
       <Route path="/authors" component={Authors} />

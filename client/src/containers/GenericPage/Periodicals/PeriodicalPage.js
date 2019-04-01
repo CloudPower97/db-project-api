@@ -13,7 +13,7 @@ import Helmet from 'react-helmet'
 
 const PeriodicalPage = ({ data }) => {
   let text = 'Fetching periodical info...'
-  let content = <Spinner />
+  let content = <Spinner className="periodicals" />
 
   if (data) {
     const { periodical, numbers } = data

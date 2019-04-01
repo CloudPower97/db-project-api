@@ -19,7 +19,7 @@ import withData from 'hoc/withData'
 
 const DocumentPage = ({ data }) => {
   let text = 'Fetching document info...'
-  let content = <Spinner />
+  let content = <Spinner className="documents" />
 
   if (data) {
     const { document, authors, citingDocuments, citedDocuments } = data
@@ -54,7 +54,7 @@ const DocumentPage = ({ data }) => {
                     className="rounded large flow-text"
                     title="Document abstract"
                     actions={[
-                      <a href={`https://doi.org/${document.DOI}`} rel="external">
+                      <a key={document.DOI} href={`https://doi.org/${document.DOI}`} rel="external">
                         <Chip className="hoverable">DOI: {document.DOI}</Chip>
                       </a>,
                     ]}
