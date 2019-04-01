@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Container, Row, Col } from 'react-materialize'
 import {
   mdiAccountGroup,
@@ -77,6 +78,10 @@ const ChoosePage = ({ match: { path } }) => {
       </Container>
     </>
   )
+}
+
+ChoosePage.propTypes = {
+  match: PropTypes.object,
 }
 
 export default ChoosePage

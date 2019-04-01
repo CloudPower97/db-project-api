@@ -34,6 +34,7 @@ class Parallax extends Component {
 Parallax.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
+  image: PropTypes.node,
   /**
    * The image path which will be used for the background of the parallax
    */

@@ -23,6 +23,9 @@ const SearchButton = ({ search, match: { path } }) => {
   )
 }
 
-SearchButton.propTypes = {}
+SearchButton.propTypes = {
+  search: PropTypes.string,
+  match: PropTypes.object,
+}
 
 export default withRouter(SearchButton)

@@ -1,4 +1,5 @@
 import React, { lazy, Suspense } from 'react'
+import PropTypes from 'prop-types'
 import Banner from 'components/Banner'
 import { withRouter } from 'react-router-dom'
 import cx from 'class-names'
@@ -37,6 +38,10 @@ const SearchPage = ({ match: { path } }) => {
       </div>
     </>
   )
+}
+
+SearchPage.propTypes = {
+  match: PropTypes.object,
 }
 
 export default withRouter(SearchPage)

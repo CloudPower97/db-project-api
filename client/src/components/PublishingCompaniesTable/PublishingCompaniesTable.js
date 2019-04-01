@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import ReactTable from 'react-table'
 import Spinner from 'components/Spinner'
@@ -10,7 +11,10 @@ const PublishingCompaniesTable = ({ data, className }) => {
       Header: 'Name',
       accessor: 'name',
       // eslint-disable-next-line react/display-name
-      Cell: props => <Link to={`/publishing-companies/${props.original.id}`}>{props.value}</Link>,
+      Cell: props => (
+        // eslint-disable-next-line react/prop-types
+        <Link to={`/publishing-companies/${props.original.id}`}>{props.value}</Link>
+      ),
     },
   ]
 
@@ -26,6 +30,11 @@ const PublishingCompaniesTable = ({ data, className }) => {
   } else {
     return <Spinner className="publishing-companies" />
   }
+}
+
+PublishingCompaniesTable.propTypes = {
+  data: PropTypes.array,
+  className: PropTypes.string,
 }
 
 export default PublishingCompaniesTable

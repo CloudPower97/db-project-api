@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import ReactTable from 'react-table'
 import Spinner from 'components/Spinner'
@@ -11,7 +12,10 @@ const AuthorsTable = ({ data, className }) => {
       Header: 'Author',
       accessor: d => `${d.name} ${d.surname}`,
       // eslint-disable-next-line react/display-name
-      Cell: props => <Link to={`/authors/${props.original.ORCID}`}>{props.value}</Link>,
+      Cell: props => (
+        // eslint-disable-next-line react/prop-types
+        <Link to={`/authors/${props.original.ORCID}`}>{props.value}</Link>
+      ),
     },
     {
       Header: 'Documents',
@@ -21,7 +25,9 @@ const AuthorsTable = ({ data, className }) => {
       id: 'organization',
       Header: 'Organization',
       accessor: d => d.Organization.name,
+      // eslint-disable-next-line react/display-name
       Cell: props => (
+        // eslint-disable-next-line react/prop-types
         <Link to={`/organizations/${props.original.Organization.id}`}>{props.value}</Link>
       ),
     },
@@ -39,6 +45,11 @@ const AuthorsTable = ({ data, className }) => {
   } else {
     return <Spinner className="authors" />
   }
+}
+
+AuthorsTable.propTypes = {
+  data: PropTypes.array,
+  className: PropTypes.string,
 }
 
 export default AuthorsTable

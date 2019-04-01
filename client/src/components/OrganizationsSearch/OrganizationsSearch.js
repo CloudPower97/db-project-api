@@ -1,8 +1,13 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { Section, Container, Row, TextInput } from 'react-materialize'
 import SearchButton from 'components/SearchButton'
 
 class SearchAuthor extends Component {
+  static propTypes = {
+    className: PropTypes.string,
+  }
+
   state = {}
 
   render() {

@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Switch, Route } from 'react-router-dom'
 import SearchPage from 'containers/SearchPage'
 import ChoosePage from 'containers/ChoosePage'
@@ -21,5 +22,9 @@ const Conferences = ({ match: { path } }) => (
     </Switch>
   </>
 )
+
+Conferences.propTypes = {
+  match: PropTypes.object,
+}
 
 export default Conferences

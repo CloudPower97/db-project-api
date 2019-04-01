@@ -1,4 +1,5 @@
 import React, { lazy, Suspense } from 'react'
+import PropTypes from 'prop-types'
 import Spinner from 'components/Spinner'
 import Banner from 'components/Banner'
 import { withRouter } from 'react-router-dom'
@@ -12,8 +13,8 @@ const PublishingCompaniesTable = lazy(() => import('components/PublishingCompani
 const OrganizationsTable = lazy(() => import('components/OrganizationsTable'))
 
 const Results = props => {
-  const { data } = props
   const {
+    data,
     location: { pathname, search },
   } = props
 
@@ -40,6 +41,11 @@ const Results = props => {
       <Suspense fallback={<Spinner className={collection} />}>{tables[collection]}</Suspense>
     </>
   )
+}
+
+Results.propTypes = {
+  data: PropTypes.array,
+  location: PropTypes.object,
 }
 
 export default withData(withRouter(Results))

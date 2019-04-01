@@ -59,6 +59,7 @@ const Banner = ({ match: { path }, className, icon, iconColor, iconSize, text, t
 }
 
 Banner.propTypes = {
+  match: PropTypes.object,
   className: PropTypes.string,
   icon: PropTypes.string,
   iconColor: PropTypes.string.isRequired,

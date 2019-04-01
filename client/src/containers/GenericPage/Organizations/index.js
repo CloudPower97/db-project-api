@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Switch, Route } from 'react-router-dom'
 import Helmet from 'react-helmet'
 import SearchPage from 'containers/SearchPage'
@@ -21,5 +22,9 @@ const Organizations = ({ match: { path } }) => (
     </Switch>
   </>
 )
+
+Organizations.propTypes = {
+  match: PropTypes.object,
+}
 
 export default Organizations
