@@ -20,7 +20,7 @@ import conferenceImage from 'assets/img/conference.jpg'
 
 const ConferencePage = ({ data }) => {
   let text = 'Fetching conference info...'
-  let content = <Spinner />
+  let content = <Spinner className="conferences" />
 
   if (data) {
     const { conference, organizations, sponsors, documents } = data

@@ -1,9 +1,8 @@
 import React from 'react'
-import { Container, MediaBox, Col, Row, Section } from 'react-materialize'
+import { Container, Col, Row, Section, MediaBox } from 'react-materialize'
 import Helmet from 'react-helmet'
-import classDiagram from 'assets/img/class-diagram.png'
-import restructuredClassDiagram from 'assets/img/restructured-class-diagram.png'
 import Styles from './LearnMore.module.css'
+import { classDiagramPng, restructuredClassDiagramPng } from 'assets/img'
 
 const LearnMore = () => (
   <>
@@ -128,11 +127,11 @@ const LearnMore = () => (
 
       <Row>
         <Col s={6}>
-          <MediaBox src={classDiagram} caption="Class Diagram" className={Styles.MediaBox} />
+          <MediaBox src={classDiagramPng} caption="Class Diagram" className={Styles.MediaBox} />
         </Col>
         <Col s={6}>
           <MediaBox
-            src={restructuredClassDiagram}
+            src={restructuredClassDiagramPng}
             caption="Restructured
       Class Diagram"
             className={Styles.MediaBox}

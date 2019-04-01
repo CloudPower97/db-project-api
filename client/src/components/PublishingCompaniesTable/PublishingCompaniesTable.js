@@ -9,6 +9,7 @@ const PublishingCompaniesTable = ({ data, className }) => {
     {
       Header: 'Name',
       accessor: 'name',
+      // eslint-disable-next-line react/display-name
       Cell: props => <Link to={`/publishing-companies/${props.original.id}`}>{props.value}</Link>,
     },
   ]
@@ -23,7 +24,7 @@ const PublishingCompaniesTable = ({ data, className }) => {
       />
     )
   } else {
-    return <Spinner />
+    return <Spinner className="publishing-companies" />
   }
 }
 

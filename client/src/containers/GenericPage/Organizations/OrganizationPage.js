@@ -14,7 +14,7 @@ import organizationImage from 'assets/img/organization.jpg'
 
 const OrganizationPage = ({ data }) => {
   let text = 'Fetching organization info...'
-  let content = <Spinner />
+  let content = <Spinner className="organizations" />
 
   if (data) {
     const { organization, authors, conferences } = data

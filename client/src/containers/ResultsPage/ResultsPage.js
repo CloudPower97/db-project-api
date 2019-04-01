@@ -37,7 +37,7 @@ const Results = props => {
   return (
     <>
       <Banner text={text} />
-      <Suspense fallback={<Spinner />}>{tables[collection]}</Suspense>
+      <Suspense fallback={<Spinner className={collection} />}>{tables[collection]}</Suspense>
     </>
   )
 }

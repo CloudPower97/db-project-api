@@ -10,9 +10,8 @@ const AuthorsTable = ({ data, className }) => {
       id: 'author',
       Header: 'Author',
       accessor: d => `${d.name} ${d.surname}`,
-      Cell: props => {
-        return <Link to={`/authors/${props.original.ORCID}`}>{props.value}</Link>
-      },
+      // eslint-disable-next-line react/display-name
+      Cell: props => <Link to={`/authors/${props.original.ORCID}`}>{props.value}</Link>,
     },
     {
       Header: 'Documents',
@@ -38,7 +37,7 @@ const AuthorsTable = ({ data, className }) => {
       />
     )
   } else {
-    return <Spinner />
+    return <Spinner className="authors" />
   }
 }
 

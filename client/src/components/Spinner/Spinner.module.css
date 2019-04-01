@@ -4,4 +4,40 @@
   /* navbar height + parallax height + footer height*/
   height: calc(100vh - 553px);
   justify-content: center;
+
+  &:global(.authors) {
+    & :global(.spinner-layer) {
+      border-color: var(--orange) !important;
+    }
+  }
+
+  &:global(.documents) {
+    & :global(.spinner-layer) {
+      border-color: var(--purple);
+    }
+  }
+
+  &:global(.periodicals) {
+    & :global(.spinner-layer) {
+      border-color: var(--red);
+    }
+  }
+
+  &:global(.organizations) {
+    & :global(.spinner-layer) {
+      border-color: var(--blue);
+    }
+  }
+
+  &:global(.conferences) {
+    & :global(.spinner-layer) {
+      border-color: var(--green);
+    }
+  }
+
+  &:global(.publishing-companies) {
+    & :global(.spinner-layer) {
+      border-color: var(--plum);
+    }
+  }
 }

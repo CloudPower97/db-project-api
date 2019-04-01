@@ -9,10 +9,8 @@ const OrganizationsTable = ({ data, className }) => {
     {
       Header: 'Name',
       accessor: 'name',
-      Cell: props => {
-        console.log(props)
-        return <Link to={`/organizations/${props.original.id}`}>{props.value}</Link>
-      },
+      // eslint-disable-next-line react/display-name
+      Cell: props => <Link to={`/organizations/${props.original.id}`}>{props.value}</Link>,
     },
     {
       Header: 'Location',
@@ -30,7 +28,7 @@ const OrganizationsTable = ({ data, className }) => {
       />
     )
   } else {
-    return <Spinner />
+    return <Spinner className="organizations" />
   }
 }
 

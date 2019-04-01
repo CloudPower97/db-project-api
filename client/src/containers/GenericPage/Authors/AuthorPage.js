@@ -19,7 +19,7 @@ import withData from 'hoc/withData'
 
 const AuthorPage = ({ data }) => {
   let text = 'Fetching author info...'
-  let content = <Spinner />
+  let content = <Spinner className="authors" />
 
   if (data) {
     const { author, documents } = data

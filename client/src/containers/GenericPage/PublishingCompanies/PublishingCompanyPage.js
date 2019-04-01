@@ -12,7 +12,7 @@ import Helmet from 'react-helmet'
 
 const PublishingCompanyPage = ({ data }) => {
   let text = 'Fetching publishing company info...'
-  let content = <Spinner />
+  let content = <Spinner className="publishing-companies" />
 
   if (data) {
     const { publishingCompany, periodicals } = data

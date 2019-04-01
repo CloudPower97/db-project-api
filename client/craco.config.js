@@ -1,28 +1,26 @@
 /* eslint-disable */
-const path = require('path');
-const { whenProd, POSTCSS_MODES, paths } = require('@craco/craco');
-const ImageminPlugin = require('imagemin-webpack-plugin').default;
-const imageminMozjpeg = require('imagemin-mozjpeg');
-const imageminJpegRecompress = require('imagemin-jpeg-recompress');
-const imageminPngquant = require('imagemin-pngquant');
-const imageminZopfli = require('imagemin-zopfli');
-const imageminGiflossy = require('imagemin-giflossy');
-const imageminWebp = require('imagemin-webp');
-const CompressionPlugin = require('compression-webpack-plugin');
-const HtmlCriticalPlugin = require('html-critical-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const path = require('path')
+const { whenProd, POSTCSS_MODES, paths } = require('@craco/craco')
+const CompressionPlugin = require('compression-webpack-plugin')
+const HtmlCriticalPlugin = require('html-critical-webpack-plugin')
+const ImageminPlugin = require('imagemin-webpack')
+const imageminGiflossy = require('imagemin-giflossy')
+const imageminMozJpeg = require('imagemin-mozjpeg')
+const imageminPngquant = require('imagemin-pngquant')
+const imageminSvgo = require('imagemin-svgo')
+const ImageminWebpWebpackPlugin = require('imagemin-webp-webpack-plugin')
 
-const { NODE_ENV } = process.env;
+const { NODE_ENV } = process.env
 
 module.exports = function() {
   return {
     style: {
       modules: {
-        localIdentName: '[sha1:hash:hex:4]'
+        localIdentName: '[sha1:hash:hex:4]',
       },
       postcss: {
-        mode: POSTCSS_MODES.file
-      }
+        mode: POSTCSS_MODES.file,
+      },
     },
     babel: whenProd(() => ({
       comments: false,
@@ -35,47 +33,53 @@ module.exports = function() {
           {
             'react-router-dom': {
               transform: 'react-router-dom/${member}',
-              preventFullImport: true
-            }
-          }
+              preventFullImport: true,
+            },
+          },
         ],
-        'babel-plugin-transform-react-class-to-function'
-      ]
+        'babel-plugin-transform-react-class-to-function',
+      ],
     })),
     webpack: {
       plugins:
         NODE_ENV === 'development'
-          ? [new CleanWebpackPlugin(['build'])]
+          ? []
           : [
-              new CleanWebpackPlugin(['build']),
               new ImageminPlugin({
-                plugins: [
-                  imageminPngquant({
-                    speed: 1,
-                    quality: 98 //lossy settings
-                  }),
-                  imageminZopfli({
-                    more: true
-                  }),
-                  imageminMozjpeg({ progressive: true, quality: 80 }),
-                  imageminJpegRecompress({
-                    loops: 6,
-                    min: 40,
-                    max: 85,
-                    quality: 'low'
-                  }),
-                  imageminGiflossy({
-                    optimizationLevel: 3,
-                    optimize: 3, //keep-empty: Preserve empty transparent frames
-                    lossy: 2
-                  }),
-                  imageminWebp({ quality: 50 })
-                ],
-                svgo: {
-                  removeViewBox: false
-                }
+                bail: false, // Ignore errors on corrupted images
+                cache: false,
+                imageminOptions: {
+                  plugins: [
+                    imageminGiflossy({
+                      interlaced: true,
+                      optimizationLevel: 3,
+                    }),
+                    imageminMozJpeg({
+                      quality: 70,
+                      progressive: true,
+                    }),
+                    imageminPngquant({
+                      speed: 1,
+                      quality: [0.85, 1], //lossy settings
+                      optimizationLevel: 5,
+                      strip: true,
+                    }),
+                    imageminSvgo({
+                      removeViewBox: true,
+                    }),
+                  ],
+                },
               }),
-              new CompressionPlugin(),
+              new ImageminWebpWebpackPlugin({
+                config: [
+                  {
+                    test: /\.webp/,
+                    options: {
+                      quality: 50,
+                    },
+                  },
+                ],
+              }),
               new HtmlCriticalPlugin({
                 base: path.join(path.resolve(__dirname), 'build/'),
                 src: 'index.html',
@@ -84,9 +88,10 @@ module.exports = function() {
                 minify: true,
                 extract: true,
                 penthouse: {
-                  blockJSRequests: false
-                }
-              })
+                  blockJSRequests: false,
+                },
+              }),
+              new CompressionPlugin(),
             ],
       alias: {
         components: path.join(paths.appSrc, 'components'),
@@ -95,8 +100,8 @@ module.exports = function() {
         style: path.join(paths.appSrc, 'style'),
         libs: path.join(paths.appSrc, 'libs'),
         assets: path.join(paths.appSrc, 'assets'),
-        vendor: path.join(paths.appSrc, 'vendor')
-      }
+        vendor: path.join(paths.appSrc, 'vendor'),
+      },
     },
     jest: {
       configure: {
@@ -108,14 +113,11 @@ module.exports = function() {
           '^style(.*)$': '<rootDir>/src/style$1',
           '^libs(.*)$': '<rootDir>/src/libs$1',
           '^assets(.*)$': '<rootDir>/src/assets$1',
-          '^vendor(.*)$': '<rootDir>/src/vendor$1'
+          '^vendor(.*)$': '<rootDir>/src/vendor$1',
         },
         moduleDirectories: ['node_modules', 'src'],
-        testPathIgnorePatterns: [
-          '<rootDir>/cypress/',
-          '<rootDir>/node_modules/'
-        ]
-      }
-    }
-  };
-};
+        testPathIgnorePatterns: ['<rootDir>/cypress/', '<rootDir>/node_modules/'],
+      },
+    },
+  }
+}

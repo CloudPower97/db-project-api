@@ -1,5 +1,6 @@
 import React from 'react'
-import { Section, Container, Row, Col, Parallax, Button } from 'react-materialize'
+import { Section, Container, Row, Col, Button } from 'react-materialize'
+import Parallax from 'components/Parallax'
 import { Link } from 'react-router-dom'
 import FeatureCard from 'components/FeatureCard'
 import {
@@ -12,12 +13,29 @@ import {
   mdiArrowRight,
 } from '@mdi/js'
 import Icon from '@mdi/react'
-import homeImage from 'assets/img/home.jpg'
+import Picture from '@cloudpower97/react-progressive-picture'
+import { homeJpg, homeWebP, homeSvg } from 'assets/img'
+import cx from 'class-names'
+import Styles from './Home.module.css'
 
 const Home = () => (
   <>
     <Parallax
-      imageSrc={homeImage}
+      image={
+        <Picture
+          sources={[
+            {
+              srcSet: homeWebP,
+              type: 'image/webp',
+            },
+            {
+              srcSet: homeJpg,
+              type: 'image/jpg',
+            },
+          ]}
+          placeholder={homeSvg}
+        />
+      }
       style={{
         height: 280,
       }}
@@ -35,7 +53,7 @@ const Home = () => (
           </h1>
 
           <Link to="/learn-more">
-            <Button className="hoverable move-icon-forward blueGradient" large>
+            <Button className="hoverable move-icon-forward green-gradient" large>
               Discover more
               <Icon path={mdiArrowRight} size="1.3rem" />
             </Button>
@@ -46,60 +64,60 @@ const Home = () => (
           <Col s={12} l={6} xl={4}>
             <Link to="/authors/choose">
               <FeatureCard
+                className={cx(Styles.FeatureCard, 'authors')}
                 icon={mdiAccountGroup}
                 title="Authors"
                 content="Look up for authors by first name, last name, organization or ORCID"
-                className="authors"
               />
             </Link>
           </Col>
           <Col s={12} l={6} xl={4}>
             <Link to="/documents/choose">
               <FeatureCard
+                className={cx(Styles.FeatureCard, 'documents')}
                 icon={mdiFileDocumentBoxMultipleOutline}
                 title="Documents"
                 content="Look up for documents by title, number of pages or DOI"
-                className="documents"
               />
             </Link>
           </Col>
           <Col s={12} l={6} xl={4}>
             <Link to="/periodicals/choose">
               <FeatureCard
+                className={cx(Styles.FeatureCard, 'periodicals')}
                 icon={mdiBookOpenPageVariant}
                 title="Periodicals"
                 content="Look up for periodicals by title or ISSN"
-                className="periodicals"
               />
             </Link>
           </Col>
           <Col s={12} l={6} xl={4}>
             <Link to="/organizations/choose">
               <FeatureCard
+                className={cx(Styles.FeatureCard, 'organizations')}
                 icon={mdiDomain}
                 title="Organizations"
                 content="Look up for organizations by name and location"
-                className="organizations"
               />
             </Link>
           </Col>
           <Col s={12} l={6} xl={4}>
             <Link to="/conferences/choose">
               <FeatureCard
+                className={cx(Styles.FeatureCard, 'conferences')}
                 icon={mdiCalendarMultiple}
                 title="Conferences"
                 content="Look up for conferences by name and location"
-                className="conferences"
               />
             </Link>
           </Col>
           <Col s={12} l={6} xl={4}>
             <Link to="/publishing-companies/choose">
               <FeatureCard
+                className={cx(Styles.FeatureCard, 'publishing-companies')}
                 icon={mdiFeather}
                 title="Publishing Companies"
                 content="Look up for publishing companies by name"
-                className="publishing-companies"
               />
             </Link>
           </Col>

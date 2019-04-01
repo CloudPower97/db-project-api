@@ -65,9 +65,9 @@ class SearchPeriodical extends Component {
             search={
               Object.keys(this.state).length
                 ? `?filter=${Object.entries(this.state)
-                  .filter(([, value]) => value.length)
-                  .map(([field, value]) => encodeURIComponent(`${field} iLike %${value}%`))
-                  .join(',')}`
+                    .filter(([, value]) => value.length)
+                    .map(([field, value]) => encodeURIComponent(`${field} iLike %${value}%`))
+                    .join(',')}`
                 : ''
             }
           />

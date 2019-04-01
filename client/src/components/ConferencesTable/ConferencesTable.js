@@ -33,7 +33,7 @@ const ConferencesTable = ({ data, className }) => {
       />
     )
   } else {
-    return <Spinner />
+    return <Spinner className="conferences" />
   }
 }
 

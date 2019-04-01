@@ -33,7 +33,7 @@ const SearchPage = ({ match: { path } }) => {
       <div className={cx('grey lighten-4 search-page', collection)}>
         <Banner text={`Search for ${collection.replace('-', ' ')}`} />
 
-        <Suspense fallback={<Spinner />}>{pages[collection]}</Suspense>
+        <Suspense fallback={<Spinner className={collection} />}>{pages[collection]}</Suspense>
       </div>
     </>
   )
