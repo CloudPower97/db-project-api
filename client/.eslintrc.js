@@ -70,13 +70,6 @@ module.exports = {
     'import/no-unresolved': 2,
     'import/no-webpack-loader-syntax': 0,
     'import/prefer-default-export': 0,
-    indent: [
-      2,
-      2,
-      {
-        SwitchCase: 1,
-      },
-    ],
     'react/destructuring-assignment': 0,
     'react/jsx-closing-tag-location': 0,
     'react/forbid-prop-types': 0,
