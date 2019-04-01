@@ -47,7 +47,7 @@ class SearchConference extends Component {
                 label="Conference date"
                 onChange={date => {
                   this.setState({
-                    date: new Date(date).toISOString(),
+                    date: new Date(date).toISOString().split('T')[0],
                   })
                 }}
               />
