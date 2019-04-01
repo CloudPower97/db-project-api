@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import Helmet from 'react-helmet'
 import ErrorPage from 'containers/ErrorPage'
@@ -22,5 +23,9 @@ const Authors = ({ match: { path } }) => (
     </Switch>
   </>
 )
+
+Authors.propTypes = {
+  match: PropTypes.object,
+}
 
 export default Authors

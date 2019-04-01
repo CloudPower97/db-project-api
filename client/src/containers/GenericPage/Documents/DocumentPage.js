@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Spinner from 'components/Spinner'
 import Banner from 'components/Banner'
 import { Tabs, Tab, Container, Row, Col, Card, Section, Chip } from 'react-materialize'
@@ -144,6 +145,10 @@ const DocumentPage = ({ data }) => {
       {content}
     </>
   )
+}
+
+DocumentPage.propTypes = {
+  data: PropTypes.object,
 }
 
 export default withData(DocumentPage, ['authors', 'citing-documents', 'cited-documents'])

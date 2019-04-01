@@ -101,6 +101,7 @@ Navbar.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
   extendWith: PropTypes.node,
+  mobileLinks: PropTypes.any,
   /**
    * left makes the navbar links left aligned, right makes them right aligned
    */

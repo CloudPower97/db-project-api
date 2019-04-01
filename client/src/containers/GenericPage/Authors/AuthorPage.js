@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Spinner from 'components/Spinner'
 import Banner from 'components/Banner'
 import { Tabs, Tab, Container, Row, Col, Card, Section, Chip } from 'react-materialize'
@@ -39,7 +40,7 @@ const AuthorPage = ({ data }) => {
                   <Card
                     className="rounded large"
                     actions={[
-                      <a href={`https://www.orcid.org/${author.ORCID}`}>
+                      <a key={author.ORCID} href={`https://www.orcid.org/${author.ORCID}`}>
                         <Chip className="hoverable">ORCID: {author.ORCID}</Chip>
                       </a>,
                     ]}>
@@ -131,6 +132,10 @@ const AuthorPage = ({ data }) => {
       {content}
     </>
   )
+}
+
+AuthorPage.propTypes = {
+  data: PropTypes.object,
 }
 
 export default withData(AuthorPage, ['documents'])

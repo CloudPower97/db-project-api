@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Spinner from 'components/Spinner'
 import Banner from 'components/Banner'
 import { Tabs, Tab, Container, Row, Col, Card, Section } from 'react-materialize'
@@ -74,6 +75,10 @@ const PublishingCompanyPage = ({ data }) => {
       {content}
     </>
   )
+}
+
+PublishingCompanyPage.propTypes = {
+  data: PropTypes.object,
 }
 
 export default withData(PublishingCompanyPage, ['periodicals'])
