@@ -214,7 +214,11 @@ exports.getAuthor = ({ params: { ORCID } }, res) => {
               res.status(500).json(message)
             })
         } else {
-          res.status(500)
+          let author_with_documents_count = author.get({ plain: true })
+
+          author_with_documents_count.hIndex = 0
+          author_with_documents_count.documents_count = 0
+          res.json(author_with_documents_count)
         }
       } else {
         res.sendStatus(404)
