@@ -11,7 +11,9 @@
     "dev": "nodemon --exec 'heroku local' --signal SIGTERM",
     "lint": "eslint \"**/*.js\"",
     "lint:fix": "eslint \"**/*.js\" --fix",
-    "pretty": "prettier --write ./**/*.js"
+    "pretty": "prettier --write ./**/*.js",
+    "snyk-protect": "snyk protect",
+    "prepare": "yarn run snyk-protect"
   },
   "dependencies": {
     "concurrently": "^4.1.0",
@@ -26,7 +28,8 @@
     "pg": "^7.8.2",
     "pg-hstore": "^2.3.2",
     "sequelize": "^4.43.0",
-    "sequelize-querystring": "^0.10.0"
+    "sequelize-querystring": "^0.10.0",
+    "snyk": "^1.258.2"
   },
   "devDependencies": {
     "@commitlint/cli": "^7.5.2",
@@ -52,5 +55,6 @@
       "yarn lint:fix",
       "git add"
     ]
-  }
+  },
+  "snyk": true
 }
