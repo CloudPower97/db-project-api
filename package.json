@@ -11,12 +11,16 @@
     "concurrently": "^4.1.0",
     "pluralize": "^7.0.0",
     "to-camel-case": "^1.0.0",
-    "to-capital-case": "^1.0.0"
+    "to-capital-case": "^1.0.0",
+    "snyk": "^1.316.1"
   },
   "scripts": {
     "install": "(cd client && yarn) && (cd server && yarn)",
     "start": "cd server && yarn start",
     "dev": "concurrently –kill-others-on-fail \"cd client && yarn start\" \"cd server && yarn dev\"",
-    "heroku-postbuild": "cd client && yarn build"
-  }
+    "heroku-postbuild": "cd client && yarn build",
+    "snyk-protect": "snyk protect",
+    "prepare": "yarn run snyk-protect"
+  },
+  "snyk": true
 }
