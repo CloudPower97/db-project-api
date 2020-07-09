@@ -7,7 +7,7 @@
     "@mdi/react": "^1.1.0",
     "axios": "^0.18.0",
     "class-names": "^1.0.0",
-    "i18next": "^13.0.0",
+    "i18next": "^19.5.5",
     "i18next-browser-languagedetector": "^2.2.4",
     "i18next-chained-backend": "^0.1.2",
     "i18next-localstorage-backend": "^1.1.4",
