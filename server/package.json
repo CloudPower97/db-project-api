@@ -14,7 +14,7 @@
     "pretty": "prettier --write ./**/*.js"
   },
   "dependencies": {
-    "concurrently": "^4.1.0",
+    "concurrently": "^6.2.2",
     "cors": "^2.8.5",
     "doi-regex": "^0.1.10",
     "dotenv": "^6.2.0",
@@ -23,9 +23,9 @@
     "issn": "^1.0.5",
     "morgan": "^1.9.1",
     "orcid-utils": "^1.0.2",
-    "pg": "^7.8.2",
+    "pg": "^8.4.0",
     "pg-hstore": "^2.3.2",
-    "sequelize": "^4.43.0",
+    "sequelize": "^6.1.0",
     "sequelize-querystring": "^0.10.0"
   },
   "devDependencies": {
