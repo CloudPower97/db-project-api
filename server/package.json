@@ -14,7 +14,7 @@
     "pretty": "prettier --write ./**/*.js"
   },
   "dependencies": {
-    "concurrently": "^4.1.0",
+    "concurrently": "^5.0.1",
     "cors": "^2.8.5",
     "doi-regex": "^0.1.10",
     "dotenv": "^6.2.0",
